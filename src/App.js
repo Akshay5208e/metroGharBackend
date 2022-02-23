@@ -1,25 +1,53 @@
-import logo from './logo.svg';
-import './App.css';
+
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Switch, Route } from 'react-router-dom';
+import { checkUserSession } from './backend/redux/User/user.actions';
+
+
+//hoc
+import WithAuth from './backend/hoc/withAuth';
+
+//pages
+import Signup from './frontend/pages/signup/Signup';
+import Login from './frontend/pages/login/Login';
+import Homepage from './frontend/pages/homepage/Homepage';
+import AddProperty from './frontend/pages/addProperty/AddProperty';
+
+
+const mapState = (state) => ({
+  currentUser: state.user.currentUser
+});
+
 
 function App() {
+
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector(mapState);
+
+  useEffect(() => {
+    dispatch(checkUserSession());
+
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      <div className='App'>
+        <Switch>
+
+           {/*--------------------- Homepage ------------------------------------------*/}
+              <Route exact path = "/" component={Homepage}/>
+
+           {/*---------------------- Authentication pages -----------------------------*/}
+              <Route exact path = "/login" component={Login}/> 
+              <Route exact path = "/signup" component={Signup}/>
+
+            {/*--------------------- Pages for Data Manipulation ----------------------*/}
+              <Route exact path = "/addProperty" component={AddProperty}/>
+        
+        </Switch>
+      </div>
+
+  )
 }
 
 export default App;

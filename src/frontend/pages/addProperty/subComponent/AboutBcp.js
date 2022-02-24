@@ -1,12 +1,46 @@
-import React from 'react'
+import React, { useState } from 'react'
 import TextEditor from '../../../independentComponents/textEditor/TextEditor'
 
 function AboutBcp() {
+
+  const [bcpCategory, setBcpCategory] = useState('Builder')
+  const [active, setActive] = useState('first');
+  
+  const options=[{
+    value: "Builder",
+    name: "Builder"
+  }, {
+    value: "Agent",
+    name: "Agent(CP)"
+  }]
+
+
+  const handleOwnerChange=(e)=>{
+    if((e.target.value)=='Agent')
+    {
+      setActive('second')
+    }
+    else{
+      setActive('first')
+    }
+    
+    setBcpCategory(e.target.value)
+  }
   return (
     <div>
          <div>
         <h6>Property Owner</h6>
-        <div>Dropdown</div>
+        <div>
+          <select onChange={ handleOwnerChange}>
+          {options.map((option, index) => {
+          const { value, name } = option;
+
+          return (
+            <option key={index} value={value}>{name}</option>
+          );
+        })}
+          </select>
+        </div>
       </div>
       <div>
         <h6>Name</h6>
@@ -39,6 +73,8 @@ function AboutBcp() {
           <input type='number'/>
         </div>
       </div>
+     {active == 'first' &&
+     <>
       <div>
         <h6>Project</h6>
         <div>
@@ -51,9 +87,12 @@ function AboutBcp() {
           <input type='text'/>
         </div>
       </div>
+      </>
+     }
 
-
-      <div>
+{active=='second' && 
+      <>
+       <div>
         <h6>Since Operation</h6>
         <div>
           <input type='text'/>
@@ -66,6 +105,8 @@ function AboutBcp() {
           <input type='text'/>
         </div>
       </div>
+      </>}
+     
       </div>
 
 

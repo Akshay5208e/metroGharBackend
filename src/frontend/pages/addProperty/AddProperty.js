@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import TextEditor from '../../independentComponents/textEditor/TextEditor'
 import AboutAmenities from './subComponent/AboutAmenities'
 import AboutBcp from './subComponent/AboutBcp'
@@ -6,7 +6,14 @@ import AboutLocation from './subComponent/AboutLocation'
 import AboutPricing from './subComponent/AboutPricing'
 import AboutProject from './subComponent/AboutProject'
 import BasicInfo from './subComponent/BasicInfo'
+
+
 function AddProperty() {
+
+
+ 
+
+
   return (
     <>
     <div><form></form></div>
@@ -23,11 +30,17 @@ function AddProperty() {
     <div>
       <h3>About Pricing</h3>
       <div>
-        <div>
-          <AboutPricing/>
-        </div>
+       <AboutPricing/>
       </div>
     </div>
+    
+
+     
+    
+    
+    
+
+    
 
     {/*-------------- About Location ---------------------------------------------*/}
     <div>

@@ -3,29 +3,44 @@ import React from 'react'
 import Pricing from "./Pricing";
 import Location from "./Location";
 
-function AboutLocation() {
+function AboutLocation({getLocationValue}) {
 
-  const [locationList, setLocationList] = useState([{location:""}]);
+  const [locationList, setLocationList] = useState([{}]);
+
+  const [feature, setFeature] = useState("")
+  const [featureName, setFeatureName] = useState("")
+  const [featureDistance, setFeatureDistance]= useState('')
 
 
-  const handlePricingChange = (e, index) => {
+  const handleLocationChange = (e, index) => {
     const { name, value } = e.target;
     const list = [...locationList];
     list[index][name] = value;
     setLocationList(list);
+   
   };
 
-  const handlePricingRemove = (index) => {
+  const handleLocationRemove = (index) => {
     const list = [...locationList];
     list.splice(index, 1);
     setLocationList(list);
+
+    getLocationValue(locationList);
   };
 
-  const handlePricingAdd = () => {
+  const handleLocationAdd = () => {
     setLocationList([...locationList
-      , { pricing: "" }
+      , { }
     ]);
+
+    getLocationValue(locationList);
   };
+
+
+
+ 
+   
+
   return (
     <>
     <div>
@@ -42,11 +57,25 @@ function AboutLocation() {
                 onChange={(e) => handleServiceChange(e, index)}
                 required
               /> */}
-              <Location/>
-              {locationList.length - 1 === index && locationList.length < 4 && (
+              <>
+                <div>
+                  Feature
+                  <input type = 'text' value={feature} onChange={e=>setFeature(e.target.value)}/>
+                </div>
+                <div>
+                  Name of Feature
+                  <input type = 'text' value={featureName} onChange={e=>setFeatureName(e.target.value)}/>
+                </div>
+                <div>
+                Distance
+                <input type = 'number' value={featureDistance} onChange={e=>setFeatureDistance(e.target.value)}/>
+                </div>
+
+              </>
+              {locationList.length - 1 === index  && (
                 <button
                   type="button"
-                  onClick={handlePricingAdd}
+                  onClick={handleLocationAdd}
                   className="add-btn"
                 >
                   <span>Add a field</span>
@@ -57,7 +86,7 @@ function AboutLocation() {
               {locationList.length !== 1 && (
                 <button
                   type="button"
-                  onClick={() => handlePricingRemove(index)}
+                  onClick={() => handleLocationRemove(index)}
                   className="remove-btn"
                 >
                   <span>Remove</span>

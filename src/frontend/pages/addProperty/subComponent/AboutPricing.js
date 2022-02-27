@@ -4,7 +4,13 @@ import Pricing from "./Pricing";
 
 function AboutPricing() {
 
-  const [pricingList, setPricingList] = useState([{pricing:""}]);
+  const [pricingList, setPricingList] = useState([{}]);
+
+  const [apartmentType, setApartmentType] = useState('')
+  const [apartmentSpace, setApartmentSpace] = useState('')
+  const [unitPrice, setUnitPrice] = useState('')
+  const [totalPrice, setTotalPrice] = useState('')
+
 
 
   const handlePricingChange = (e, index) => {
@@ -22,7 +28,7 @@ function AboutPricing() {
 
   const handlePricingAdd = () => {
     setPricingList([...pricingList
-      , { pricing: "" }
+      , {}
     ]);
   };
   return (
@@ -41,8 +47,37 @@ function AboutPricing() {
                 onChange={(e) => handleServiceChange(e, index)}
                 required
               /> */}
-              <Pricing />
-              {pricingList.length - 1 === index && pricingList.length < 4 && (
+
+<>
+    <div>
+      <div>
+        Type of Apartment
+        <input type = 'text' value ={apartmentType} onChange={e=>setApartmentType(e.target.value)}/>
+        </div>
+        <div>
+        Space
+        <input type = 'text' value ={apartmentSpace} onChange={e=>setApartmentSpace(e.target.value)}/>
+        </div>
+        <div>
+        Per Sq. ft Price
+        <input type = 'text' value ={unitPrice} onChange={e=>setUnitPrice(e.target.value)}/>
+        </div>
+        <div>
+        Total Price
+        <input type = 'text' value ={totalPrice} onChange={e=>setTotalPrice(e.target.value)}/>
+        </div>
+        <div>
+        Image
+        <input type = 'file'/>
+
+        <button>Upload</button>
+        </div>
+     
+
+    </div>
+    </>
+              
+              {pricingList.length - 1 === index &&(
                 <button
                   type="button"
                   onClick={handlePricingAdd}

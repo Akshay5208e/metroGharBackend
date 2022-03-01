@@ -1,4 +1,5 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
+import { useSelector } from 'react-redux';
 
 
 //--------get values form local storage--------------------//
@@ -13,19 +14,38 @@ const getDataFromLocalStorage = ()=>{
   }
 }
 
+const mapState = (state) => ({
+  currentUser: state.user.currentUser
+});
 
 function PropertyDrafts() {
+  const {currentUser} = useSelector(mapState)
 
-  const [draftsArray, setDraftsArray] = useState(getDataFromLocalStorage())
+  // const [draftsArray, setDraftsArray] = useState(getDataFromLocalStorage())
+  const [draftProperties, setDraftProperties] = useState(getDataFromLocalStorage());
 
   const ViewProperty=()=>{}
   const EditProperty=()=>{}
-  const DeleteProperty=()=>{}
+
+  const DeleteDraftProperty=(tempId)=>{
+    const filteredDraftsProperties=draftProperties.filter((element,index)=>{
+      return element.tempId !== tempId
+    })
+    setDraftProperties(filteredDraftsProperties);
+  }
+
+  useEffect(()=>{
+
+    localStorage.setItem('draftProperties',JSON.stringify(draftProperties));
+
+  },[draftProperties])
   
 
   return (
     <>
-    
+
+    {draftProperties?
+    <>
     <table>
   <tr>
     
@@ -34,20 +54,30 @@ function PropertyDrafts() {
     <th>Status</th>
     <th>Actions</th>
   </tr>
-  <tr>
-    <td>Property1</td>
-    <td>flat</td>
-    <td>construction</td>
-    <td>
-      <button onClick={ViewProperty}>View</button>
-      <button onClick={EditProperty}>Edit</button>
-      <button onClick={DeleteProperty}>Delete</button>
 
-    </td>
-    
-  </tr>
+  {}
+  {draftProperties.map(draft=>(
+     ((draft.postedBy===currentUser.displayName)&&(draft.isSubmitted === false)) ?
+     <tr>
+     <td>{draft.propertyName}</td>
+     <td>{draft.type}</td>
+     <td>{draft.position}</td>
+     <td>
+       <button onClick={ViewProperty}>View</button>
+       <button onClick={EditProperty}>Edit</button>
+       <button onClick={()=>DeleteDraftProperty(draft.tempId)}>Delete</button>
+ 
+     </td>
+     
+   </tr>
+   :
+   "No drafts Pending"
+  ))}
 
 </table>
+    </>:"No drafts Pending"}
+    
+    
     </>
   )
 }

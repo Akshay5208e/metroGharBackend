@@ -12,12 +12,15 @@ function AboutLocation({getLocationValue}) {
   const [featureDistance, setFeatureDistance]= useState('')
 
 
+ 
+
   const handleLocationChange = (e, index) => {
     const { name, value } = e.target;
     const list = [...locationList];
     list[index][name] = value;
     setLocationList(list);
-   
+    
+    getLocationValue(locationList)
   };
 
   const handleLocationRemove = (index) => {

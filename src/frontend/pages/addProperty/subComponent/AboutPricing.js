@@ -2,7 +2,7 @@ import { useState } from "react";
 import React from 'react'
 import Pricing from "./Pricing";
 
-function AboutPricing() {
+function AboutPricing({getPropertiesPricingList}) {
 
   const [pricingList, setPricingList] = useState([{}]);
 
@@ -18,11 +18,13 @@ function AboutPricing() {
     const list = [...pricingList];
     list[index][name] = value;
     setPricingList(list);
+
+    getPropertiesPricingList(pricingList)
   };
 
   const handlePricingRemove = (index) => {
     const list = [...pricingList];
-    list.splice(index, 1);
+    list.splice(index,1);
     setPricingList(list);
   };
 
@@ -52,7 +54,7 @@ function AboutPricing() {
     <div>
       <div>
         Type of Apartment
-        <input type = 'text' value ={apartmentType} onChange={e=>setApartmentType(e.target.value)}/>
+        <input type = 'text'  value ={apartmentType} onChange={e=>setApartmentType(e.target.value)}/>
         </div>
         <div>
         Space
@@ -60,11 +62,11 @@ function AboutPricing() {
         </div>
         <div>
         Per Sq. ft Price
-        <input type = 'text' value ={unitPrice} onChange={e=>setUnitPrice(e.target.value)}/>
+        <input type = 'text'  value ={unitPrice} onChange={e=>setUnitPrice(e.target.value)}/>
         </div>
         <div>
         Total Price
-        <input type = 'text' value ={totalPrice} onChange={e=>setTotalPrice(e.target.value)}/>
+        <input type = 'text'  value ={totalPrice} onChange={e=>setTotalPrice(e.target.value)}/>
         </div>
         <div>
         Image

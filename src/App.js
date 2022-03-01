@@ -13,7 +13,11 @@ import Signup from './frontend/pages/signup/Signup';
 import Login from './frontend/pages/login/Login';
 import Homepage from './frontend/pages/homepage/Homepage';
 import AddProperty from './frontend/pages/addProperty/AddProperty';
-import PropertyApproval from './frontend/adminPages/PropertyApproval';
+import AddingAmenities from './frontend/pages/addingAmenities/AddingAmenities';
+
+
+
+//admin Pages
 
 
 const mapState = (state) => ({
@@ -44,9 +48,9 @@ function App() {
 
             {/*--------------------- Pages for Data Manipulation ----------------------*/}
               <Route exact path = "/addProperty" component={AddProperty}/>
+              <Route exact path = "/addAmenities" component={AddingAmenities}/>
 
-              <Route exact path = "/propertyApproval" component={PropertyApproval}/>
-        
+             
         </Switch>
       </div>
 

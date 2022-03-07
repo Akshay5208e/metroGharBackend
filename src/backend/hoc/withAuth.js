@@ -1,5 +1,4 @@
-
-import useAuth  from './../customHooks/useAuth';
+import {useAuth}  from './../customHooks';
 
 const WithAuth = props => useAuth(props) && props.children;
 

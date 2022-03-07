@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import TextEditor from '../../independentComponents/textEditor/TextEditor';
 import AboutAmenities from './subComponent/AboutAmenities'
 import {storage} from '../../../backend/firebase/utils'
+import { fetchProductStart,fetchProductsStart,addProductStart } from '../../../backend/redux/products/products.actions';
 
-import AboutLocation from './subComponent/AboutLocation'
-import AboutPricing from './subComponent/AboutPricing'
 
 
 const getDataFromLocalStorage = ()=>{
@@ -23,11 +22,24 @@ const mapState = (state) => ({
   currentUser: state.user.currentUser
 });
 
+const productsMapState = ({ productsData }) => ({
+  products: productsData.products
+});
+
 function AddProperty() {
 
   const {currentUser} = useSelector(mapState)
-  // const { properties } = useSelector(mapState);
+  const { products } = useSelector(productsMapState);
   const dispatch = useDispatch();
+
+  const { data, queryDoc, isLastPage } = products;
+
+  useEffect(() => {
+    dispatch(
+      fetchProductsStart()
+    );
+  }, []);
+
    
   const getPostedBy = ()=>{
     if(currentUser){
@@ -59,6 +71,48 @@ function AddProperty() {
 
   //-----------------main array of objects in local storage----------------------------//
   const [draftProperties, setDraftProperties] = useState([]);
+
+
+  const resetForm=()=>{
+    setPropertyName('')
+    setLocation('')
+    setPosition('')
+    setSpace('')
+    setType('')
+    setPrice('')
+    setMainImageUrls([])  
+
+    setSize('')
+    setAboutPrice('')
+    setTowerUnit('')
+    setConfiguration('')
+    setReraId('')
+    setStatus('')
+    setAboutProject('')
+    setSpecifications('')
+
+    setPropertiesPricingList([])
+    setLocationList([])
+
+    setBasicAmenities([])
+    setConvenienceAmenities([])
+    setenvironmentAmenities([])
+    setSecurityAmenities([])
+    setSportsAmenities([])  
+    
+    setBcpCategory('Builder')
+    setOrganisatioName('')
+    setOwnerName('')
+    setOwnerEmail('')
+    setOwnerWebsite('')
+    setOwnerContactNo('')
+    setOwnerAddress('')
+    setOwnerProject('')
+    setOwnerEstablishment('')
+    setSinceOpertaion('')
+    setOwnerPropertyList('')
+    setOwnerBio('')
+  }
 
   const handleDraftsProperties = (e)=>{
     e.preventDefault();
@@ -121,44 +175,72 @@ function AddProperty() {
     setDraftProperties([...draftProperties,draftProperty])
 
     //reseeting form 
-    setPropertyName('')
-    setLocation('')
-    setPosition('')
-    setSpace('')
-    setType('')
-    setPrice('')  
 
-    setSize('')
-    setAboutPrice('')
-    setTowerUnit('')
-    setConfiguration('')
-    setReraId('')
-    setStatus('')
-    setAboutProject('')
-    setSpecifications('')
-
-    setPropertiesPricingList([])
-    setLocationList([])
-
-    setBasicAmenities([])
-    setConvenienceAmenities([])
-    setenvironmentAmenities([])
-    setSecurityAmenities([])
-    setSportsAmenities([])  
-    
-    setBcpCategory('Builder')
-    setOrganisatioName('')
-    setOwnerName('')
-    setOwnerEmail('')
-    setOwnerWebsite('')
-    setOwnerContactNo('')
-    setOwnerAddress('')
-    setOwnerProject('')
-    setOwnerEstablishment('')
-    setSinceOpertaion('')
-    setOwnerPropertyList('')
-    setOwnerBio('')
+    resetForm();
+  
   }
+
+  //--------------------submission for reveiew---------------------------------//
+  const handlSubmission = (e)=>{
+    e.preventDefault();
+    setIsSubmitted(true)
+
+    dispatch(
+      addProductStart({
+        tempId: Math.floor(Math.random()* 1000000000+1),
+      postedBy,
+      propertyApproval,
+      isSubmitted,
+
+      //basic info
+      propertyName,
+      location,
+      position,
+      space,
+      type,
+      price,
+      mainImageUrls,
+
+      //about section
+      aboutProject,
+      size,
+      aboutPrice,
+      towerUnit,
+      configuration,
+      reraId,
+      status,
+      specification,
+
+      propertiesPricingList,
+      locationList,
+
+      // amenities
+
+      basicAmenities,
+      convenienceAmenities,
+      environmentAmenities,
+      securityAmenities,
+      sportsAmenities,
+      
+      // owners section
+      bcpCategory,
+      organisatioName,
+      ownerName,
+      ownerEmail,
+      ownerWebsite,
+      ownerContactNo,
+      ownerAddress,
+      ownerProject,
+      ownerEstablishment,
+      sinceOperation,
+      ownerPropertyList,
+      ownerBio,
+      })
+    );
+     
+    resetForm();
+   }
+
   
   //saving Data to local Storage
   useEffect(()=>{
@@ -169,11 +251,7 @@ function AddProperty() {
 
 
 
-  //--------------------submission for reveiew---------------------------------//
-   const handlSubmission = ()=>{
-     
-   }
-
+  
   //-----------------------basic info states and functions------------------------------------------------------//
   const [propertyName, setPropertyName] = useState("");
   const [location, setLocation] = useState("");

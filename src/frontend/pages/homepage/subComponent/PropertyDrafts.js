@@ -44,7 +44,7 @@ function PropertyDrafts() {
   return (
     <>
 
-    {draftProperties?
+    {draftProperties.length>0?
     <>
     <table>
   <tr>

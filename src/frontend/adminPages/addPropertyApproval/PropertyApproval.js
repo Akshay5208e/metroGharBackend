@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom'
 
 function PropertyApproval() {
 
-  const [submittedProperties, setSubmittedProperties] = useState([])
-  const [submittedProperty, setsubmittedProperty] = useState(second)
+  
 
     const ViewProperty=()=>{}
-    const DeleteProperty=()=>{}
+    
     const EditProperty = ()=>{}
     const ApproveProperty=()=>{}
+    const UnApprovePropperty=()=>{}
 
   return (
     <>
@@ -18,7 +18,7 @@ function PropertyApproval() {
         <Link to ="/addProperty"><div>addProperty</div></Link>
     </div>
     <div>
-        <div>for filters</div>
+        <div>----------for filters------------------</div>
         <div>table
         <table>
             <tr>
@@ -39,8 +39,9 @@ function PropertyApproval() {
     <td>
       <button onClick={ViewProperty}>View</button>
       <button onClick={ApproveProperty}>Approve</button>
+      <button onClick={UnApprovePropperty}>Un-Approve</button>
       <button onClick={EditProperty}>Edit</button>
-      <button onClick={DeleteProperty}>Delete</button>
+      <button >Delete</button>
 
     </td>
     

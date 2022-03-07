@@ -1,4 +1,4 @@
-import { useAdminAuth } from './../customHooks/useAdminAuth';
+import { useAdminAuth } from './../customHooks';
 
 const WithAdminAuth = props => useAdminAuth(props) && props.children;
 

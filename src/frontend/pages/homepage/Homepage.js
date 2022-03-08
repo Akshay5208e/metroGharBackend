@@ -16,12 +16,22 @@ function Homepage() {
   const dispatch = useDispatch();
   const { currentUser } = useSelector(mapState);
   const history  = useHistory();
+ 
   
 
   useEffect(() => {
     if (!currentUser) {
       
       history.push('/login');
+    }
+
+  }, [currentUser]);
+
+
+  useEffect(() => {
+    if (currentUser.userRoles.includes('admin')) {
+      
+      history.push('/admin');
     }
 
   }, [currentUser]);

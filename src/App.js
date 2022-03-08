@@ -47,7 +47,7 @@ function App() {
         <Switch>
 
            {/*--------------------- Homepage ------------------------------------------*/}
-              <Route exact path = "/" component={Homepage}/>
+              {/* <Route exact path = "/" component={Homepage}/> */}
               {/* <WithAdminAuth><Route exact path="/admin" component={PropertyApproval}/></WithAdminAuth> */}
               <Route exact path="/admin" render={()=>(
                 <WithAdminAuth>
@@ -56,10 +56,28 @@ function App() {
               )}>
 
               </Route>
+              <Route exact path="/" render={()=>(
+                <WithAuth>
+                  <Homepage/>
+                </WithAuth>
+              )}>
+
+              </Route>
 
            {/*---------------------- Authentication pages -----------------------------*/}
-              <Route exact path = "/login" component={Login}/> 
-              <Route exact path = "/signup" component={Signup}/>
+              {/* <Route exact path = "/login" component={Login}/>  */}
+              <Route path="/login"render={() => (
+         
+              <Login />
+          
+          )} />
+          
+              <Route path="/signup"
+                render={() => (
+           
+              <Signup/>
+         
+          )} />
 
             {/*--------------------- Pages for Data Manipulation ----------------------*/}
               <Route exact path = "/addProperty" component={AddProperty}/>

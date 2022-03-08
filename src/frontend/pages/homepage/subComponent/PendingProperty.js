@@ -113,7 +113,8 @@ function PendingProperty() {
                         </td>
                       </tr></>
                       :
-                      <div>No Properties Are Pending For Approval</div>}
+                      ((data.length>0) &&((postedBy===currentUser.displayName))?<div>No Properties Are Pending For Approval</div> : "")
+                      }
                       </>
                       )
                     })}

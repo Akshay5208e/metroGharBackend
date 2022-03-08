@@ -1,9 +1,42 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
+import { addProductStart, fetchProductsStart, deleteProductStart } from './../../../backend/redux/products/products.actions';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { signOutUserStart } from '../../../backend/redux/User/user.actions';
+const productsMapState = ({ productsData }) => ({
+  products: productsData.products
+});
+
+const mapState = (state) => ({
+  currentUser: state.user.currentUser
+});
+
+
 
 function PropertyApproval() {
 
+
+  const { products } = useSelector(productsMapState);
+  const dispatch = useDispatch();
+  const history  = useHistory();
+  const { currentUser } = useSelector(mapState);
+  const { data, queryDoc, isLastPage } = products;
+
   
+
+
+  useEffect(() => {
+    dispatch(
+      fetchProductsStart()
+    );
+  }, []);
+
+  const signOut = () => {
+    dispatch(signOutUserStart());
+  };
+
+
 
     const ViewProperty=()=>{}
     
@@ -17,38 +50,113 @@ function PropertyApproval() {
         all
         <Link to ="/addProperty"><div>addProperty</div></Link>
     </div>
+    {currentUser&&
+        <button onClick={() => signOut()}>Signout</button>}
     <div>
         <div>----------for filters------------------</div>
-        <div>table
         <table>
-            <tr>
-    
-             <th>Property Name</th>
-             <th>Position</th>
-             <th>Type</th>
-             <th>Owner</th>
-             <th>Status</th>
-             <th>Actions</th>
-            </tr>
-  <tr>
-    <td>Property1</td>
-    <td>ready to move</td>
-    <td>flat</td>
-    <td>Owner 1</td>
-    <td>Pending</td>
-    <td>
-      <button onClick={ViewProperty}>View</button>
-      <button onClick={ApproveProperty}>Approve</button>
-      <button onClick={UnApprovePropperty}>Un-Approve</button>
-      <button onClick={EditProperty}>Edit</button>
-      <button >Delete</button>
+        <th>Property Name</th>
+                        <th>Position</th>
+                        <th>Type</th>
+                        <th>Owner</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+     <tbody>
+     {(Array.isArray(data) && data.length > 0) && data.map((product, index) => {
+                    const{
+                      documentID,
+                      tempId,
+                      postedBy,
+                      propertyApproval,
+                      isSubmitted,
+                
+                      //basic info
+                      propertyName,
+                      location,
+                      position,
+                      space,
+                      type,
+                      price,
+                      mainImageUrls,
+                
+                      //about section
+                      aboutProject,
+                      size,
+                      aboutPrice,
+                      towerUnit,
+                      configuration,
+                      reraId,
+                      status,
+                      specification,
+                
+                      propertiesPricingList,
+                      locationList,
+                
+                      // amenities
+                
+                      basicAmenities,
+                      convenienceAmenities,
+                      environmentAmenities,
+                      securityAmenities,
+                      sportsAmenities,
+                      
+                      // owners section
+                      bcpCategory,
+                      organisatioName,
+                      ownerName,
+                      ownerEmail,
+                      ownerWebsite,
+                      ownerContactNo,
+                      ownerAddress,
+                      ownerProject,
+                      ownerEstablishment,
+                      sinceOperation,
+                      ownerPropertyList,
+                      ownerBio,
+                      }=product
 
-    </td>
-    
-  </tr>
+                      return (
+                        <>
+                        { (isSubmitted===true)?
+                        <>
+                       
+                        <tr key={index}>
+                        <td>
+                        {propertyName}
+                        </td>
+                        <td>
+                          {position}
+                        </td>
+                        <td>
+                          {type}
+                        </td>
+                        <td>
+                        {ownerName}
+                        </td>
+                        <td>
+                          {(propertyApproval===true)?<div>Published</div>:<div>Pending</div>}
+                        </td>
+                        
+                        <td>
+                         <Link to= {`/adminView/${documentID}`}><input type='button' value='View'/></Link>
+                          
+                          
+                          <button >
+                            Edit
+                          </button>
+                          <button onClick={() => dispatch(deleteProductStart(documentID))}>
+                            Delete
+                          </button>
+                        </td>
+                      </tr></>
+                      :
+                      <div>No Properties Are Approved</div>}
+                      </>
+                      )
+                    })}
+     </tbody>
+   </table>
 
-</table>
-        </div>
         
     </div>
     

@@ -30,6 +30,7 @@ function CompletedProperty() {
   return (
    <>
    <table>
+     
      <tbody>
      {(Array.isArray(data) && data.length > 0) && data.map((product, index) => {
                     const{
@@ -114,13 +115,14 @@ function CompletedProperty() {
                         </td>
                       </tr></>
                       :
-                      <div>No Properties Are Approved</div>}
+                      ((data.length>0) &&((postedBy===currentUser.displayName))?<div>No Properties Are  Approved</div> : "")
+                    }
                       </>
                       )
                     })}
      </tbody>
    </table>
-
+ 
    </>
   )
 }

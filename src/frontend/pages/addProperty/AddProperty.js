@@ -5,8 +5,8 @@ import AboutAmenities from './subComponent/AboutAmenities'
 import {storage} from '../../../backend/firebase/utils'
 import { fetchProductStart,fetchProductsStart,addProductStart } from '../../../backend/redux/products/products.actions';
 
-
-
+import {BasicAmenitiesData, ConvenienceAmenitiesData, EnvironmentAmenitiesData, SecurityAmenitiesData, SportsAmenitiesData} from './amenitiesData/AmenitiesData'
+import Select from 'react-select'
 const getDataFromLocalStorage = ()=>{
   const data = localStorage.getItem('draftProperties');
   if(data){
@@ -55,7 +55,7 @@ function AddProperty() {
   //-----------------------global States---------------------------------------------//
   
   const [propertyApproval, setPropertyApproval] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(true)
   const [submitError, setsubmitError] = useState("")
   const [postedBy, setPostedBy] = useState("")
   const [pId, setPId] = useState()
@@ -81,6 +81,7 @@ function AddProperty() {
     setType('')
     setPrice('')
     setMainImageUrls([])  
+    
 
     setSize('')
     setAboutPrice('')
@@ -180,14 +181,16 @@ function AddProperty() {
   
   }
 
+  
   //--------------------submission for reveiew---------------------------------//
   const handlSubmission = (e)=>{
+    
     e.preventDefault();
-    setIsSubmitted(true)
+    
 
     dispatch(
       addProductStart({
-        tempId: Math.floor(Math.random()* 1000000000+1),
+      tempId: Math.floor(Math.random()* 1000000000000000+1),
       postedBy,
       propertyApproval,
       isSubmitted,
@@ -453,6 +456,27 @@ function AddProperty() {
   const [environmentAmenities, setenvironmentAmenities] = useState([])
   const [sportsAmenities, setSportsAmenities] = useState([])
   const [securityAmenities, setSecurityAmenities] = useState([])
+
+
+  const handleBasicAmenitiesChange=(val)=>{
+    setBasicAmenities(val)
+  }
+
+  const handleConvenienceAmenitiesChange=(val)=>{
+    setConvenienceAmenities(val)
+  }
+
+  const handleEnvironmentAmenitiesChange=(val)=>{
+    setenvironmentAmenities(val)
+  }
+
+  const handleSportsAmenitiesChange=(val)=>{
+    setSportsAmenities(val)
+  }
+
+  const handleSecurityAmenitiesChange=(val)=>{
+    setSecurityAmenities(val)
+  }
 
 
   //----------------------about bcp state and functions---------------------------------------------------------//
@@ -740,13 +764,43 @@ function AddProperty() {
           </div>
         </div>
       </div>
-      {console.log(propertiesPricingList)}
-      {console.log(locationList)}
+      {/* {console.log(propertiesPricingList)}
+      {console.log(locationList)} */}
   
       {/*------------- ABout Amenities--------------------------------------------- */}
       <div>
         <h3>About Amenities</h3>
-        <AboutAmenities/>
+        <div>
+          <h3>Basic Amenities</h3>
+          <Select  options={BasicAmenitiesData} displayValue="label" onChange={handleBasicAmenitiesChange} isMulti/>
+
+          {console.log(basicAmenities)}
+        </div>
+        <div>
+          <h3>Convenience Amenities</h3>
+          <Select  options={ConvenienceAmenitiesData} displayValue="label" onChange={handleConvenienceAmenitiesChange} isMulti/>
+
+          {/* {console.log(convenienceAmenities)} */}
+        </div>
+        <div>
+          <h3>Environment Amenities</h3>
+          <Select  options={EnvironmentAmenitiesData} displayValue="label" onChange={handleEnvironmentAmenitiesChange}/>
+
+          {/* {console.log(environmentAmenities)} */}
+        </div>
+        <div>
+          <h3>Sports Amenities</h3>
+          <Select  options={SportsAmenitiesData} displayValue="label" onChange={handleSportsAmenitiesChange} isMulti/>
+
+          {/* {console.log(sportsAmenities)} */}
+        </div>
+        <div>
+          <h3>Security Amenities</h3>
+          <Select  options={SecurityAmenitiesData} displayValue="label" onChange={handleSecurityAmenitiesChange} isMulti/>
+
+          {/* {console.log(securityAmenities)} */}
+        </div>
+
       </div>
   
       {/*--------------------- about B/cp------------------------------------------ */}

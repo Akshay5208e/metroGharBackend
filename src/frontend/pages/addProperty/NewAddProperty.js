@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import TextEditor from '../../independentComponents/textEditor/TextEditor';
-
+import AboutAmenities from './subComponent/AboutAmenities'
 import {storage} from '../../../backend/firebase/utils'
 import { fetchProductStart,fetchProductsStart,addProductStart } from '../../../backend/redux/products/products.actions';
 
-import {BasicAmenitiesData, ConvenienceAmenitiesData, EnvironmentAmenitiesData, SecurityAmenitiesData, SportsAmenitiesData} from './../addProperty/amenitiesData/AmenitiesData'
+import {BasicAmenitiesData, ConvenienceAmenitiesData, EnvironmentAmenitiesData, SecurityAmenitiesData, SportsAmenitiesData} from './amenitiesData/AmenitiesData'
 import Select from 'react-select'
-import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { firestore } from '../../../backend/firebase/utils';
-
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 const getDataFromLocalStorage = ()=>{
   const data = localStorage.getItem('draftProperties');
   if(data){
@@ -20,35 +19,40 @@ const getDataFromLocalStorage = ()=>{
   }
 }
 
+
 const mapState = (state) => ({
   currentUser: state.user.currentUser
 });
 
-const productsMapState = ({ productsData }) => ({
-  products: productsData.products.data
-});
 
+function AddProperty() {
 
-function EditPage() {
-
-  const {currentUser} = useSelector(mapState)
-  const { products } = useSelector(productsMapState);
-  const dispatch = useDispatch();
-
-  const { documentID } = useParams();
-
+  const {currentUser} = useSelector(mapState);
   const history = useHistory();
   
-  const [allProducts, setAllProducts] = useState(products)
-  console.log(allProducts)
 
+
+
+   
+  const getPostedBy = ()=>{
+    if(currentUser){
+      return currentUser.displayName;
+    }
+     return 'no user'
+  }
+
+
+
+
+
+  //-----------------------global States---------------------------------------------//
   
   const [propertyApproval, setPropertyApproval] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(true)
   const [submitError, setsubmitError] = useState("")
   const [postedBy, setPostedBy] = useState("")
   const [pId, setPId] = useState()
-  const[productTobeUpdated,setProductTobeUpdated]= useState(null)
+  
   
 
 
@@ -59,11 +63,188 @@ function EditPage() {
   }, [currentUser]);
 
   //-----------------main array of objects in local storage----------------------------//
-  const [draftProperties, setDraftProperties] = useState(getDataFromLocalStorage());
-  const [draftPrpoertyIdSelection, setDraftPrpoertyIdSelection] = useState('');
+  const [draftProperties, setDraftProperties] = useState([]);
 
-   //saving Data to local Storage
-   useEffect(()=>{
+
+  const resetForm=()=>{
+    setPropertyName('')
+    setLocation('')
+    setPosition('')
+    setSpace('')
+    setType('')
+    setPrice('')
+    setMainImageUrls([])  
+    
+
+    setSize('')
+    setAboutPrice('')
+    setTowerUnit('')
+    setConfiguration('')
+    setReraId('')
+    setStatus('')
+    setAboutProject('')
+    setSpecifications('')
+
+    setPropertiesPricingList([])
+    setLocationList([])
+
+    setBasicAmenities([])
+    setConvenienceAmenities([])
+    setenvironmentAmenities([])
+    setSecurityAmenities([])
+    setSportsAmenities([])  
+    
+    setBcpCategory('Builder')
+    setOrganisatioName('')
+    setOwnerName('')
+    setOwnerEmail('')
+    setOwnerWebsite('')
+    setOwnerContactNo('')
+    setOwnerAddress('')
+    setOwnerProject('')
+    setOwnerEstablishment('')
+    setSinceOpertaion('')
+    setOwnerPropertyList('')
+    setOwnerBio('')
+  }
+
+  const handleDraftsProperties = (e)=>{
+    e.preventDefault();
+
+    
+    //creating object
+
+    let draftProperty={
+
+      tempId: Math.floor(Date.now() * Math.random()+ Math.random()*Math.random()),
+      postedBy,
+      propertyApproval,
+      isSubmitted,
+
+      //basic info
+      propertyName,
+      location,
+      position,
+      space,
+      type,
+      price,
+      mainImageUrls,
+
+      //about section
+      aboutProject,
+      size,
+      aboutPrice,
+      towerUnit,
+      configuration,
+      reraId,
+      status,
+      specification,
+
+      propertiesPricingList,
+      locationList,
+
+      // amenities
+
+      basicAmenities,
+      convenienceAmenities,
+      environmentAmenities,
+      securityAmenities,
+      sportsAmenities,
+      
+      // owners section
+      bcpCategory,
+      organisatioName,
+      ownerName,
+      ownerEmail,
+      ownerWebsite,
+      ownerContactNo,
+      ownerAddress,
+      ownerProject,
+      ownerEstablishment,
+      sinceOperation,
+      ownerPropertyList,
+      ownerBio,
+      }
+
+    setDraftProperties([...draftProperties,draftProperty])
+
+    //reseeting form 
+
+    resetForm();
+  
+  }
+
+  
+  //--------------------submission for reveiew---------------------------------//
+  const handlSubmission = (e)=>{
+    
+    e.preventDefault();
+    
+
+    let property={
+      tempId: Math.floor(Math.random()* 1000000000000000+1),
+      postedBy,
+      propertyApproval,
+      isSubmitted,
+
+      //basic info
+      propertyName,
+      location,
+      position,
+      space,
+      type,
+      price,
+      mainImageUrls,
+
+      //about section
+      aboutProject,
+      size,
+      aboutPrice,
+      towerUnit,
+      configuration,
+      reraId,
+      status,
+      specification,
+
+      propertiesPricingList,
+      locationList,
+
+      // amenities
+
+      basicAmenities,
+      convenienceAmenities,
+      environmentAmenities,
+      securityAmenities,
+      sportsAmenities,
+      
+      // owners section
+      bcpCategory,
+      organisatioName,
+      ownerName,
+      ownerEmail,
+      ownerWebsite,
+      ownerContactNo,
+      ownerAddress,
+      ownerProject,
+      ownerEstablishment,
+      sinceOperation,
+      ownerPropertyList,
+      ownerBio,
+      };
+     
+      firestore.collection('properties').doc().set(property);
+    //   try {
+    //     firestore.collection().doc().set(property)
+    //   } catch (error) {
+    //       console.log
+    //   }
+    resetForm();
+    history.push('/')
+   }
+
+  
+  //saving Data to local Storage
+  useEffect(()=>{
 
     localStorage.setItem('draftProperties',JSON.stringify(draftProperties));
 
@@ -73,9 +254,9 @@ function EditPage() {
 
   
   //-----------------------basic info states and functions------------------------------------------------------//
-  const [propertyName, setPropertyName] = useState();
+  const [propertyName, setPropertyName] = useState("");
   const [location, setLocation] = useState("");
-  const [position, setPosition] = useState("");
+  const [position, setPosition] = useState("")
   const [space, setSpace] = useState("")
   const [type, setType] = useState("")
   const [price, setPrice] = useState("")
@@ -325,140 +506,23 @@ function EditPage() {
       value: "Agent",
       name: "Agent(CP)"
     }]
-
-  const handleEditPublishedPropertyStart=(documentID)=>{
-
-    let newEditProperty = allProducts.find((elemProperty)=>{
-      return elemProperty.documentID === documentID
-  });
-  setPropertyName(newEditProperty.propertyName)
-  setLocation(newEditProperty.location)
-  setPosition(newEditProperty.position)
-  setSpace(newEditProperty.space)
-  setType(newEditProperty.type)
-  setPrice(newEditProperty.price)
-  setMainImageUrls(newEditProperty.mainImageUrls)  
   
-
-  setSize(newEditProperty.size)
-  setAboutPrice(newEditProperty.aboutPrice)
-  setTowerUnit(newEditProperty.towerUnit)
-  setConfiguration(newEditProperty.configuration)
-  setReraId(newEditProperty.reraId)
-  setStatus(newEditProperty.status)
-  setAboutProject(newEditProperty.aboutProject)
-  setSpecifications(newEditProperty.specification)
-
-  setPropertiesPricingList(newEditProperty.propertiesPricingList)
-  setLocationList(newEditProperty.locationList)
-
-  setBasicAmenities(newEditProperty.basicAmenities)
-  setConvenienceAmenities(newEditProperty.convenienceAmenities)
-  setenvironmentAmenities(newEditProperty.environmentAmenities)
-  setSecurityAmenities(newEditProperty.securityAmenities)
-  setSportsAmenities(newEditProperty.sportsAmenities)  
   
-  setBcpCategory(newEditProperty.bcpCategory)
-  setOrganisatioName(newEditProperty.organisatioName)
-  setOwnerName(newEditProperty.ownerName)
-  setOwnerEmail(newEditProperty.ownerEmail)
-  setOwnerWebsite(newEditProperty.ownerWebsite)
-  setOwnerContactNo(newEditProperty.ownerContactNo)
-  setOwnerAddress(newEditProperty.ownerAddress)
-  setOwnerProject(newEditProperty.ownerProject)
-  setOwnerEstablishment(newEditProperty.ownerEstablishment)
-  setSinceOpertaion(newEditProperty.sinceOperation)
-  setOwnerPropertyList(newEditProperty.ownerPropertyList)
-  setOwnerBio(newEditProperty.ownerBio)
-   
-
-  setProductTobeUpdated(newEditProperty)
-  // setDraftPrpoertyIdSelection(tempId)
-
-  }
-
-  const handlePublishedPropertyEdit= async ()=>{
-
-    let editedPublishedProperty={
-      tempId: Math.floor(Date.now() * Math.random()+ Math.random()*Math.random()),
-      postedBy,
-      propertyApproval,
-      isSubmitted,
-
-      //basic info
-      propertyName,
-      location,
-      position,
-      space,
-      type,
-      price,
-      mainImageUrls,
-
-      //about section
-      aboutProject,
-      size,
-      aboutPrice,
-      towerUnit,
-      configuration,
-      reraId,
-      status,
-      specification,
-
-      propertiesPricingList,
-      locationList,
-
-      // amenities
-
-      basicAmenities,
-      convenienceAmenities,
-      environmentAmenities,
-      securityAmenities,
-      sportsAmenities,
+    const handleOwnerChange=(e)=>{
+      if((e.target.value)==='Agent')
+      {
+        setActive('second')
+      }
+      else{
+        setActive('first')
+      }
       
-      // owners section
-      bcpCategory,
-      organisatioName,
-      ownerName,
-      ownerEmail,
-      ownerWebsite,
-      ownerContactNo,
-      ownerAddress,
-      ownerProject,
-      ownerEstablishment,
-      sinceOperation,
-      ownerPropertyList,
-      ownerBio
+      setBcpCategory(e.target.value)
     }
-    
- 
-    
-  
-
-  history.push("/")
-  }
 
 
-  const handleOwnerChange=(e)=>{
-    if((e.target.value)==='Agent')
-    {
-      setActive('second')
-    }
-    else{
-      setActive('first')
-    }
-    
-    setBcpCategory(e.target.value)
-  }
-
-  useEffect(() => {
-    handleEditPublishedPropertyStart(documentID)
-  }, [])
-  
-
-
-
-  return (
-    <>
+    return (
+      <>
       
       {/*------- basic Info Section ------------------------------------------------*/}
       <div>
@@ -847,15 +911,15 @@ function EditPage() {
         </div>
   
       </div>
-      
+  
       {/* ----------------------buttons--------------------------------------------- */}
       <div>
-      {/* <button onClick={()=>handleDraftsPropertiesChange()}>Update Draft</button> */}
-      <button onClick={handlePublishedPropertyEdit}>Submit for Review</button>
+      <button onClick={handleDraftsProperties}>Draft</button>
+      <button onClick={handlSubmission}>Submit for Review</button>
       </div>
   
       </>
-  )
-}
-
-export default EditPage
+    )
+  }
+  
+  export default AddProperty

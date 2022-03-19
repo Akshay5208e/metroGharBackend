@@ -12,15 +12,15 @@ import WithAdminAuth from './backend/hoc/withAdminAuth';
 //pages
 import Signup from './frontend/pages/signup/Signup';
 import Login from './frontend/pages/login/Login';
-import Homepage from './frontend/pages/homepage/Homepage';
-import AddProperty from './frontend/pages/addProperty/AddProperty';
+import Homepage from './frontend/pages/homepage/NewHomepage';
+import AddProperty from './frontend/pages/addProperty/NewAddProperty';
 import AddingAmenities from './frontend/pages/addingAmenities/AddingAmenities';
-import ViewPage from './frontend/pages/viewPage/ViewPage';
+import ViewPage from './frontend/pages/viewPage/NewViewPage';
 import AdminViewPage from './frontend/pages/viewPage/AdminViewPage';
-import EditPage from './frontend/pages/editPage/EditPage';
+import EditPage from './frontend/pages/editPage/NewEditPage';
 import AdminEditPage from './frontend/pages/editPage/AdminEditPage';
-
-import PropertyApproval from './frontend/adminPages/addPropertyApproval/PropertyApproval';
+import DraftEdit from './frontend/pages/editPage/DraftEdit';
+import AdminHomepage from './frontend/adminPanel/AdminHomepage';
 
 
 
@@ -51,7 +51,7 @@ function App() {
               {/* <WithAdminAuth><Route exact path="/admin" component={PropertyApproval}/></WithAdminAuth> */}
               <Route exact path="/admin" render={()=>(
                 <WithAdminAuth>
-                  <PropertyApproval/>
+                  <AdminHomepage/>
                 </WithAdminAuth>
               )}>
 
@@ -85,18 +85,18 @@ function App() {
               <Route exact path = "/addAmenities" component={AddingAmenities}/>
 
               {/* ----------------------Viewing the page----------------------------------- */}
-              <Route exact path= "/view/:productID" component={ViewPage}/>
+              <Route exact path= "/view/:documentID" component={ViewPage}/>
              
 
-              <Route exact path="/adminView/:productID" render={()=>(
+              <Route exact path="/adminView/:documentID" render={()=>(
                  <WithAdminAuth>
                    <AdminViewPage/>
                  </WithAdminAuth>
                )}/>
               {/* --------------------------editingPage-------------------------------------- */}
-              <Route exact path="/edit/" component={EditPage}/>
-              
-               <Route exact path ="/editAdmin/" render={()=>(
+              <Route exact path="/edit/:documentID" component={EditPage}/>
+              <Route exact path = "/draftEdit/:tempId" component={DraftEdit}/>
+               <Route exact path ="/editAdmin/:documentID" render={()=>(
                  <WithAdminAuth>
                    <AdminEditPage/>
                  </WithAdminAuth>

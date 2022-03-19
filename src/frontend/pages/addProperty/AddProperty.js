@@ -123,7 +123,7 @@ function AddProperty() {
 
     let draftProperty={
 
-      tempId: Math.floor(Math.random()* 1000000000+1),
+      tempId: Math.floor(Date.now() * Math.random()+ Math.random()*Math.random()),
       postedBy,
       propertyApproval,
       isSubmitted,

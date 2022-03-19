@@ -7,9 +7,7 @@ import { fetchProductStart,fetchProductsStart,addProductStart } from '../../../b
 
 import {BasicAmenitiesData, ConvenienceAmenitiesData, EnvironmentAmenitiesData, SecurityAmenitiesData, SportsAmenitiesData} from './../addProperty/amenitiesData/AmenitiesData'
 import Select from 'react-select'
-import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import { firestore } from '../../../backend/firebase/utils';
-
+import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 const getDataFromLocalStorage = ()=>{
   const data = localStorage.getItem('draftProperties');
   if(data){
@@ -20,35 +18,52 @@ const getDataFromLocalStorage = ()=>{
   }
 }
 
+
 const mapState = (state) => ({
   currentUser: state.user.currentUser
 });
 
 const productsMapState = ({ productsData }) => ({
-  products: productsData.products.data
+  products: productsData.products
 });
 
+function DraftEdit() {
 
-function EditPage() {
-
-  const {currentUser} = useSelector(mapState)
+    const {currentUser} = useSelector(mapState)
   const { products } = useSelector(productsMapState);
   const dispatch = useDispatch();
+  const {tempId}  = useParams();
+    console.log(tempId)
 
-  const { documentID } = useParams();
+    const propertyTempId= parseFloat(tempId)
+  const { data, queryDoc, isLastPage } = products;
 
-  const history = useHistory();
-  
-  const [allProducts, setAllProducts] = useState(products)
-  console.log(allProducts)
+  useEffect(() => {
+    dispatch(
+      fetchProductsStart()
+    );
+  }, []);
 
+   
+  const getPostedBy = ()=>{
+    if(currentUser){
+      return currentUser.displayName;
+    }
+     return 'no user'
+  }
+
+
+
+
+
+  //-----------------------global States---------------------------------------------//
   
   const [propertyApproval, setPropertyApproval] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(true)
   const [submitError, setsubmitError] = useState("")
   const [postedBy, setPostedBy] = useState("")
   const [pId, setPId] = useState()
-  const[productTobeUpdated,setProductTobeUpdated]= useState(null)
+  
   
 
 
@@ -62,8 +77,303 @@ function EditPage() {
   const [draftProperties, setDraftProperties] = useState(getDataFromLocalStorage());
   const [draftPrpoertyIdSelection, setDraftPrpoertyIdSelection] = useState('');
 
-   //saving Data to local Storage
-   useEffect(()=>{
+
+  const resetForm=()=>{
+    setPropertyName('')
+    setLocation('')
+    setPosition('')
+    setSpace('')
+    setType('')
+    setPrice('')
+    setMainImageUrls([])  
+    
+
+    setSize('')
+    setAboutPrice('')
+    setTowerUnit('')
+    setConfiguration('')
+    setReraId('')
+    setStatus('')
+    setAboutProject('')
+    setSpecifications('')
+
+    setPropertiesPricingList([])
+    setLocationList([])
+
+    setBasicAmenities([])
+    setConvenienceAmenities([])
+    setenvironmentAmenities([])
+    setSecurityAmenities([])
+    setSportsAmenities([])  
+    
+    setBcpCategory('Builder')
+    setOrganisatioName('')
+    setOwnerName('')
+    setOwnerEmail('')
+    setOwnerWebsite('')
+    setOwnerContactNo('')
+    setOwnerAddress('')
+    setOwnerProject('')
+    setOwnerEstablishment('')
+    setSinceOpertaion('')
+    setOwnerPropertyList('')
+    setOwnerBio('')
+  }
+
+  const handleDraftsProperties = (e)=>{
+    e.preventDefault();
+
+    
+    //creating object
+
+    let draftProperty={
+
+      tempId: tempId,
+      postedBy,
+      propertyApproval,
+      isSubmitted,
+
+      //basic info
+      propertyName,
+      location,
+      position,
+      space,
+      type,
+      price,
+      mainImageUrls,
+
+      //about section
+      aboutProject,
+      size,
+      aboutPrice,
+      towerUnit,
+      configuration,
+      reraId,
+      status,
+      specification,
+
+      propertiesPricingList,
+      locationList,
+
+      // amenities
+
+      basicAmenities,
+      convenienceAmenities,
+      environmentAmenities,
+      securityAmenities,
+      sportsAmenities,
+      
+      // owners section
+      bcpCategory,
+      organisatioName,
+      ownerName,
+      ownerEmail,
+      ownerWebsite,
+      ownerContactNo,
+      ownerAddress,
+      ownerProject,
+      ownerEstablishment,
+      sinceOperation,
+      ownerPropertyList,
+      ownerBio
+      }
+
+    setDraftProperties([...draftProperties,draftProperty])
+
+    //reseeting form 
+
+    resetForm();
+  
+  }
+
+  const handleDraftsPropertiesChange=(e)=>{
+  setDraftProperties(
+    draftProperties.map((elemProperty)=>{
+      if(elemProperty.tempId===draftPrpoertyIdSelection)
+      {
+          return {...elemProperty,
+            postedBy,
+            propertyApproval,
+            isSubmitted,
+      
+            //basic info
+            propertyName,
+            location,
+            position,
+            space,
+            type,
+            price,
+            mainImageUrls,
+      
+            //about section
+            aboutProject,
+            size,
+            aboutPrice,
+            towerUnit,
+            configuration,
+            reraId,
+            status,
+            specification,
+      
+            propertiesPricingList,
+            locationList,
+      
+            // amenities
+      
+            basicAmenities,
+            convenienceAmenities,
+            environmentAmenities,
+            securityAmenities,
+            sportsAmenities,
+            
+            // owners section
+            bcpCategory,
+            organisatioName,
+            ownerName,
+            ownerEmail,
+            ownerWebsite,
+            ownerContactNo,
+            ownerAddress,
+            ownerProject,
+            ownerEstablishment,
+            sinceOperation,
+            ownerPropertyList,
+            ownerBio}
+      }
+      return elemProperty
+    })
+
+    
+  )
+  setDraftPrpoertyIdSelection('')
+  resetForm();
+
+  }
+  const handleDraftsPropertiesChangeStart=(tempId)=>{
+      let newEditProperty = draftProperties.find((elemProperty)=>{
+          return elemProperty.tempId===tempId
+      });
+    //   console.log(draftProperties)
+    //  console.log(newEditProperty);
+
+     setPropertyName(newEditProperty.propertyName)
+     setLocation(newEditProperty.location)
+     setPosition(newEditProperty.position)
+     setSpace(newEditProperty.space)
+     setType(newEditProperty.type)
+     setPrice(newEditProperty.price)
+     setMainImageUrls(newEditProperty.mainImageUrls)  
+     
+ 
+     setSize(newEditProperty.size)
+     setAboutPrice(newEditProperty.aboutPrice)
+     setTowerUnit(newEditProperty.towerUnit)
+     setConfiguration(newEditProperty.configuration)
+     setReraId(newEditProperty.reraId)
+     setStatus(newEditProperty.status)
+     setAboutProject(newEditProperty.aboutProject)
+     setSpecifications(newEditProperty.specification)
+ 
+     setPropertiesPricingList(newEditProperty.propertiesPricingList)
+     setLocationList(newEditProperty.locationList)
+ 
+     setBasicAmenities(newEditProperty.basicAmenities)
+     setConvenienceAmenities(newEditProperty.convenienceAmenities)
+     setenvironmentAmenities(newEditProperty.environmentAmenities)
+     setSecurityAmenities(newEditProperty.securityAmenities)
+     setSportsAmenities(newEditProperty.sportsAmenities)  
+     
+     setBcpCategory(newEditProperty.bcpCategory)
+     setOrganisatioName(newEditProperty.organisatioName)
+     setOwnerName(newEditProperty.ownerName)
+     setOwnerEmail(newEditProperty.ownerEmail)
+     setOwnerWebsite(newEditProperty.ownerWebsite)
+     setOwnerContactNo(newEditProperty.ownerContactNo)
+     setOwnerAddress(newEditProperty.ownerAddress)
+     setOwnerProject(newEditProperty.ownerProject)
+     setOwnerEstablishment(newEditProperty.ownerEstablishment)
+     setSinceOpertaion(newEditProperty.sinceOperation)
+     setOwnerPropertyList(newEditProperty.ownerPropertyList)
+     setOwnerBio(newEditProperty.ownerBio)
+      
+
+     setDraftPrpoertyIdSelection(tempId)
+
+    }
+
+ 
+
+  useEffect(()=>{
+
+    localStorage.setItem('draftProperties',JSON.stringify(draftProperties));
+
+  },[draftProperties])
+
+  //--------------------submission for reveiew---------------------------------//
+  const handlSubmission = (e)=>{
+    
+    e.preventDefault();
+    
+
+    dispatch(
+      addProductStart({
+      tempId: Math.floor(Math.random()* 1000000000000000+1),
+      postedBy,
+      propertyApproval,
+      isSubmitted,
+
+      //basic info
+      propertyName,
+      location,
+      position,
+      space,
+      type,
+      price,
+      mainImageUrls,
+
+      //about section
+      aboutProject,
+      size,
+      aboutPrice,
+      towerUnit,
+      configuration,
+      reraId,
+      status,
+      specification,
+
+      propertiesPricingList,
+      locationList,
+
+      // amenities
+
+      basicAmenities,
+      convenienceAmenities,
+      environmentAmenities,
+      securityAmenities,
+      sportsAmenities,
+      
+      // owners section
+      bcpCategory,
+      organisatioName,
+      ownerName,
+      ownerEmail,
+      ownerWebsite,
+      ownerContactNo,
+      ownerAddress,
+      ownerProject,
+      ownerEstablishment,
+      sinceOperation,
+      ownerPropertyList,
+      ownerBio,
+      })
+    );
+     
+    resetForm();
+   }
+
+  
+  //saving Data to local Storage
+  useEffect(()=>{
 
     localStorage.setItem('draftProperties',JSON.stringify(draftProperties));
 
@@ -73,7 +383,7 @@ function EditPage() {
 
   
   //-----------------------basic info states and functions------------------------------------------------------//
-  const [propertyName, setPropertyName] = useState();
+  const [propertyName, setPropertyName] = useState(tempId.propertyName);
   const [location, setLocation] = useState("");
   const [position, setPosition] = useState("");
   const [space, setSpace] = useState("")
@@ -325,141 +635,28 @@ function EditPage() {
       value: "Agent",
       name: "Agent(CP)"
     }]
-
-  const handleEditPublishedPropertyStart=(documentID)=>{
-
-    let newEditProperty = allProducts.find((elemProperty)=>{
-      return elemProperty.documentID === documentID
-  });
-  setPropertyName(newEditProperty.propertyName)
-  setLocation(newEditProperty.location)
-  setPosition(newEditProperty.position)
-  setSpace(newEditProperty.space)
-  setType(newEditProperty.type)
-  setPrice(newEditProperty.price)
-  setMainImageUrls(newEditProperty.mainImageUrls)  
   
-
-  setSize(newEditProperty.size)
-  setAboutPrice(newEditProperty.aboutPrice)
-  setTowerUnit(newEditProperty.towerUnit)
-  setConfiguration(newEditProperty.configuration)
-  setReraId(newEditProperty.reraId)
-  setStatus(newEditProperty.status)
-  setAboutProject(newEditProperty.aboutProject)
-  setSpecifications(newEditProperty.specification)
-
-  setPropertiesPricingList(newEditProperty.propertiesPricingList)
-  setLocationList(newEditProperty.locationList)
-
-  setBasicAmenities(newEditProperty.basicAmenities)
-  setConvenienceAmenities(newEditProperty.convenienceAmenities)
-  setenvironmentAmenities(newEditProperty.environmentAmenities)
-  setSecurityAmenities(newEditProperty.securityAmenities)
-  setSportsAmenities(newEditProperty.sportsAmenities)  
+    useEffect(() => {
+      handleDraftsPropertiesChangeStart(propertyTempId)
+    }, [])
+    
   
-  setBcpCategory(newEditProperty.bcpCategory)
-  setOrganisatioName(newEditProperty.organisatioName)
-  setOwnerName(newEditProperty.ownerName)
-  setOwnerEmail(newEditProperty.ownerEmail)
-  setOwnerWebsite(newEditProperty.ownerWebsite)
-  setOwnerContactNo(newEditProperty.ownerContactNo)
-  setOwnerAddress(newEditProperty.ownerAddress)
-  setOwnerProject(newEditProperty.ownerProject)
-  setOwnerEstablishment(newEditProperty.ownerEstablishment)
-  setSinceOpertaion(newEditProperty.sinceOperation)
-  setOwnerPropertyList(newEditProperty.ownerPropertyList)
-  setOwnerBio(newEditProperty.ownerBio)
-   
-
-  setProductTobeUpdated(newEditProperty)
-  // setDraftPrpoertyIdSelection(tempId)
-
-  }
-
-  const handlePublishedPropertyEdit= async ()=>{
-
-    let editedPublishedProperty={
-      tempId: Math.floor(Date.now() * Math.random()+ Math.random()*Math.random()),
-      postedBy,
-      propertyApproval,
-      isSubmitted,
-
-      //basic info
-      propertyName,
-      location,
-      position,
-      space,
-      type,
-      price,
-      mainImageUrls,
-
-      //about section
-      aboutProject,
-      size,
-      aboutPrice,
-      towerUnit,
-      configuration,
-      reraId,
-      status,
-      specification,
-
-      propertiesPricingList,
-      locationList,
-
-      // amenities
-
-      basicAmenities,
-      convenienceAmenities,
-      environmentAmenities,
-      securityAmenities,
-      sportsAmenities,
+    const handleOwnerChange=(e)=>{
+      if((e.target.value)==='Agent')
+      {
+        setActive('second')
+      }
+      else{
+        setActive('first')
+      }
       
-      // owners section
-      bcpCategory,
-      organisatioName,
-      ownerName,
-      ownerEmail,
-      ownerWebsite,
-      ownerContactNo,
-      ownerAddress,
-      ownerProject,
-      ownerEstablishment,
-      sinceOperation,
-      ownerPropertyList,
-      ownerBio
+      setBcpCategory(e.target.value)
     }
-    
- 
-    
-  
 
-  history.push("/")
-  }
-
-
-  const handleOwnerChange=(e)=>{
-    if((e.target.value)==='Agent')
-    {
-      setActive('second')
-    }
-    else{
-      setActive('first')
-    }
-    
-    setBcpCategory(e.target.value)
-  }
-
-  useEffect(() => {
-    handleEditPublishedPropertyStart(documentID)
-  }, [])
-  
-
-
-
+    // ;
   return (
     <>
-      
+      {tempId}
       {/*------- basic Info Section ------------------------------------------------*/}
       <div>
         {pId}
@@ -847,15 +1044,16 @@ function EditPage() {
         </div>
   
       </div>
-      
+       {console.log(tempId)}
+       {console.log(draftProperties)}
       {/* ----------------------buttons--------------------------------------------- */}
       <div>
-      {/* <button onClick={()=>handleDraftsPropertiesChange()}>Update Draft</button> */}
-      <button onClick={handlePublishedPropertyEdit}>Submit for Review</button>
+      <button onClick={()=>handleDraftsPropertiesChange()}>Update Draft</button>
+      <button onClick={handlSubmission}>Submit for Review</button>
       </div>
   
       </>
   )
 }
 
-export default EditPage
+export default DraftEdit

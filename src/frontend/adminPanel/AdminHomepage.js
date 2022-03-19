@@ -2,15 +2,15 @@ import React, { useEffect,useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { signOutUserStart } from '../../../backend/redux/User/user.actions';
-import CompletedProperty from './subComponent/CompletedProperty';
-import PendingProperty from './subComponent/NewPendingProperty';
-import PropertyDrafts from './subComponent/PropertyDrafts';
+import { signOutUserStart } from '../../backend/redux/User/user.actions';
+import PropertyApproval from './subcomponent/PropertyApproval';
+import UserInfo from './subcomponent/UserInfo';
+
 const mapState = (state) => ({
   currentUser: state.user.currentUser
 });
 
-function Homepage() {
+function AdminHomepage() {
 
   const [active, setActive] = useState('first')
   const dispatch = useDispatch();
@@ -38,6 +38,9 @@ function Homepage() {
 
 
 
+
+  
+
   
   const signOut = () => {
     dispatch(signOutUserStart());
@@ -52,22 +55,22 @@ function Homepage() {
 
         {currentUser?<>{currentUser.displayName}</>:<></>}  
 
-
-        <div>Add Property</div>
+        <Link to = '/addProperty'>  <div>Add Property</div></Link>
+      
         <div>
-          <button onClick={()=>setActive('first')}>Completed</button>
-          <button onClick={()=>setActive('second')}>Pending</button>
-          <button onClick={()=>setActive('third')}>Drafts</button>
+          <button onClick={()=>setActive('first')}>PropertyApproval</button>
+          <button onClick={()=>setActive('second')}>UserInfo</button>
+        
         </div>
 
         <div>
-          {active=='first' && <CompletedProperty/> }
-          {active=='second' && <PendingProperty/> }
-          {active=='third' && <PropertyDrafts/> }
+          {active=='first' && <PropertyApproval/> }
+          {active=='second' && <UserInfo/> }
+          
         </div>
         
       </div>
   )
 }
 
-export default Homepage;
+export default AdminHomepage;

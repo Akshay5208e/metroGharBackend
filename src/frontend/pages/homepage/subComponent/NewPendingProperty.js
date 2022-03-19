@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom'
-import { addProductStart, fetchProductsStart, deleteProductStart } from './../../../backend/redux/products/products.actions';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { signOutUserStart } from '../../../backend/redux/User/user.actions';
+import { Link, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { addProductStart, fetchProductsStart, deleteProductStart } from '../../../../backend/redux/products/products.actions';
+
+
 const productsMapState = ({ productsData }) => ({
   products: productsData.products
 });
@@ -12,19 +12,15 @@ const mapState = (state) => ({
   currentUser: state.user.currentUser
 });
 
+function PendingProperty() {
 
-
-function PropertyApproval() {
-
-
+ 
+  const {currentUser} = useSelector(mapState)
   const { products } = useSelector(productsMapState);
   const dispatch = useDispatch();
-  const history  = useHistory();
-  const { currentUser } = useSelector(mapState);
+  const history = useHistory();
+
   const { data, queryDoc, isLastPage } = products;
-
-  
-
 
   useEffect(() => {
     dispatch(
@@ -32,35 +28,9 @@ function PropertyApproval() {
     );
   }, []);
 
-  const signOut = () => {
-    dispatch(signOutUserStart());
-  };
-
-
-
-    const ViewProperty=()=>{}
-    
-    const EditProperty = ()=>{}
-    const ApproveProperty=()=>{}
-    const UnApprovePropperty=()=>{}
-
   return (
-    <>
-    <div>
-        all
-        <Link to ="/addProperty"><div>addProperty</div></Link>
-    </div>
-    {currentUser&&
-        <button onClick={() => signOut()}>Signout</button>}
-    <div>
-        <div>----------for filters------------------</div>
-        <table>
-        <th>Property Name</th>
-                        <th>Position</th>
-                        <th>Type</th>
-                        <th>Owner</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+   <>
+   <table>
      <tbody>
      {(Array.isArray(data) && data.length > 0) && data.map((product, index) => {
                     const{
@@ -117,51 +87,40 @@ function PropertyApproval() {
 
                       return (
                         <>
-                        { (isSubmitted===true)?
+                        {((postedBy===currentUser.displayName) && (propertyApproval===false) &&(isSubmitted==true))?
                         <>
-                       
                         <tr key={index}>
                         <td>
-                        {propertyName}
+                          
                         </td>
                         <td>
-                          {position}
+                          {propertyName}
                         </td>
                         <td>
                           {type}
                         </td>
                         <td>
-                        {ownerName}
+                          {status}
                         </td>
                         <td>
-                          {(propertyApproval===true)?<div>Published</div>:<div>Pending</div>}
-                        </td>
-                        
-                        <td>
-                         <Link to= {`/adminView/${documentID}`}><input type='button' value='View'/></Link>
-                          
-                          
-                          <button >
-                            Edit
-                          </button>
+                        <Link to= {`/view/${documentID}`}><input type='button' value='View'/></Link>
+                        <Link to= {`/edit/${documentID}`}><input type='button' value='Edit'/></Link>
                           <button onClick={() => dispatch(deleteProductStart(documentID))}>
                             Delete
                           </button>
                         </td>
                       </tr></>
                       :
-                      <div>No Properties Are Approved</div>}
+                      ((data.length>0) &&((postedBy===currentUser.displayName))?<div>No Properties Are Pending For Approval</div> : "")
+                      }
                       </>
                       )
                     })}
      </tbody>
    </table>
 
-        
-    </div>
-    
-    </>
+   </>
   )
 }
 
-export default PropertyApproval
+export default PendingProperty

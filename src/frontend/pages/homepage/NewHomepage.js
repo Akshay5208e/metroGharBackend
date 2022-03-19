@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { signOutUserStart } from '../../../backend/redux/User/user.actions';
-import CompletedProperty from './subComponent/CompletedProperty';
+import CompletedProperty from './subComponent/NewCompletedProperty';
 import PendingProperty from './subComponent/NewPendingProperty';
 import PropertyDrafts from './subComponent/PropertyDrafts';
 const mapState = (state) => ({
@@ -38,6 +38,9 @@ function Homepage() {
 
 
 
+
+  
+
   
   const signOut = () => {
     dispatch(signOutUserStart());
@@ -52,8 +55,8 @@ function Homepage() {
 
         {currentUser?<>{currentUser.displayName}</>:<></>}  
 
-
-        <div>Add Property</div>
+        <Link to = '/addProperty'>  <div>Add Property</div></Link>
+      
         <div>
           <button onClick={()=>setActive('first')}>Completed</button>
           <button onClick={()=>setActive('second')}>Pending</button>

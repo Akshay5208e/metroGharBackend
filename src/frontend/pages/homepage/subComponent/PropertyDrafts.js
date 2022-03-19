@@ -1,5 +1,6 @@
 import React,{useEffect, useState} from 'react'
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 
 //--------get values form local storage--------------------//
@@ -54,17 +55,17 @@ function PropertyDrafts() {
     <th>Status</th>
     <th>Actions</th>
   </tr>
-
   {}
   {draftProperties.map(draft=>(
-     ((draft.postedBy===currentUser.displayName)&&(draft.isSubmitted === false)) ?
+     (draft.postedBy===currentUser.displayName) ?
      <tr>
      <td>{draft.propertyName}</td>
      <td>{draft.type}</td>
      <td>{draft.position}</td>
      <td>
        <button onClick={ViewProperty}>View</button>
-       <button onClick={EditProperty}>Edit</button>
+       <Link to={`/draftEdit/${draft.tempId}`}><input type='button' aria-label='Edit'/></Link>
+      
        <button onClick={()=>DeleteDraftProperty(draft.tempId)}>Delete</button>
  
      </td>

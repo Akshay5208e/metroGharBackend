@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { addProductStart, fetchProductsStart, deleteProductStart } from './../../../../backend/redux/products/products.actions';
 
 
@@ -18,7 +19,9 @@ function CompletedProperty() {
   const {currentUser} = useSelector(mapState)
   const { products } = useSelector(productsMapState);
   const dispatch = useDispatch();
-
+  const history= useHistory();
+  const [allProducts, setAllProducts] = useState(products)
+  console.log(allProducts)
   const { data, queryDoc, isLastPage } = products;
 
   useEffect(() => {
@@ -105,10 +108,8 @@ function CompletedProperty() {
                         <td>
                          <Link to= {`/view/${documentID}`}><input type='button' value='View'/></Link>
                           
-                          
-                          <button >
-                            Edit
-                          </button>
+                         <Link to= {`/edit/${documentID}`}><input type='button' value='Edit'/></Link>
+                         
                           <button onClick={() => dispatch(deleteProductStart(documentID))}>
                             Delete
                           </button>

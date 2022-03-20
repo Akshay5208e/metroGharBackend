@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTable from '../../../independentComponents/Table/PropTable';
 import { addProductStart, fetchProductsStart, deleteProductStart } from './../../../../backend/redux/products/products.actions';
 
 
@@ -10,6 +11,34 @@ const productsMapState = ({ productsData }) => ({
 const mapState = (state) => ({
   currentUser: state.user.currentUser
 });
+
+const propData = [
+  {
+    name: "Prestene Project ,Banglore",
+    type: "Flat",
+    status: "Pending",
+  },
+  {
+    name: "Gaur City 12 th avenue ,Banglore",
+    type: "Flat",
+    status: "Pending",
+  },
+  {
+    name: "Whit Orchid ,Banglore",
+    type: "Villa",
+    status: "Pending",
+  },
+  {
+    name: "Mahagun Wood ,Banglore",
+    type: "Flat",
+    status: "Pending",
+  },
+  {
+    name: "Cleo Countary ,Banglore",
+    type: "Villa",
+    status: "Pending",
+  }
+]
 
 function PendingProperty() {
 
@@ -28,7 +57,8 @@ function PendingProperty() {
 
   return (
    <>
-   <table>
+   <PropTable data={propData} />
+   {/* <table>
      <tbody>
      {(Array.isArray(data) && data.length > 0) && data.map((product, index) => {
                     const{
@@ -119,7 +149,7 @@ function PendingProperty() {
                       )
                     })}
      </tbody>
-   </table>
+   </table> */}
 
    </>
   )

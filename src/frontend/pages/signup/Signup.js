@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 import { signUpUserStart } from '../../../backend/redux/User/user.actions';
+import "../login/Login.css"
+import Logo from "../../../assets/images/logo.png";
 
 
 const mapState = ({ user }) => ({
@@ -61,7 +63,7 @@ function Signup() {
   return (
    
     <div className="formWrap">
-
+    <img src={Logo} className="logo mb-0" />
       {errors.length > 0 && (
         <ul>
           {errors.map((err, index) => {
@@ -73,55 +75,57 @@ function Signup() {
           })}
         </ul>
       )}
-
-      <form onSubmit={handleFormSubmit}>
-          <h1> Register</h1>
-        <input
+      
+      <form onSubmit={handleFormSubmit} className="d-flex flex-column align-items-center mt-0 mt-md-3">
+        <div className="d-flex flex-column mb-2">
+          <label className="inputLabel">Name</label>
+          <input
           type="text"
           name="displayName"
           value={displayName}
-          placeholder="Full name"
+          className="inputBox"
           onChange={e => setDisplayName(e.target.value)}
-        />
-
-        <input
-          type="email"
-          name="email"
-          value={email}
-          placeholder="Email"
-          onChange={e => setEmail(e.target.value)}
-        />
-
-        <input
-          type="password"
-          name="password"
-          value={password}
-          placeholder="Password"
-          onChange={e => setPassword(e.target.value)}
-        />
-
-        <input
-          type="password"
-          name="confirmPassword"
-          value={confirmPassword}
-          placeholder="Confirm Password"
-          onChange={e => setConfirmPassword(e.target.value)}
-        />
-
-        <button type="submit">
-          Register
-        </button>
+          />
+        </div>
+        <div className="d-flex flex-column mb-2">
+          <label className="inputLabel">Email</label>
+          <input
+            type="email"
+            name="email"
+            value={email}
+            className="inputBox"
+            onChange={e => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="d-flex flex-column mb-2">
+          <label className="inputLabel">Password</label>
+          <input
+            type="password"
+            name="password"
+            value={password}
+            className="inputBox"
+            onChange={e => setPassword(e.target.value)}
+          />
+        </div>
+        <div className="d-flex flex-column mb-2">
+          <label className="inputLabel">Confirm Password</label>
+          <input
+            type="password"
+            name="confirmPassword"
+            value={confirmPassword}
+            className="inputBox"
+            onChange={e => setConfirmPassword(e.target.value)}
+          />
+        </div>
+        <div className="d-flex justify-content-around my-4 my-md-3">
+          <button type="submit" className="submitButton mx-3">
+            Register
+          </button>
+          <Link to="/login" className="registerButton mx-3" >
+              Login
+          </Link>     
+        </div> 
       </form>
-
-      <div className="links">
-        <Link to="/login">
-          LogIn
-        </Link>
-        {` | `}
-        <Link to="/recovery">
-          Reset Password
-          </Link>
-      </div>
     </div>
   
   )

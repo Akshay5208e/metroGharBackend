@@ -3,7 +3,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { checkUserSession } from './backend/redux/User/user.actions';
-
+import "bootstrap/dist/css/bootstrap.css";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 //hoc
 import WithAuth from './backend/hoc/withAuth';

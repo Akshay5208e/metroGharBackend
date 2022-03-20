@@ -7,8 +7,7 @@ const productsTypes = {
     SET_PRODUCT: 'SET_PRODUCT',
 
     EDIT_PRODUCT_START:'EDIT_PRODUCT_START',
-    EDIT_PRODUCT_SUCCESS:'EDIT_PRODUCT_SUCCESS',
-    EDIT_PRODUCT_ERROR:'EDIT_PRODUCT_ERROR'
+  
   };
   
   export default productsTypes;

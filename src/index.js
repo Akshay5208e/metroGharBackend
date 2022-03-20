@@ -6,13 +6,17 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './backend/redux/createStore';
 import reportWebVitals from './reportWebVitals';
+import EditContextAPi from './frontend/pages/editPage/EditContextAPi';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <PersistGate persistor={persistor}>
+         
           <App />
+       
+         
         </PersistGate>
       </BrowserRouter>
     </Provider>

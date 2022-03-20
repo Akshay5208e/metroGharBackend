@@ -6,7 +6,7 @@ import { signOutUserStart } from '../../../backend/redux/User/user.actions';
 import Navbar from '../../independentComponents/Navbar';
 import Sidebar from '../../independentComponents/Sidebar';
 import CompletedProperty from './subComponent/CompletedProperty';
-import PendingProperty from './subComponent/PendingProperty';
+import PendingProperty from './subComponent/NewPendingProperty';
 import PropertyDrafts from './subComponent/PropertyDrafts';
 import Button from '@mui/material/Button';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';

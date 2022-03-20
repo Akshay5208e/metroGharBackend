@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import TextEditor from '../../independentComponents/textEditor/TextEditor';
 
@@ -9,6 +9,7 @@ import {BasicAmenitiesData, ConvenienceAmenitiesData, EnvironmentAmenitiesData, 
 import Select from 'react-select'
 import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { firestore } from '../../../backend/firebase/utils';
+import EditContextAPi, { EditContext } from './EditContextAPi';
 
 const getDataFromLocalStorage = ()=>{
   const data = localStorage.getItem('draftProperties');
@@ -24,25 +25,51 @@ const mapState = (state) => ({
   currentUser: state.user.currentUser
 });
 
-const productsMapState = ({ productsData }) => ({
-  products: productsData.products.data
-});
+
 
 
 function EditPage() {
 
   const {currentUser} = useSelector(mapState)
-  const { products } = useSelector(productsMapState);
+  
   const dispatch = useDispatch();
 
   const { documentID } = useParams();
 
   const history = useHistory();
-  
-  const [allProducts, setAllProducts] = useState(products)
-  console.log(allProducts)
+ 
+  console.log(typeof(documentID))
 
+  const [allProperties, setallProperties] = useState([]);
   
+  async function getDataformDatabase(){
+    
+    try {
+        const properties = await firestore.collection('properties').get();
+        const propertyArray =[];
+        properties.forEach((doc)=>{
+        const obj ={
+            id:doc.id,
+            ...doc.data()
+        }
+        propertyArray.push(obj)
+       
+        setallProperties(propertyArray)
+    });
+    } catch (error) {
+      console.log(error)  
+    }
+}
+useEffect(()=>{
+    getDataformDatabase()
+},[])
+
+  console.log("all",allProperties)
+
+
+
+
+
   const [propertyApproval, setPropertyApproval] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(true)
   const [submitError, setsubmitError] = useState("")
@@ -53,10 +80,16 @@ function EditPage() {
 
 
   useEffect(() => {
+     
     if(currentUser)
     setPostedBy(currentUser.displayName)
-
+    // console.log("allPropeties",allProperties)
   }, [currentUser]);
+
+  
+
+
+
 
   //-----------------main array of objects in local storage----------------------------//
   const [draftProperties, setDraftProperties] = useState(getDataFromLocalStorage());
@@ -326,11 +359,18 @@ function EditPage() {
       name: "Agent(CP)"
     }]
 
-  const handleEditPublishedPropertyStart=(documentID)=>{
-
-    let newEditProperty = allProducts.find((elemProperty)=>{
-      return elemProperty.documentID === documentID
+  const handleEditPublishedPropertyStart= (DocumentID)=>{
+   
+      console.log("allProp",allProperties)
+  if(allProperties.length>0)
+  {
+    // const did = documentID.toString(); 
+    let newEditProperty = allProperties.find((elemProperty)=>{
+      
+       
+      return elemProperty.id === documentID
   });
+  console.log("newEditProperty",newEditProperty)
   setPropertyName(newEditProperty.propertyName)
   setLocation(newEditProperty.location)
   setPosition(newEditProperty.position)
@@ -374,8 +414,12 @@ function EditPage() {
 
   setProductTobeUpdated(newEditProperty)
   // setDraftPrpoertyIdSelection(tempId)
+  }
 
   }
+
+
+
 
   const handlePublishedPropertyEdit= async ()=>{
 
@@ -431,7 +475,8 @@ function EditPage() {
     }
     
  
-    
+
+ firestore.collection('properties').doc(documentID).set(editedPublishedProperty)
   
 
   history.push("/")
@@ -450,11 +495,23 @@ function EditPage() {
     setBcpCategory(e.target.value)
   }
 
+
+ 
+ 
+
+
+
+
   useEffect(() => {
+    
     handleEditPublishedPropertyStart(documentID)
-  }, [])
   
 
+}, [allProperties]);
+
+//   useEffect(() => {
+//     handleEditPublishedPropertyStart(documentID);
+//  }, [])
 
 
   return (
@@ -463,7 +520,7 @@ function EditPage() {
       {/*------- basic Info Section ------------------------------------------------*/}
       <div>
         {pId}
-        <h3> Basic Info</h3>
+        <h3> Basic In</h3>
       <div>
         <div>
           {postedBy}
@@ -708,7 +765,7 @@ function EditPage() {
           <h3>Basic Amenities</h3>
           <Select  options={BasicAmenitiesData} displayValue="label" onChange={handleBasicAmenitiesChange} isMulti/>
 
-          {console.log(basicAmenities)}
+         
         </div>
         <div>
           <h3>Convenience Amenities</h3>
@@ -851,7 +908,7 @@ function EditPage() {
       {/* ----------------------buttons--------------------------------------------- */}
       <div>
       {/* <button onClick={()=>handleDraftsPropertiesChange()}>Update Draft</button> */}
-      <button onClick={handlePublishedPropertyEdit}>Submit for Review</button>
+      <button onClick={handlePublishedPropertyEdit}>Update Property</button>
       </div>
   
       </>

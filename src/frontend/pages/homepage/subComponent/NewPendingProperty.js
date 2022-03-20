@@ -46,6 +46,7 @@ function PendingProperty() {
   const {currentUser} = useSelector(mapState)
   const { products } = useSelector(productsMapState);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const { data, queryDoc, isLastPage } = products;
 
@@ -131,12 +132,8 @@ function PendingProperty() {
                           {status}
                         </td>
                         <td>
-                          <button >
-                          View
-                          </button>
-                          <button >
-                            Edit
-                          </button>
+                        <Link to= {`/view/${documentID}`}><input type='button' value='View'/></Link>
+                        <Link to= {`/edit/${documentID}`}><input type='button' value='Edit'/></Link>
                           <button onClick={() => dispatch(deleteProductStart(documentID))}>
                             Delete
                           </button>

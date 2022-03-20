@@ -79,27 +79,11 @@ export const handleFetchProduct = (productID) => {
           resolve({
             ...snapshot.data(),
             documentID: productID
-  
-        });
+          });
         }
       })
       .catch(err => {
         reject(err);
       })
-  })
-}
-
-export const handleEditProduct = ({product})=>{
-  return new Promise((resolve,reject)=>{
-    firestore
-    .collection('products')
-    .doc(product.documentID)
-    .set(product)
-    .then(() => {
-      resolve();
-    })
-    .catch(err => {
-      reject(err);
-    })
   })
 }

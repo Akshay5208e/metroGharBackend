@@ -65,8 +65,13 @@ const handleUnApprove=(documentID)=>{
 }
  
 
-const [filteredProperties, setfilteredProperties] = useState([])
+// const [filteredProperties, setfilteredProperties] = useState([])
 
+const filteredProperties = allProperties .filter(result=>{return result.propertyName.toLowerCase().includes(searchTerm.toLowerCase())})
+                                         .filter(result=>{return result.position.toLowerCase().includes(position.toLowerCase())})
+                                         .filter(result=>{return result.type.toLowerCase().includes(type.toLowerCase())})
+                                         .filter(result=>{return result.bcpCategory.toLowerCase().includes(bcpCategory.toLowerCase())})
+                                         .filter(result=>{return result.location.toLowerCase().includes(location.toLowerCase())})
   return (
     <>
       <div>
@@ -124,8 +129,8 @@ const [filteredProperties, setfilteredProperties] = useState([])
 
       </div>
       <div>
-
-      {(allProperties.length>0) ? 
+          {console.log(allProperties)}
+      {(filteredProperties.length>0) ? 
    <>
    <table>
    <tbody>
@@ -166,7 +171,7 @@ const [filteredProperties, setfilteredProperties] = useState([])
    </table>
    </>
    :
-   <div>No Properties In database</div>}
+   <div>No Properties found     </div>}
 
         
       </div>

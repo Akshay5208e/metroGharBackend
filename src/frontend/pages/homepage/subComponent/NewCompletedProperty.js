@@ -54,19 +54,8 @@ window.location.reload();
 
 }
 
-const handleApprove=(documentID)=>{
+const fileterdProperties = allProperties.filter(result=>{return result.postedBy ===currentUser.displayName})
 
-  firestore.collection('properties').doc(documentID).update({
-    propertyApproval: true
-  })
-
-}
-const handleUnApprove=(documentID)=>{
-  firestore.collection('properties').doc(documentID).update({
-    propertyApproval: false
-  })
-
-}
 
   return (
    <>
@@ -76,7 +65,7 @@ const handleUnApprove=(documentID)=>{
    <tbody>
 
   
-     {allProperties.map((property,index)=>{
+     {fileterdProperties.map((property,index)=>{
       
     
       return(
@@ -103,7 +92,7 @@ const handleUnApprove=(documentID)=>{
           </tr>
       </>
         :
-        <div>No properties Are lited By you</div>
+        <div>No properties Are listed By you</div>
         }</>
       
       )

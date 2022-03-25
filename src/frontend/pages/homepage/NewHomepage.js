@@ -59,14 +59,14 @@ function Homepage() {
       
         <div>
           <button onClick={()=>setActive('first')}>Completed</button>
-          <button onClick={()=>setActive('second')}>Pending</button>
-          <button onClick={()=>setActive('third')}>Drafts</button>
+          <button onClick={()=>setActive('second')}>Drafts</button>
+          
         </div>
 
         <div>
           {active=='first' && <CompletedProperty/> }
-          {active=='second' && <PendingProperty/> }
-          {active=='third' && <PropertyDrafts/> }
+          {active=='second' && <PropertyDrafts/>}
+          
         </div>
         
       </div>

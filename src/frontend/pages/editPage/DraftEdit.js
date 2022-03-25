@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import TextEditor from '../../independentComponents/textEditor/TextEditor';
 
-import {storage} from '../../../backend/firebase/utils'
+import {firestore, storage} from '../../../backend/firebase/utils'
 import { fetchProductStart,fetchProductsStart,addProductStart } from '../../../backend/redux/products/products.actions';
 
 import {BasicAmenitiesData, ConvenienceAmenitiesData, EnvironmentAmenitiesData, SecurityAmenitiesData, SportsAmenitiesData} from './../addProperty/amenitiesData/AmenitiesData'
 import Select from 'react-select'
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 const getDataFromLocalStorage = ()=>{
   const data = localStorage.getItem('draftProperties');
   if(data){
@@ -30,19 +30,16 @@ const productsMapState = ({ productsData }) => ({
 function DraftEdit() {
 
     const {currentUser} = useSelector(mapState)
-  const { products } = useSelector(productsMapState);
-  const dispatch = useDispatch();
+  
+  
   const {tempId}  = useParams();
     console.log(tempId)
 
+    const history = useHistory();
     const propertyTempId= parseFloat(tempId)
-  const { data, queryDoc, isLastPage } = products;
+ 
 
-  useEffect(() => {
-    dispatch(
-      fetchProductsStart()
-    );
-  }, []);
+ 
 
    
   const getPostedBy = ()=>{
@@ -303,6 +300,13 @@ function DraftEdit() {
 
  
 
+    const DeleteDraftProperty=(tempId)=>{
+      const filteredDraftsProperties=draftProperties.filter((element,index)=>{
+        return element.tempId !== tempId
+      })
+      setDraftProperties(filteredDraftsProperties);
+    }
+
   useEffect(()=>{
 
     localStorage.setItem('draftProperties',JSON.stringify(draftProperties));
@@ -310,66 +314,76 @@ function DraftEdit() {
   },[draftProperties])
 
   //--------------------submission for reveiew---------------------------------//
-  const handlSubmission = (e)=>{
+  
     
-    e.preventDefault();
+    const handlSubmission = (e)=>{
     
-
-    dispatch(
-      addProductStart({
-      tempId: Math.floor(Math.random()* 1000000000000000+1),
-      postedBy,
-      propertyApproval,
-      isSubmitted,
-
-      //basic info
-      propertyName,
-      location,
-      position,
-      space,
-      type,
-      price,
-      mainImageUrls,
-
-      //about section
-      aboutProject,
-      size,
-      aboutPrice,
-      towerUnit,
-      configuration,
-      reraId,
-      status,
-      specification,
-
-      propertiesPricingList,
-      locationList,
-
-      // amenities
-
-      basicAmenities,
-      convenienceAmenities,
-      environmentAmenities,
-      securityAmenities,
-      sportsAmenities,
+      e.preventDefault();
       
-      // owners section
-      bcpCategory,
-      organisatioName,
-      ownerName,
-      ownerEmail,
-      ownerWebsite,
-      ownerContactNo,
-      ownerAddress,
-      ownerProject,
-      ownerEstablishment,
-      sinceOperation,
-      ownerPropertyList,
-      ownerBio,
-      })
-    );
-     
-    resetForm();
-   }
+  
+      let property={
+        tempId: tempId,
+        postedBy,
+        propertyApproval,
+        isSubmitted,
+  
+        //basic info
+        propertyName,
+        location,
+        position,
+        space,
+        type,
+        price,
+        mainImageUrls,
+  
+        //about section
+        aboutProject,
+        size,
+        aboutPrice,
+        towerUnit,
+        configuration,
+        reraId,
+        status,
+        specification,
+  
+        propertiesPricingList,
+        locationList,
+  
+        // amenities
+  
+        basicAmenities,
+        convenienceAmenities,
+        environmentAmenities,
+        securityAmenities,
+        sportsAmenities,
+        
+        // owners section
+        bcpCategory,
+        organisatioName,
+        ownerName,
+        ownerEmail,
+        ownerWebsite,
+        ownerContactNo,
+        ownerAddress,
+        ownerProject,
+        ownerEstablishment,
+        sinceOperation,
+        ownerPropertyList,
+        ownerBio,
+        };
+       
+        firestore.collection('properties').doc().set(property);
+      //   try {
+      //     firestore.collection().doc().set(property)
+      //   } catch (error) {
+      //       console.log
+      //   }
+      resetForm();
+      DeleteDraftProperty(tempId);
+      history.push('/')
+     }
+  
+   
 
   
   //saving Data to local Storage
@@ -656,7 +670,7 @@ function DraftEdit() {
     // ;
   return (
     <>
-      {tempId}
+      
       {/*------- basic Info Section ------------------------------------------------*/}
       <div>
         {pId}

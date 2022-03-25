@@ -1,6 +1,7 @@
 import React,{useEffect, useState} from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 //--------get values form local storage--------------------//
@@ -25,6 +26,7 @@ function PropertyDrafts() {
   // const [draftsArray, setDraftsArray] = useState(getDataFromLocalStorage())
   const [draftProperties, setDraftProperties] = useState(getDataFromLocalStorage());
 
+  const history = useHistory();
   const ViewProperty=()=>{}
   const EditProperty=()=>{}
 
@@ -63,9 +65,9 @@ function PropertyDrafts() {
      <td>{draft.type}</td>
      <td>{draft.position}</td>
      <td>
-       <button onClick={ViewProperty}>View</button>
-       <Link to={`/draftEdit/${draft.tempId}`}><input type='button' aria-label='Edit'/></Link>
-      
+       
+      <button onClick={()=>history.push(`/draftEdit/${draft.tempId}`)}>View</button>
+       <button onClick={()=>history.push(`/draftEdit/${draft.tempId}`)}>Edit</button>
        <button onClick={()=>DeleteDraftProperty(draft.tempId)}>Delete</button>
  
      </td>

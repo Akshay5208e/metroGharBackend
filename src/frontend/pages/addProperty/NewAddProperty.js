@@ -18,6 +18,7 @@ import Navbar from '../../independentComponents/Navbar';
 import { FormLabel, InputBase, InputLabel } from '@mui/material';
 import { firestore } from '../../../backend/firebase/utils';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { typeOptions } from './options';
 const getDataFromLocalStorage = ()=>{
   const data = localStorage.getItem('draftProperties');
   if(data){
@@ -289,7 +290,7 @@ function AddProperty() {
   const [propertyName, setPropertyName] = useState("");
   const [location, setLocation] = useState("");
   const [position, setPosition] = useState("")
-  const [space, setSpace] = useState("")
+  const [space, setSpace] = useState(0)
   const [type, setType] = useState("")
   const [price, setPrice] = useState(0)
 
@@ -589,11 +590,21 @@ function AddProperty() {
           </div>
           <div className="col-4">
             <StyledInputLabel>Space </StyledInputLabel>
-            <StyledInputBase type = "text" value={space} onChange={e=>setSpace(e.target.value)}  />
+            <StyledInputBase type = "number" value={space} onChange={e=>setSpace(e.target.value)}  />
           </div>
           <div className="col-4">
             <StyledInputLabel>Type</StyledInputLabel>
-            <StyledInputBase type = "text" value={type} onChange={e=>setType(e.target.value)}  />
+            {/* <StyledInputBase type = "text" value={type} onChange={e=>setType(e.target.value)}  /> */}
+            <select value={type} onChange={e=>setType(e.target.value)} >
+            {typeOptions.map((option, index) => {
+            const { value, name } = option;
+  
+            return (
+              <option key={index} value={value}>{name}</option>
+            );
+          })}
+            </select>
+           
           </div>
         </div>
         <div className='row gx-4'>
@@ -603,7 +614,7 @@ function AddProperty() {
           </div>        
           <div className='col-4'>
             <StyledInputLabel>Property Image</StyledInputLabel>
-            <StyledInputBase type = "file" multiple onChange={handleMainImagesChange} />
+            <StyledInputBase type = "file"  onChange={handleMainImagesChange} multiple/>
           </div>
           <div className="col-2">
             <StyledButton sx={{border: "1px solid #000",marginTop: "20px"}} onClick={handleMainImagesUpload}>Upload</StyledButton>

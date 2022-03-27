@@ -1,0 +1,22 @@
+.addPropBox{
+    background: #FFFFFF;
+    border: 2px solid #E5E5E5;
+    box-sizing: border-box;
+    width: 95vw;
+    margin: 5vw 2.5vw;
+    padding: 7px 3px;
+}
+.blockBox{
+    background: #FFFFFF;
+    border: 2px solid #E5E5E5;
+    box-sizing: border-box;
+    padding: 4px 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.blockBox p {
+    font-size: 12px;
+    line-height: 14px;
+    margin-bottom: 0;
+    color: #58595B;
+}

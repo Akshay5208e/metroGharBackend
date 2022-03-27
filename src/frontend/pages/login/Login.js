@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { emailSignInStart, googleSignInStart } from '../../../backend/redux/User/user.actions';
+import "./Login.css";
+import Logo from "../../../assets/images/logo.png";
 
 
 
@@ -42,40 +44,42 @@ function Login() {
 
   return (
     <div className="formWrap">
-    <form onSubmit={handleSubmit}>
-
-      <input
-        type="email"
-        name="email"
-        value={email}
-        placeholder="Email"
-        onChange={e => setEmail(e.target.value)}
-      />
-
-      <input
-        type="password"
-        name="password"
-        value={password}
-        placeholder="Password"
-        onChange={e => setPassword(e.target.value)}
-      />
-
-      <button type="submit">
-        LogIn
-      </button>
-
-      
-      <div className="links">
-        <Link to="/signup">
-          Register
-        </Link>
-        {` | `}
-        <Link to="/recovery">
-          Reset Password
-        </Link>
-      </div>
-
-    </form>
+        <img src={Logo} className="logo mb-0" />
+      <form onSubmit={handleSubmit} className="d-flex flex-column align-items-center mt-0 mt-md-3">
+        <div className="d-flex flex-column mb-2">
+          <label className="inputLabel">Email</label>
+          <input
+            type="email"
+            name="email"
+            value={email}
+            className="inputBox"
+            onChange={e => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="d-flex flex-column mb-2">
+          <label className="inputLabel">Password</label>
+          <input
+            type="password"
+            name="password"
+            value={password}
+            className="inputBox"
+            onChange={e => setPassword(e.target.value)}
+          />
+        </div>
+        <div className="align-self-start">
+          <Link to="/recovery">
+              Forgot Password?
+          </Link>
+        </div>
+        <div className="d-flex justify-content-around my-4 my-md-3">
+          <button type="submit" className="submitButton mx-3">
+            LogIn
+          </button>
+          <Link to="/signup" className="registerButton mx-3" >
+              Register
+          </Link>     
+        </div>    
+      </form>
   </div>
   )
 }

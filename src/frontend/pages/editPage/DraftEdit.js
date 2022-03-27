@@ -4,10 +4,20 @@ import TextEditor from '../../independentComponents/textEditor/TextEditor';
 
 import {storage} from '../../../backend/firebase/utils'
 import { fetchProductStart,fetchProductsStart,addProductStart } from '../../../backend/redux/products/products.actions';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { styled } from '@mui/material/styles'
 
-import {BasicAmenitiesData, ConvenienceAmenitiesData, EnvironmentAmenitiesData, SecurityAmenitiesData, SportsAmenitiesData} from './../addProperty/amenitiesData/AmenitiesData'
+import {BasicAmenitiesData, ConvenienceAmenitiesData, EnvironmentAmenitiesData, SecurityAmenitiesData, SportsAmenitiesData} from '../addProperty/amenitiesData/AmenitiesData'
 import Select from 'react-select'
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import "./../addProperty/style.css"
+import { height } from '@mui/system';
+import Navbar from '../../independentComponents/Navbar';
+import { FormLabel, InputBase, InputLabel } from '@mui/material';
+import { firestore } from '../../../backend/firebase/utils';
+import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
 const getDataFromLocalStorage = ()=>{
   const data = localStorage.getItem('draftProperties');
   if(data){
@@ -18,6 +28,28 @@ const getDataFromLocalStorage = ()=>{
   }
 }
 
+
+const StyledButton = styled(Button)({
+  padding: "5px 10px",
+  background: "#FFF",
+  borderRadius: "3px",
+  fontSize: "10px",
+  lineHeight: "12px",
+  color: "#000",
+  textTransform: "capitalize"
+})
+
+const StyledInputLabel = styled(InputLabel)({
+  fontSize: "10px",
+  lineHeight: "12px",
+  fontWeight: "600",
+  marginBottom: "3px"
+})
+
+const StyledInputBase = styled(InputBase)({
+  border: "0.5px solid #E5E5E5",
+  height: "25px"
+})
 
 const mapState = (state) => ({
   currentUser: state.user.currentUser
@@ -30,19 +62,16 @@ const productsMapState = ({ productsData }) => ({
 function DraftEdit() {
 
     const {currentUser} = useSelector(mapState)
-  const { products } = useSelector(productsMapState);
-  const dispatch = useDispatch();
+  
+  
   const {tempId}  = useParams();
     console.log(tempId)
 
+    const history = useHistory();
     const propertyTempId= parseFloat(tempId)
-  const { data, queryDoc, isLastPage } = products;
+ 
 
-  useEffect(() => {
-    dispatch(
-      fetchProductsStart()
-    );
-  }, []);
+ 
 
    
   const getPostedBy = ()=>{
@@ -187,68 +216,68 @@ function DraftEdit() {
   }
 
   const handleDraftsPropertiesChange=(e)=>{
-  setDraftProperties(
-    draftProperties.map((elemProperty)=>{
-      if(elemProperty.tempId===draftPrpoertyIdSelection)
-      {
-          return {...elemProperty,
-            postedBy,
-            propertyApproval,
-            isSubmitted,
+    setDraftProperties(
+      draftProperties.map((elemProperty)=>{
+        if(elemProperty.tempId===draftPrpoertyIdSelection)
+        {
+            return {...elemProperty,
+              postedBy,
+              propertyApproval,
+              isSubmitted,
+        
+              //basic info
+              propertyName,
+              location,
+              position,
+              space,
+              type,
+              price,
+              mainImageUrls,
+        
+              //about section
+              aboutProject,
+              size,
+              aboutPrice,
+              towerUnit,
+              configuration,
+              reraId,
+              status,
+              specification,
+        
+              propertiesPricingList,
+              locationList,
+        
+              // amenities
+        
+              basicAmenities,
+              convenienceAmenities,
+              environmentAmenities,
+              securityAmenities,
+              sportsAmenities,
+              
+              // owners section
+              bcpCategory,
+              organisatioName,
+              ownerName,
+              ownerEmail,
+              ownerWebsite,
+              ownerContactNo,
+              ownerAddress,
+              ownerProject,
+              ownerEstablishment,
+              sinceOperation,
+              ownerPropertyList,
+              ownerBio}
+        }
+        return elemProperty
+      })
+  
       
-            //basic info
-            propertyName,
-            location,
-            position,
-            space,
-            type,
-            price,
-            mainImageUrls,
-      
-            //about section
-            aboutProject,
-            size,
-            aboutPrice,
-            towerUnit,
-            configuration,
-            reraId,
-            status,
-            specification,
-      
-            propertiesPricingList,
-            locationList,
-      
-            // amenities
-      
-            basicAmenities,
-            convenienceAmenities,
-            environmentAmenities,
-            securityAmenities,
-            sportsAmenities,
-            
-            // owners section
-            bcpCategory,
-            organisatioName,
-            ownerName,
-            ownerEmail,
-            ownerWebsite,
-            ownerContactNo,
-            ownerAddress,
-            ownerProject,
-            ownerEstablishment,
-            sinceOperation,
-            ownerPropertyList,
-            ownerBio}
-      }
-      return elemProperty
-    })
-
-    
-  )
-  setDraftPrpoertyIdSelection('')
-  resetForm();
-
-  }
+    )
+    setDraftPrpoertyIdSelection('')
+    resetForm();
+  
+    }
   const handleDraftsPropertiesChangeStart=(tempId)=>{
       let newEditProperty = draftProperties.find((elemProperty)=>{
           return elemProperty.tempId===tempId
@@ -303,6 +332,13 @@ function DraftEdit() {
 
  
 
+    const DeleteDraftProperty=(tempId)=>{
+      const filteredDraftsProperties=draftProperties.filter((element,index)=>{
+        return element.tempId !== tempId
+      })
+      setDraftProperties(filteredDraftsProperties);
+    }
+
   useEffect(()=>{
 
     localStorage.setItem('draftProperties',JSON.stringify(draftProperties));
@@ -310,66 +346,76 @@ function DraftEdit() {
   },[draftProperties])
 
   //--------------------submission for reveiew---------------------------------//
-  const handlSubmission = (e)=>{
+  
     
-    e.preventDefault();
+    const handlSubmission = (e)=>{
     
-
-    dispatch(
-      addProductStart({
-      tempId: Math.floor(Math.random()* 1000000000000000+1),
-      postedBy,
-      propertyApproval,
-      isSubmitted,
-
-      //basic info
-      propertyName,
-      location,
-      position,
-      space,
-      type,
-      price,
-      mainImageUrls,
-
-      //about section
-      aboutProject,
-      size,
-      aboutPrice,
-      towerUnit,
-      configuration,
-      reraId,
-      status,
-      specification,
-
-      propertiesPricingList,
-      locationList,
-
-      // amenities
-
-      basicAmenities,
-      convenienceAmenities,
-      environmentAmenities,
-      securityAmenities,
-      sportsAmenities,
+      e.preventDefault();
       
-      // owners section
-      bcpCategory,
-      organisatioName,
-      ownerName,
-      ownerEmail,
-      ownerWebsite,
-      ownerContactNo,
-      ownerAddress,
-      ownerProject,
-      ownerEstablishment,
-      sinceOperation,
-      ownerPropertyList,
-      ownerBio,
-      })
-    );
-     
-    resetForm();
-   }
+  
+      let property={
+        tempId: tempId,
+        postedBy,
+        propertyApproval,
+        isSubmitted,
+  
+        //basic info
+        propertyName,
+        location,
+        position,
+        space,
+        type,
+        price,
+        mainImageUrls,
+  
+        //about section
+        aboutProject,
+        size,
+        aboutPrice,
+        towerUnit,
+        configuration,
+        reraId,
+        status,
+        specification,
+  
+        propertiesPricingList,
+        locationList,
+  
+        // amenities
+  
+        basicAmenities,
+        convenienceAmenities,
+        environmentAmenities,
+        securityAmenities,
+        sportsAmenities,
+        
+        // owners section
+        bcpCategory,
+        organisatioName,
+        ownerName,
+        ownerEmail,
+        ownerWebsite,
+        ownerContactNo,
+        ownerAddress,
+        ownerProject,
+        ownerEstablishment,
+        sinceOperation,
+        ownerPropertyList,
+        ownerBio,
+        };
+       
+        firestore.collection('properties').doc().set(property);
+      //   try {
+      //     firestore.collection().doc().set(property)
+      //   } catch (error) {
+      //       console.log
+      //   }
+      resetForm();
+      DeleteDraftProperty(tempId);
+      history.push('/')
+     }
+  
+   
 
   
   //saving Data to local Storage
@@ -388,7 +434,7 @@ function DraftEdit() {
   const [position, setPosition] = useState("");
   const [space, setSpace] = useState("")
   const [type, setType] = useState("")
-  const [price, setPrice] = useState("")
+  const [price, setPrice] = useState(0)
 
   const   [mainImages, setMainImages] = useState([]);
     const [mainImageUrls, setMainImageUrls] = useState([]);
@@ -653,48 +699,65 @@ function DraftEdit() {
       setBcpCategory(e.target.value)
     }
 
+    const [basicInfo,setBasicInfo] = useState(false);
+    const [aboutProjectD,setAboutProjectD] = useState(false);
+    const [aboutPriceD,setAboutPriceD] = useState(false);
+    const [aboutLocationD,setAboutLocationD] = useState(false);
+    const [aboutAmenitiesD,setAboutAmenitiesD] = useState(false);
+    const [aboutBCPD,setAboutBCPD] = useState(false);
+
     // ;
-  return (
-    <>
-      {tempId}
+    return (
+      <>
+      <Navbar />
+      <div className="addPropBox">
+        <p className="text-center  fs-2 mb-3">Add New Property</p>
       {/*------- basic Info Section ------------------------------------------------*/}
       <div>
-        {pId}
-        <h3> Basic Info</h3>
-      <div>
-        <div>
-          {postedBy}
-          <h5>Property Name</h5>
-          <input type = "text" value={propertyName} onChange={e=>setPropertyName(e.target.value)}  />
-          {propertyName}
+        <div className="blockBox mb-1" onClick={()=>{
+          (basicInfo) ? setBasicInfo(false) : setBasicInfo(true)          
+          }} >
+          <p>Basic Info</p>
+          <KeyboardArrowDownIcon sx={{height: "14px"}} />
         </div>
-        <div>
-          <h5>Location</h5>
-          <input type = "text" value={location} onChange={e=>setLocation(e.target.value)}  />
+      <div style={basicInfo ? {display: "block",padding: "14px"}: {display: "none"}}>
+        <div className="row gx-4">
+          <div className="col-6">
+            <StyledInputLabel>Property Name</StyledInputLabel>
+            <StyledInputBase type = "text" value={propertyName} onChange={e=>setPropertyName(e.target.value)}  />
+          </div>
+          <div className="col-6">
+            <StyledInputLabel>Location</StyledInputLabel>
+            <StyledInputBase type = "text" value={location} onChange={e=>setLocation(e.target.value)}  />
+          </div>
         </div>
-        <div>
-          <h5>Position</h5>
-          <input type = "text" value={position} onChange={e=>setPosition(e.target.value)}  />
+        <div className="row gx-4 my-3">
+          <div className="col-4">
+            <StyledInputLabel>Position</StyledInputLabel>
+            <StyledInputBase type = "text" value={position} onChange={e=>setPosition(e.target.value)}  />
+          </div>
+          <div className="col-4">
+            <StyledInputLabel>Space </StyledInputLabel>
+            <StyledInputBase type = "text" value={space} onChange={e=>setSpace(e.target.value)}  />
+          </div>
+          <div className="col-4">
+            <StyledInputLabel>Type</StyledInputLabel>
+            <StyledInputBase type = "text" value={type} onChange={e=>setType(e.target.value)}  />
+          </div>
         </div>
-        <div>
-          <h5>Space </h5>
-          <input type = "text" value={space} onChange={e=>setSpace(e.target.value)}  />
+        <div className='row gx-4'>
+          <div className='col-4'>
+            <StyledInputLabel>Price</StyledInputLabel>
+            <StyledInputBase type = "text" value={price} onChange={e=>setPrice(e.target.value)}  />
+          </div>        
+          <div className='col-4'>
+            <StyledInputLabel>Property Image</StyledInputLabel>
+            <StyledInputBase type = "file" multiple onChange={handleMainImagesChange} />
+          </div>
+          <div className="col-2">
+            <StyledButton sx={{border: "1px solid #000",marginTop: "20px"}} onClick={handleMainImagesUpload}>Upload</StyledButton>
+          </div>
         </div>
-        <div>
-          <h5>Type</h5>
-          <input type = "text" value={type} onChange={e=>setType(e.target.value)}  />
-        </div>
-        <div>
-          <h5>Price</h5>
-          <input type = "text" value={price} onChange={e=>setPrice(e.target.value)}  />
-        </div>
-        
-        <div>
-          <h5>Property Image</h5>
-          <input type = "file" multiple onChange={handleMainImagesChange} />
-          <div onClick={handleMainImagesUpload}>Upload</div>
-        </div>
-
         <br/>
         {/* {mainImageUrls.map((url, i) => (
         <div key={i}>
@@ -707,91 +770,97 @@ function DraftEdit() {
         </div>
       {/* ----------About Project Section ------------------------------------------*/}
       <div>
-      <h3>About Project</h3>
+        <div className="blockBox mb-1" onClick={()=>{
+          (aboutProjectD) ? setAboutProjectD(false) : setAboutProjectD(true)          
+          }} >
+          <p>About Project</p>
+          <KeyboardArrowDownIcon  sx={{height: "14px"}} />
+        </div>
+        <div style={aboutProjectD ? {display: "block",padding: "14px"}: {display: "none"}}>
         <div>
-          <h5>About Property:</h5>
+          <StyledInputLabel>About Property:</StyledInputLabel>
           <TextEditor initialValue=" " getValue={getPropertyInfo}/>
         </div>
-        <div>
-          <h5>Property Overview:</h5>
+        <div className='my-3'>
+          <StyledInputLabel>Property Overview:</StyledInputLabel>
           <div>
-            <div>
-              <h5>Size</h5>
-              <input type='text' value={size} onChange={e=>setSize(e.target.value)}/>
+            <div className='row gx-4 my-3'>
+              <div className='col-4'>
+                <StyledInputLabel>Size</StyledInputLabel>
+                <StyledInputBase type='text' value={size} onChange={e=>setSize(e.target.value)}/>
+              </div>
+              <div className='col-4'>
+                <StyledInputLabel>Price</StyledInputLabel>
+                <StyledInputBase type='text' value={aboutPrice} onChange={e=>setAboutPrice(e.target.value)}/>
+              </div>
+              <div className='col-4'>
+                <StyledInputLabel>Tower unit</StyledInputLabel>
+                <StyledInputBase type='text' value={towerUnit} onChange={e=>setTowerUnit(e.target.value)}/>
+              </div>
             </div>
-            <div>
-              <h5>Price</h5>
-              <input type='text' value={aboutPrice} onChange={e=>setAboutPrice(e.target.value)}/>
+            <div className='row gx-4'>
+              <div className='col-4'>
+                <StyledInputLabel>Status</StyledInputLabel>
+                <StyledInputBase type='text' value={status} onChange={e=>setStatus(e.target.value)}/>
+              </div>
+              <div className='col-4'>
+                <StyledInputLabel>Configuration</StyledInputLabel>
+                <StyledInputBase type='text' value={configuration} onChange={e=>setConfiguration(e.target.value)}/>
+              </div>
+              <div className='col-4'>
+                <StyledInputLabel>RERA ID</StyledInputLabel>
+                <StyledInputBase type='text' value={reraId} onChange={e=>setReraId(e.target.value)}/>
+              </div>
             </div>
-            <div>
-              <h5>Tower unit</h5>
-              <input type='text' value={towerUnit} onChange={e=>setTowerUnit(e.target.value)}/>
-            </div>
-            <div>
-              <h5>Status</h5>
-              <input type='text' value={status} onChange={e=>setStatus(e.target.value)}/>
-            </div>
-            <div>
-              <h5>Configuration</h5>
-              <input type='text' value={configuration} onChange={e=>setConfiguration(e.target.value)}/>
-            </div>
-            <div>
-              <h5>RERA ID</h5>
-              <input type='text' value={reraId} onChange={e=>setReraId(e.target.value)}/>
-            </div>
-            <div>
-              <h5>Specification</h5>
+            <div className='mt-3'>
+              <StyledInputLabel>Specification:</StyledInputLabel>
               <TextEditor initialValue="" getValue={getSpecification}/>
             </div>
           </div>
+        </div>
         </div>
       </div>
   
       {/*----------- About Pricing------------------------------------------------- */}
       <div>
-        <h3>About Pricing</h3>
-        <div>
+        <div className="blockBox mb-1" onClick={()=>{
+          (aboutPriceD) ? setAboutPriceD(false) : setAboutPriceD(true)          
+          }} >
+          <p>About Pricing</p>
+          <KeyboardArrowDownIcon sx={{height: "14px"}}  />
+        </div>
+        <div style={aboutPriceD ? {display: "block",padding: "14px"}: {display: "none"}}>
          {/* <AboutPricing getPricingValue = {getPropertiesPricingList}/> */}
-
          <div>
-      
-     
-
-        <form autoComplete="off" onSubmit={handlePricingSubmit}>
-        <div>
-        Type of Apartment
-        <input type = 'text'  value ={apartmentType} onChange={e=>setApartmentType(e.target.value)}/>
+          <form className='row gx-2' autoComplete="off" onSubmit={handlePricingSubmit}>
+            <div className='col-3'>
+              <StyledInputLabel>Type of Apartment</StyledInputLabel>
+              <StyledInputBase type = 'text'  value ={apartmentType} onChange={e=>setApartmentType(e.target.value)}/>
+            </div>
+            <div className='col-2'>
+              <StyledInputLabel>Space</StyledInputLabel>
+              <StyledInputBase type = 'text' value ={apartmentSpace} onChange={e=>setApartmentSpace(e.target.value)}/>
+            </div>
+            <div className='col-2'>
+              <StyledInputLabel>Per Sq. ft Price</StyledInputLabel>
+              <StyledInputBase type = 'text'  value ={unitPrice} onChange={e=>setUnitPrice(e.target.value)}/>
+            </div>
+            <div className='col-2'>
+              <StyledInputLabel>Total Price</StyledInputLabel>
+              <StyledInputBase type = 'text'  value ={totalPrice} onChange={e=>setTotalPrice(e.target.value)}/>
+            </div>
+            <div className='col-2'>
+              <StyledInputLabel>Image</StyledInputLabel>
+              <StyledInputBase type = 'file' onChange={handlePricingImageChange}/>
+            <div onClick={handlePricingImageUpload}>Upload</div>
+            </div>
+            <div className='col-1 mt-2'>
+              <IconButton type="submit" ><AddCircleOutlineIcon /></IconButton>
+            </div>            
+          </form>
         </div>
-        <div>
-        Space
-        <input type = 'text' value ={apartmentSpace} onChange={e=>setApartmentSpace(e.target.value)}/>
-        </div>
-        <div>
-        Per Sq. ft Price
-        <input type = 'text'  value ={unitPrice} onChange={e=>setUnitPrice(e.target.value)}/>
-        </div>
-        <div>
-        Total Price
-        <input type = 'text'  value ={totalPrice} onChange={e=>setTotalPrice(e.target.value)}/>
-        </div>
-        <div>
-        Image
-        <input type = 'file' onChange={handlePricingImageChange}/>
-
-        <div onClick={handlePricingImageUpload}>Upload</div>
-        </div>
-
-        <button type="submit" >
-              ADD
-            </button>
-                </form>
-
-                
-     
-
-    </div>
-    viewing the pricnig table
-    <div>
+      <StyledInputLabel>View Pricing</StyledInputLabel>
+      <div>
           {(propertiesPricingList.length>0)? 
           <>
             <div >
@@ -836,27 +905,29 @@ function DraftEdit() {
   
       {/*-------------- About Location ---------------------------------------------*/}
       <div>
-        <h3>About Location</h3>
-        <div>
-          <div>
-           
-            <form autoComplete="off" onSubmit={handleLocationSubmit}>
-            <div>
-                  Feature
-                  <input type = 'text' value={feature} onChange={e=>setFeature(e.target.value)}/>
-                </div>
-                <div>
-                  Name of Feature
-                  <input type = 'text' value={featureName} onChange={e=>setFeatureName(e.target.value)}/>
-                </div>
-                <div>
-                Distance
-                <input type = 'number' value={featureDistance} onChange={e=>setFeatureDistance(e.target.value)}/>
-                </div>
-                <button type="submit" >
-              ADD
-            </button>
-                </form>
+        <div className="blockBox mb-1" onClick={()=>{
+          (aboutLocationD) ? setAboutLocationD(false) : setAboutLocationD(true)          
+          }} >
+          <p>About Location</p>
+          <KeyboardArrowDownIcon sx={{height: "14px"}}  />
+        </div>
+        <div style={aboutLocationD ? {display: "block",padding: "14px"}: {display: "none"}}>
+          <div>           
+            <form autoComplete="off" className='row gx-3' onSubmit={handleLocationSubmit}>
+              <div className='col-4'>
+                <StyledInputLabel>Feature</StyledInputLabel>
+                <StyledInputBase type = 'text' value={feature} onChange={e=>setFeature(e.target.value)}/>
+              </div>
+              <div className='col-4'>
+                <StyledInputLabel>Name of Feature</StyledInputLabel>
+                <StyledInputBase type = 'text' value={featureName} onChange={e=>setFeatureName(e.target.value)}/>
+              </div>
+              <div className='col-3'>
+                <StyledInputLabel>Distance</StyledInputLabel>
+                <StyledInputBase type = 'number' value={featureDistance} onChange={e=>setFeatureDistance(e.target.value)}/>
+              </div>
+              <IconButton className='col-1 mt-2' type="submit" ><AddCircleOutlineIcon /></IconButton>
+            </form>
           </div>
 
           
@@ -900,160 +971,136 @@ function DraftEdit() {
   
       {/*------------- ABout Amenities--------------------------------------------- */}
       <div>
-        <h3>About Amenities</h3>
-        <div>
-          <h3>Basic Amenities</h3>
-          <Select  options={BasicAmenitiesData} displayValue="label" onChange={handleBasicAmenitiesChange} isMulti/>
-
-          {console.log(basicAmenities)}
+        <div className="blockBox mb-1" onClick={()=>{
+          (aboutAmenitiesD) ? setAboutAmenitiesD(false) : setAboutAmenitiesD(true)          
+          }} >
+          <p>About Amenities</p>
+          <KeyboardArrowDownIcon sx={{height: "14px"}}  />
         </div>
-        <div>
-          <h3>Convenience Amenities</h3>
+        <div style={aboutAmenitiesD ? {display: "block",padding: "14px"}: {display: "none"}}>
+        <div >
+          <StyledInputLabel>Basic Amenities</StyledInputLabel>
+          <Select  options={BasicAmenitiesData} displayValue="label" onChange={handleBasicAmenitiesChange} isMulti/>
+        </div>
+        <div className='my-3'>
+          <StyledInputLabel>Convenience Amenities</StyledInputLabel>
           <Select  options={ConvenienceAmenitiesData} displayValue="label" onChange={handleConvenienceAmenitiesChange} isMulti/>
-
           {/* {console.log(convenienceAmenities)} */}
         </div>
-        <div>
-          <h3>Environment Amenities</h3>
+        <div className='my-3'>
+          <StyledInputLabel>Environment Amenities</StyledInputLabel>
           <Select  options={EnvironmentAmenitiesData} displayValue="label" onChange={handleEnvironmentAmenitiesChange}/>
-
           {/* {console.log(environmentAmenities)} */}
         </div>
-        <div>
-          <h3>Sports Amenities</h3>
+        <div className='my-3'>
+          <StyledInputLabel>Sports Amenities</StyledInputLabel>
           <Select  options={SportsAmenitiesData} displayValue="label" onChange={handleSportsAmenitiesChange} isMulti/>
-
           {/* {console.log(sportsAmenities)} */}
         </div>
         <div>
-          <h3>Security Amenities</h3>
+          <StyledInputLabel>Security Amenities</StyledInputLabel>
           <Select  options={SecurityAmenitiesData} displayValue="label" onChange={handleSecurityAmenitiesChange} isMulti/>
-
           {/* {console.log(securityAmenities)} */}
         </div>
-
+        </div>
       </div>
   
       {/*--------------------- about B/cp------------------------------------------ */}
   
       <div>
-        <h3>About B/cp</h3>
-        <div>
-          <h6>Property Owner</h6>
+        <div className="blockBox mb-1" onClick={()=>{
+          (aboutBCPD) ? setAboutBCPD(false) : setAboutBCPD(true)          
+          }} >
+          <p>About B/CP</p>
+          <KeyboardArrowDownIcon sx={{height: "14px"}}  />
+        </div>
+        <div style={aboutBCPD ? {display: "block",padding: "14px"}: {display: "none"}}>
           <div>
-            <select onChange={ handleOwnerChange}>
-            {options.map((option, index) => {
-            const { value, name } = option;
-  
-            return (
-              <option key={index} value={value}>{name}</option>
-            );
-          })}
+            <StyledInputLabel>Property Owner</StyledInputLabel>
+            <div>
+              <select onChange={ handleOwnerChange}>
+              {options.map((option, index) => {
+              const { value, name } = option;
+    
+              return (
+                <option key={index} value={value}>{name}</option>
+              );
+            })}
             </select>
+          </div> 
           </div>
-          
-          
-        </div>
-        {active ==='second' &&
-         <div>
-          <h6>Name</h6>
-          <div>
-            <input type='text' value = {ownerName} onChange={e=>setOwnerName(e.target.value)}/>
+          <div className='row gx-4 my-3'>
+            {active ==='second' &&
+            <div className='col-4'>
+              <StyledInputLabel>Name</StyledInputLabel>
+              <StyledInputBase type='text' value = {ownerName} onChange={e=>setOwnerName(e.target.value)}/>
+            </div>
+            }
+            {active ==='first' &&
+              <div className='col-4'>
+                <StyledInputLabel>Organisation Name</StyledInputLabel>
+                <StyledInputBase type='text' value = {organisatioName} onChange={e=>setOrganisatioName(e.target.value)}/>
+              </div>
+            }     
+            <div className='col-4'>
+              <StyledInputLabel>Email</StyledInputLabel>
+              <StyledInputBase type='email' value = {ownerEmail} onChange={e=>setOwnerEmail(e.target.value)}/>
+            </div>
+            <div className='col-4'>
+              <StyledInputLabel>Website</StyledInputLabel>
+              <StyledInputBase type='text' value = {ownerWebsite} onChange={e=>setOwnerWebsite(e.target.value)}/>
+            </div>
           </div>
-        </div>
-        }
-        {active ==='first' &&
-         <div>
-          <h6>Organisation Name</h6>
-          <div>
-            <input type='text' value = {organisatioName} onChange={e=>setOrganisatioName(e.target.value)}/>
+          <div  className='row gx-4 '>
+            <div className='col-4'>
+              <StyledInputLabel>Contact No.</StyledInputLabel>
+              <StyledInputBase type='number' value = {ownerContactNo} onChange={e=>setOwnerContactNo(e.target.value)}/>
+            </div>
+          {active === 'first' &&
+          <>
+            <div className='col-4'>
+              <StyledInputLabel>Project</StyledInputLabel>
+              <StyledInputBase type='text' value = {ownerProject} onChange={e=>setOwnerProject(e.target.value)}/>
+            </div>
+            <div className='col-4'>
+              <StyledInputLabel>Year Of Establishment</StyledInputLabel>
+              <StyledInputBase type='text' value = {ownerEstablishment} onChange={e=>setOwnerEstablishment(e.target.value)}/>
+            </div>
+            </>
+          }
+      
+          {active==='second' && 
+            <>
+            <div className='col-4'>
+              <StyledInputLabel>Since Operation</StyledInputLabel>
+              <StyledInputBase type='text' value = {sinceOperation} onChange={e=>setSinceOpertaion(e.target.value)}/>
+            </div>    
+            <div className='col-4'>
+              <StyledInputLabel>Property List</StyledInputLabel>
+              <StyledInputBase type='text' value = {ownerPropertyList} onChange={e=>setOwnerPropertyList(e.target.value)}/>
+            </div>
+            </>}
+          </div>  
+          <div className='row my-3 mx-1'>
+            <StyledInputLabel>Address</StyledInputLabel>
+            <StyledInputBase type='text' value = {ownerAddress} onChange={e=>setOwnerAddress(e.target.value)}/>
           </div>
-        </div>
-        }
-        
-        <div>
-        <div>
-          <h6>E-mail</h6>
-          <div>
-          <input type='email' value = {ownerEmail} onChange={e=>setOwnerEmail(e.target.value)}/> 
-          </div>
-        </div>
-        <div>
-          <h6>Website</h6>
-          <div>
-          <input type='text' value = {ownerWebsite} onChange={e=>setOwnerWebsite(e.target.value)}/>
-          </div>
-        </div>
-        <div>
-          <h6>Contact No.</h6>
-          <div>
-          <input type='number' value = {ownerContactNo} onChange={e=>setOwnerContactNo(e.target.value)}/>
-          </div>
-        </div>
-       {active === 'first' &&
-       <>
-        <div>
-          <h6>Project</h6>
-          <div>
-          <input type='text' value = {ownerProject} onChange={e=>setOwnerProject(e.target.value)}/>
-          </div>
-        </div>
-        <div>
-          <h6>Year Of Establishment</h6>
-          <div>
-          <input type='text' value = {ownerEstablishment} onChange={e=>setOwnerEstablishment(e.target.value)}/>
-          </div>
-        </div>
-        </>
-       }
-  
-  {active==='second' && 
-        <>
-         <div>
-          <h6>Since Operation</h6>
-          <div>
-          <input type='text' value = {sinceOperation} onChange={e=>setSinceOpertaion(e.target.value)}/>
-          </div>
-        </div>
-  
-        <div>
-          <h6>Property List</h6>
-          <div>
-          <input type='text' value = {ownerPropertyList} onChange={e=>setOwnerPropertyList(e.target.value)}/>
-          </div>
-        </div>
-        </>}
-       
-        </div>
-  
-  
-  
-  
-        <div>
-          <h6>Address</h6>
-          <div>
-          <input type='text' value = {ownerAddress} onChange={e=>setOwnerAddress(e.target.value)}/>
-          </div>
-        </div>
-  
-        <div>
-          <h6>Bio</h6>
-          <div>
+          <div  className='row my-3'>
+            <StyledInputLabel className='mx-3'>Bio</StyledInputLabel>
             <TextEditor initialValue="" getValue={getBio}/>
           </div>
-        </div>
-  
+       </div>
       </div>
-       {console.log(tempId)}
-       {console.log(draftProperties)}
+  
       {/* ----------------------buttons--------------------------------------------- */}
-      <div>
-      <button onClick={()=>handleDraftsPropertiesChange()}>Update Draft</button>
-      <button onClick={handlSubmission}>Submit for Review</button>
+      <div className="mt-4 d-flex justify-content-around">
+        <StyledButton sx={{border: "1px solid #1ADDFF"}} onClick={()=>handleDraftsPropertiesChange()}>Update Draft</StyledButton>
+        <StyledButton sx={{border: "1px solid #FEAA7B"}} onClick={handlSubmission}>Submit for Review</StyledButton>
       </div>
   
+      </div>
       </>
-  )
+    )
 }
 
 export default DraftEdit

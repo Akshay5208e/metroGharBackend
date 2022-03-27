@@ -1,0 +1,88 @@
+.formWrap{
+    width: 800px;
+    height: auto;
+    background: #FFFFFF;
+    border: 5px solid #E5E5E5;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 14vh auto;
+}
+.logo{
+   transform: scale(0.8,0.8);
+}
+.inputLabel{
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+}
+.inputBox{
+    width: 400px;
+    height: 40px;
+    background: #FFFFFF;
+    border: 2px solid #C4C4C4;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+.submitButton{
+    background: #FEAA7B;
+    color: #FFFFFF;
+    padding: 5px 20px;
+    border: 2px solid #FEAA7B;
+    border-radius: 5px;
+}
+.registerButton{
+    background-color: transparent;
+    color: #FEAA7B;
+    padding: 5px 20px;
+    border: 2px solid #FEAA7B;
+    border-radius: 5px;
+    text-decoration-line: none;
+}
+.registerButton:hover{
+    color: #FEAA7B;
+}
+@media only screen and (max-width: 768px)  {
+    .formWrap{
+        width: 340px;
+        height: auto;
+        background: #FFFFFF;
+        border: 4px solid #E5E5E5;
+        margin: 8vh auto;
+    }
+    .logo{
+       transform: scale(0.5,0.5);
+    }
+    .inputLabel{
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 22px;
+    }
+    .inputBox{
+        width: 270px;
+        height: 30px;
+        background: #FFFFFF;
+        border: 2px solid #C4C4C4;
+        box-sizing: border-box;
+        border-radius: 5px;
+    }
+    .submitButton{
+        background: #FEAA7B;
+        color: #FFFFFF;
+        padding: 4px 18px;
+        border: 2px solid #FEAA7B;
+        border-radius: 5px;
+    }
+    .registerButton{
+        background-color: transparent;
+        color: #FEAA7B;
+        padding: 4px 18px;
+        border: 2px solid #FEAA7B;
+        border-radius: 5px;
+        text-decoration-line: none;
+    }
+    .registerButton:hover{
+        color: #FEAA7B;
+    }
+}

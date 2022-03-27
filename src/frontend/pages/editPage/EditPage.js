@@ -78,7 +78,7 @@ function EditPage() {
   const [position, setPosition] = useState("");
   const [space, setSpace] = useState("")
   const [type, setType] = useState("")
-  const [price, setPrice] = useState("")
+  const [price, setPrice] = useState(0)
 
   const   [mainImages, setMainImages] = useState([]);
     const [mainImageUrls, setMainImageUrls] = useState([]);

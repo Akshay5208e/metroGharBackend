@@ -284,7 +284,7 @@ const filteredProperties = allProperties .filter(result=>{return result.property
                       <StyledTableCell align="center">{property.propertyName}</StyledTableCell>
                       <StyledTableCell align="center">{property.position}</StyledTableCell>
                       <StyledTableCell align="center">{property.type}</StyledTableCell>
-                      <StyledTableCell align="center">{property.ownerName}</StyledTableCell>
+                      <StyledTableCell align="center">{property.ownerName || property.organisatioName}</StyledTableCell>
                       <StyledTableCell align="center">{property.propertyApproval===false ? <div>Pending</div> : <div>Approved</div>}</StyledTableCell>
                    
                       <StyledTableCell align="center">

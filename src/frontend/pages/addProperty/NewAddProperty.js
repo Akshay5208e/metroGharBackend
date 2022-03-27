@@ -851,7 +851,7 @@ function AddProperty() {
         </div>
         <div className='my-3'>
           <StyledInputLabel>Environment Amenities</StyledInputLabel>
-          <Select  options={EnvironmentAmenitiesData} displayValue="label" onChange={handleEnvironmentAmenitiesChange}/>
+          <Select  options={EnvironmentAmenitiesData} displayValue="label" onChange={handleEnvironmentAmenitiesChange} isMulti/>
           {/* {console.log(environmentAmenities)} */}
         </div>
         <div className='my-3'>

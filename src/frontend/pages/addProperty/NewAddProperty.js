@@ -18,7 +18,7 @@ import Navbar from '../../independentComponents/Navbar';
 import { FormLabel, InputBase, InputLabel } from '@mui/material';
 import { firestore } from '../../../backend/firebase/utils';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { typeOptions } from './options';
+import { maxPriceAbbOptions, minPriceAbbOptions, typeOptions } from './options';
 const getDataFromLocalStorage = ()=>{
   const data = localStorage.getItem('draftProperties');
   if(data){
@@ -105,7 +105,12 @@ function AddProperty() {
     setPosition('')
     setSpace('')
     setType('')
-    setPrice('')
+    setPrice1(0)
+    setPrice2(0)
+    setminPriceAbb('')
+    setmaxPriceAbb('')
+    setminPriceAmount(0)
+    setmaxPriceAmount(0)
     setMainImageUrls([])  
     
 
@@ -160,7 +165,12 @@ function AddProperty() {
       position,
       space,
       type,
-      price,
+      minPriceAmount,
+      maxPriceAmount,
+      minPriceAbb,
+      maxPriceAbb,
+      price1,
+      price2,
       mainImageUrls,
 
       //about section
@@ -204,6 +214,8 @@ function AddProperty() {
     //reseeting form 
 
     resetForm();
+
+    // history.push('/')
   
   }
 
@@ -226,7 +238,12 @@ function AddProperty() {
       position,
       space,
       type,
-      price,
+      minPriceAmount,
+      maxPriceAmount,
+      minPriceAbb,
+      maxPriceAbb,
+      price1,
+      price2,
       mainImageUrls,
 
       //about section
@@ -292,13 +309,40 @@ function AddProperty() {
   const [position, setPosition] = useState("")
   const [space, setSpace] = useState(0)
   const [type, setType] = useState("")
-  const [price, setPrice] = useState(0)
+
+  const [price1, setPrice1] = useState(0)
+  const [price2, setPrice2] = useState(0)
+  const [minPriceAbb, setminPriceAbb] = useState("")
+  const [maxPriceAbb, setmaxPriceAbb] = useState("")
+  const [maxPriceAmount, setmaxPriceAmount] = useState(0)
+  const [minPriceAmount, setminPriceAmount] = useState(0)
+  
 
   const   [mainImages, setMainImages] = useState([]);
     const [mainImageUrls, setMainImageUrls] = useState([]);
     const [mainImagesProgress, setMainImagesProgress] = useState(0);
   
+useEffect(() => {
+  setminPriceAmount(minPriceAbb === "L."? price1*100000 : (minPriceAbb==="Cr."? price1*10000000:price1*0))
+}, [price1,minPriceAbb])
+useEffect(() => {
+  setmaxPriceAmount(maxPriceAbb === "L."? price2*100000 : (maxPriceAbb === "Cr."?price2*10000000: price2*0))
+}, [price2,maxPriceAbb])
 
+    const handleMinPriceChange =(e)=>{
+
+      setPrice1(e.target.value)
+    }
+
+    const handleMinPriceAbbChange=(e)=>{
+      setminPriceAbb(e.target.value)
+    }
+    const handleMaxPriceChange=(e)=>{
+      setPrice2(e.target.value)
+    }
+    const handleMaxPriceAbbChange=(e)=>{
+      setmaxPriceAbb(e.target.value)
+    }
   const handleMainImagesChange=(e)=>{
     for (let i = 0; i < e.target.files.length; i++) {
       const newMainImage = e.target.files[i];
@@ -609,9 +653,34 @@ function AddProperty() {
         </div>
         <div className='row gx-4'>
           <div className='col-4'>
-            <StyledInputLabel>Price</StyledInputLabel>
-            <StyledInputBase type = "number" value={price} onChange={e=>setPrice(e.target.value)}  />
-          </div>        
+            <StyledInputLabel>Min Price</StyledInputLabel>
+            <StyledInputBase type = "number" value={price1} onChange={handleMinPriceChange}  />
+            <select value={minPriceAbb} onChange={handleMinPriceAbbChange} >
+            {minPriceAbbOptions.map((option, index) => {
+            const { value, name } = option;
+  
+            return (
+              <option key={index} value={value}>{name}</option>
+            );
+          })}
+            </select>
+          
+
+          </div>   
+          <div className='col-4'>
+            <StyledInputLabel> Max Price</StyledInputLabel>
+            <StyledInputBase type = "number" value={price2} onChange={handleMaxPriceChange}  />
+            <select value={maxPriceAbb} onChange={handleMaxPriceAbbChange} >
+            {maxPriceAbbOptions.map((option, index) => {
+            const { value, name } = option;
+  
+            return (
+              <option key={index} value={value}>{name}</option>
+            );
+          })}
+            </select>
+        
+          </div>      
           <div className='col-4'>
             <StyledInputLabel>Property Image</StyledInputLabel>
             <StyledInputBase type = "file"  onChange={handleMainImagesChange} multiple/>

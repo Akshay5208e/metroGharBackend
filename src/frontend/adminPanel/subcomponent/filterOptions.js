@@ -1,11 +1,19 @@
-export const PositionOptions=[{
+export const PositionOptions=[
+  {
+    value: "",
+    name: "select"
+  },{
     value: "3",
     name: "3"
   }, {
     value: "4",
     name: "4"
   }]
-  export const typeOptions=[{
+  export const typeOptions=[
+    {
+      value:"",
+      name: "select"
+    },{
     value:"villa",
     name: "Villa"
   }, {
@@ -17,7 +25,12 @@ export const PositionOptions=[{
     name: "House"
   }]
 
-  export const LocationOptions=[{
+  export const LocationOptions=[
+    {
+      value:"",
+      name: "select"
+    },
+    {
     value: "location1",
     name: "location1"
   }, {
@@ -25,7 +38,11 @@ export const PositionOptions=[{
     name: "2"
   }]
 
-  export const OwnerOptions=[{
+  export const OwnerOptions=[
+    {
+      value:"",
+      name: "select"
+    },{
     value: "Builder",
     name: "Builder"
   }, {

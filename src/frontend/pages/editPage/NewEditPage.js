@@ -17,6 +17,7 @@ import Navbar from '../../independentComponents/Navbar';
 import { FormLabel, InputBase, InputLabel } from '@mui/material';
 import { firestore } from '../../../backend/firebase/utils';
 import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { maxPriceAbbOptions, minPriceAbbOptions } from '../addProperty/options';
 
 const getDataFromLocalStorage = ()=>{
   const data = localStorage.getItem('draftProperties');
@@ -141,12 +142,41 @@ useEffect(()=>{
   const [position, setPosition] = useState("");
   const [space, setSpace] = useState("")
   const [type, setType] = useState("")
-  const [price, setPrice] = useState(0)
+
+  const [price1, setPrice1] = useState(0)
+  const [price2, setPrice2] = useState(0)
+  const [minPriceAbb, setminPriceAbb] = useState("")
+  const [maxPriceAbb, setmaxPriceAbb] = useState("")
+  const [maxPriceAmount, setmaxPriceAmount] = useState(0)
+  const [minPriceAmount, setminPriceAmount] = useState(0)
+  
 
   const   [mainImages, setMainImages] = useState([]);
     const [mainImageUrls, setMainImageUrls] = useState([]);
     const [mainImagesProgress, setMainImagesProgress] = useState(0);
   
+
+    useEffect(() => {
+      setminPriceAmount(minPriceAbb === "L."? price1*100000 : (minPriceAbb==="Cr."? price1*10000000:price1*0))
+    }, [price1,minPriceAbb])
+    useEffect(() => {
+      setmaxPriceAmount(maxPriceAbb === "L."? price2*100000 : (maxPriceAbb === "Cr."?price2*10000000: price2*0))
+    }, [price2,maxPriceAbb])
+    
+        const handleMinPriceChange =(e)=>{
+    
+          setPrice1(e.target.value)
+        }
+    
+        const handleMinPriceAbbChange=(e)=>{
+          setminPriceAbb(e.target.value)
+        }
+        const handleMaxPriceChange=(e)=>{
+          setPrice2(e.target.value)
+        }
+        const handleMaxPriceAbbChange=(e)=>{
+          setmaxPriceAbb(e.target.value)
+        }
 
   const handleMainImagesChange=(e)=>{
     for (let i = 0; i < e.target.files.length; i++) {
@@ -406,7 +436,13 @@ useEffect(()=>{
   setPosition(newEditProperty.position)
   setSpace(newEditProperty.space)
   setType(newEditProperty.type)
-  setPrice(newEditProperty.price)
+ 
+  setPrice1(newEditProperty.price1)
+    setPrice2(newEditProperty.price2)
+    setminPriceAbb(newEditProperty.minPriceAbb)
+    setmaxPriceAbb(newEditProperty.maxPriceAbb)
+    setminPriceAmount(newEditProperty.minPriceAmount)
+    setmaxPriceAmount(newEditProperty.maxPriceAmount)
   setMainImageUrls(newEditProperty.mainImageUrls)  
   
 
@@ -465,7 +501,12 @@ useEffect(()=>{
       position,
       space,
       type,
-      price,
+      minPriceAmount,
+      maxPriceAmount,
+      minPriceAbb,
+      maxPriceAbb,
+      price1,
+      price2, 
       mainImageUrls,
 
       //about section
@@ -588,10 +629,36 @@ return (
       </div>
     </div>
     <div className='row gx-4'>
-      <div className='col-4'>
-        <StyledInputLabel>Price</StyledInputLabel>
-        <StyledInputBase type = "text" value={price} onChange={e=>setPrice(e.target.value)}  />
-      </div>        
+    <div className='col-4'>
+            <StyledInputLabel>Min Price</StyledInputLabel>
+            <StyledInputBase type = "number" value={price1} onChange={handleMinPriceChange}  />
+            <select value={minPriceAbb} onChange={handleMinPriceAbbChange} >
+            {minPriceAbbOptions.map((option, index) => {
+            const { value, name } = option;
+  
+            return (
+              <option key={index} value={value}>{name}</option>
+            );
+          })}
+            </select>
+          
+
+          </div>   
+          <div className='col-4'>
+            <StyledInputLabel> Max Price</StyledInputLabel>
+            <StyledInputBase type = "number" value={price2} onChange={handleMaxPriceChange}  />
+            <select value={maxPriceAbb} onChange={handleMaxPriceAbbChange} >
+            {maxPriceAbbOptions.map((option, index) => {
+            const { value, name } = option;
+  
+            return (
+              <option key={index} value={value}>{name}</option>
+            );
+          })}
+            </select>
+        
+          </div>  
+            
       <div className='col-4'>
         <StyledInputLabel>Property Image</StyledInputLabel>
         <StyledInputBase type = "file" multiple onChange={handleMainImagesChange} />
@@ -621,7 +688,7 @@ return (
     <div style={aboutProjectD ? {display: "block",padding: "14px"}: {display: "none"}}>
     <div>
       <StyledInputLabel>About Property:</StyledInputLabel>
-      <TextEditor initialValue=" " getValue={getPropertyInfo}/>
+      <TextEditor initialValue={aboutProject} getValue={getPropertyInfo} />
     </div>
     <div className='my-3'>
       <StyledInputLabel>Property Overview:</StyledInputLabel>
@@ -656,7 +723,7 @@ return (
         </div>
         <div className='mt-3'>
           <StyledInputLabel>Specification:</StyledInputLabel>
-          <TextEditor initialValue="" getValue={getSpecification}/>
+          <TextEditor initialValue={specification} getValue={getSpecification}/>
         </div>
       </div>
     </div>
@@ -822,26 +889,26 @@ return (
     <div style={aboutAmenitiesD ? {display: "block",padding: "14px"}: {display: "none"}}>
     <div >
       <StyledInputLabel>Basic Amenities</StyledInputLabel>
-      <Select  options={BasicAmenitiesData} displayValue="label" onChange={handleBasicAmenitiesChange} isMulti/>
+      <Select  options={BasicAmenitiesData} displayValue="label" value={basicAmenities} onChange={handleBasicAmenitiesChange} isMulti/>
     </div>
     <div className='my-3'>
       <StyledInputLabel>Convenience Amenities</StyledInputLabel>
-      <Select  options={ConvenienceAmenitiesData} displayValue="label" onChange={handleConvenienceAmenitiesChange} isMulti/>
+      <Select  options={ConvenienceAmenitiesData} displayValue="label" value={convenienceAmenities} onChange={handleConvenienceAmenitiesChange} isMulti/>
       {/* {console.log(convenienceAmenities)} */}
     </div>
     <div className='my-3'>
       <StyledInputLabel>Environment Amenities</StyledInputLabel>
-      <Select  options={EnvironmentAmenitiesData} displayValue="label" onChange={handleEnvironmentAmenitiesChange}/>
+      <Select  options={EnvironmentAmenitiesData} displayValue="label" value={environmentAmenities} onChange={handleEnvironmentAmenitiesChange} isMulti/>
       {/* {console.log(environmentAmenities)} */}
     </div>
     <div className='my-3'>
       <StyledInputLabel>Sports Amenities</StyledInputLabel>
-      <Select  options={SportsAmenitiesData} displayValue="label" onChange={handleSportsAmenitiesChange} isMulti/>
+      <Select  options={SportsAmenitiesData} displayValue="label" value={sportsAmenities} onChange={handleSportsAmenitiesChange} isMulti/>
       {/* {console.log(sportsAmenities)} */}
     </div>
     <div>
       <StyledInputLabel>Security Amenities</StyledInputLabel>
-      <Select  options={SecurityAmenitiesData} displayValue="label" onChange={handleSecurityAmenitiesChange} isMulti/>
+      <Select  options={SecurityAmenitiesData} displayValue="label" value={securityAmenities} onChange={handleSecurityAmenitiesChange} isMulti/>
       {/* {console.log(securityAmenities)} */}
     </div>
     </div>
@@ -929,7 +996,7 @@ return (
       </div>
       <div  className='row my-3'>
         <StyledInputLabel className='mx-3'>Bio</StyledInputLabel>
-        <TextEditor initialValue="" getValue={getBio}/>
+        <TextEditor initialValue={ownerBio} getValue={getBio}/>
       </div>
    </div>
   </div>

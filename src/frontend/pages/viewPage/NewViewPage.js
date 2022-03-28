@@ -34,8 +34,9 @@ console.log(typeof(documentID))
         }
         propertyArray.push(obj)
        
-        setallProperties(propertyArray)
+        
     });
+    setallProperties(propertyArray)
     } catch (error) {
       console.log(error)  
     }

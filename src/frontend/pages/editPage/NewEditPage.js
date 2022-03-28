@@ -82,8 +82,10 @@ function EditPage() {
         }
         propertyArray.push(obj)
        
-        setallProperties(propertyArray)
+        
     });
+    setallProperties(propertyArray)
+    //setallProperties(properties)
     } catch (error) {
       console.log(error)  
     }

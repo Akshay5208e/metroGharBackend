@@ -390,6 +390,18 @@ useEffect(() => {
     .catch((err) => console.log(err));
   }
 
+  const deleteMainImagefromFirebase=(url)=>{
+    let pictureRef = storage.refFromURL(url);
+    //2.
+     pictureRef.delete()
+     .then(() => {
+      //3.
+      setMainImageUrls(mainImageUrls.filter((image) => image !== url));
+      alert("Picture is deleted successfully!");
+    })
+
+    
+  }
   //--------------------------About porject info states and functions----------------------------------------------//
  
   const [size, setSize] = useState("")
@@ -492,7 +504,6 @@ useEffect(() => {
 
  
   
-
 
   //----------------------about location state and functions-----------------------------------------------------//
     
@@ -712,6 +723,13 @@ useEffect(() => {
           </a>
         </div>
       ))} */}
+
+{mainImageUrls.length>0 && mainImageUrls.map((url,i)=>(
+    <div>
+      <img src={url} style={{height:"100px", width:"auto"}}/>
+      <button onClick={()=>deleteMainImagefromFirebase(url)}>Delete</button>
+    </div>
+  ))}
       </div>
         </div>
       {/* ----------About Project Section ------------------------------------------*/}

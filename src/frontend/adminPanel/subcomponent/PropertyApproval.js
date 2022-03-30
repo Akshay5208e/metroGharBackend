@@ -127,6 +127,7 @@ const deleteProperty=(id)=>{
 firestore.collection('properties').doc(id).delete();
 // window.location.reload('/')
 
+setTimeout(function(){history.push('/')},1000)
 
 
 }
@@ -137,12 +138,13 @@ const handleApprove=(documentID)=>{
    propertyApproval: true
  })
  
+ setTimeout(function(){history.push('/')},1000)
 }
 const handleUnApprove=(documentID)=>{
  firestore.collection('properties').doc(documentID).update({
    propertyApproval: false
  })
- 
+ setTimeout(function(){history.push('/')},1000)
 }
  
 

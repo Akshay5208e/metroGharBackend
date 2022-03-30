@@ -17,7 +17,7 @@ import Navbar from '../../independentComponents/Navbar';
 import { FormLabel, InputBase, InputLabel } from '@mui/material';
 import { firestore } from '../../../backend/firebase/utils';
 import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import { featureOptions, maxPriceAbbOptions, minPriceAbbOptions, typeOptions } from '../addProperty/options';
+import { configurationOptions, featureOptions, maxPriceAbbOptions, minPriceAbbOptions, positionOptions, statusOptions, typeOptions } from '../addProperty/options';
 
 const getDataFromLocalStorage = ()=>{
   const data = localStorage.getItem('draftProperties');
@@ -218,6 +218,8 @@ useEffect(()=>{
     .catch((err) => console.log(err));
   }
 
+  
+
   //--------------------------About porject info states and functions----------------------------------------------//
  
   const [size, setSize] = useState("")
@@ -229,6 +231,9 @@ useEffect(()=>{
   const [aboutProject, setAboutProject] = useState("")
   const [specification, setSpecifications] = useState("")
 
+  const handleConfigurationChange=(val)=>{
+    setConfiguration(val)
+  }
   const getPropertyInfo=(value)=>{
     setAboutProject(value)
   }
@@ -503,7 +508,7 @@ useEffect(()=>{
     setSize('')
     setAboutPrice('')
     setTowerUnit('')
-    setConfiguration('')
+    setConfiguration([])
     setReraId('')
     setStatus('')
     setAboutProject('')
@@ -665,10 +670,19 @@ return (
       <div className="col-4">
         <StyledInputLabel>Position</StyledInputLabel>
         <StyledInputBase type = "text" value={position} onChange={e=>setPosition(e.target.value)}  />
+        {/* <select value={position} onChange={e=>setPosition(e.target.value)} >
+                  {positionOptions.map((option, index) => {
+                  const { value, name } = option;
+  
+               return (
+              <option key={index} value={value}>{name}</option>
+            );
+          })}
+            </select> */}
       </div>
       <div className="col-4">
         <StyledInputLabel>Space </StyledInputLabel>
-        <StyledInputBase type = "number" value={space} onChange={e=>setSpace(e.target.value)}  />
+        <StyledInputBase type = "number" value={space} onChange={e=>setSpace(e.target.value)} style={{width:"80px"}} /> Sq.Ft
       </div>
       <div className="col-4">
         <StyledInputLabel>Type</StyledInputLabel>
@@ -766,11 +780,20 @@ return (
         <div className='row gx-4'>
           <div className='col-4'>
             <StyledInputLabel>Status</StyledInputLabel>
-            <StyledInputBase type='text' value={status} onChange={e=>setStatus(e.target.value)}/>
+            <select onChange={e=>setStatus(e.target.value)} >
+                  {statusOptions.map((option, index) => {
+                  const { value, name } = option;
+  
+               return (
+              <option key={index} value={value}>{name}</option>
+            );
+          })}
+            </select>
           </div>
           <div className='col-4'>
             <StyledInputLabel>Configuration</StyledInputLabel>
-            <StyledInputBase type='text' value={configuration} onChange={e=>setConfiguration(e.target.value)}/>
+            {/* <StyledInputBase type='text' value={configuration} onChange={e=>setConfiguration(e.target.value)}/> */}
+            <Select  options={configurationOptions}  displayValue="label" onChange={handleConfigurationChange} isMulti value={configuration}/>
           </div>
           <div className='col-4'>
             <StyledInputLabel>RERA ID</StyledInputLabel>

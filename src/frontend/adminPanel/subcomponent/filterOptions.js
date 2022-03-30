@@ -2,13 +2,18 @@ export const PositionOptions=[
   {
     value: "",
     name: "select"
-  },{
-    value: "3",
-    name: "3"
-  }, {
-    value: "4",
-    name: "4"
-  }]
+  },
+  {
+  value:"Ready to move",
+  name: "Ready to move"
+}, {
+  value: "Under Construction",
+  name: "Under Construction"
+},
+{
+  value: "Upcoming Project",
+  name: "Upcoming Project"
+}]
   export const typeOptions=[
     {
       value:"",

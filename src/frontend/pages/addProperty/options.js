@@ -55,30 +55,30 @@ export const statusOptions=[
 export const configurationOptions=[
   {
     value: "",
-    name: "select"
+    label: "select"
   },
   {
   value:"1bhk",
-  name: "1 BHK"
+  label: "1 BHK"
 }, {
   value:"2bhk",
-  name: "2 BHK"
+  label: "2 BHK"
 },
 {
   value:"3bhk",
-  name: "3 BHK"
+  label: "3 BHK"
 },
 {
 
   value:"4bhk",
-  name: "4 BHK"
+  label: "4 BHK"
 },
 {
   value:"5bhk",
-  name: "5 BHK"
+  label: "5 BHK"
 },{
   value:"6bhk",
-  name: "6 BHK"
+  label: "6 BHK"
 },
 ]
 
@@ -111,6 +111,81 @@ export const typeOfApartmentOptions=[
   name: "6 BHK"
 },
 ]
+
+// export const featureOptions=[
+//   {
+//     value: "",
+//     name: "select"
+//   },
+//   {
+//   value:"Bank",
+//   name: "Bank"
+// }, 
+// {
+//   value:"Hospital",
+//   name: "Hospital"
+// },
+// {
+//   value:"National Highway",
+//   name: "National Highway"
+// },
+// {
+//   value:"School",
+//   name: "School"
+// },
+// {
+//   value:"College",
+//   name: "College"
+// },
+// {
+//   value:"Park",
+//   name: "Park"
+// },
+// {
+//   value:"Temple",
+//   name: "Temple"
+// },
+// {
+//   value:"Metro Station",
+//   name: "Metro Station"
+// },
+// {
+//   value:"Ground",
+//   name: "Ground"
+// },
+// {
+//   value:"Company",
+//   name: "Company"
+// },
+// {
+//   value:"Mall",
+//   name: "Mall"
+// },
+
+// {
+//   value:"Airport",
+//   name: "Airport"
+// },
+// {
+//   value:"Lake",
+//   name: "Lake"
+// },
+// {
+//   value:"Bus Stand",
+//   name: "Bus Stand"
+// },
+// {
+//   value:"Petrol Pump",
+//   name: "Petrol Pump"
+// },
+// {
+//   value:"ATM",
+//   name: "ATM"
+// }
+
+
+// ]
+
 
 export const featureOptions=[
   {
@@ -185,7 +260,6 @@ export const featureOptions=[
 
 
 ]
-
 export const minPriceAmountAbbOptions=[
   {
     value:100000,

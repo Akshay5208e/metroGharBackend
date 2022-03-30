@@ -17,7 +17,7 @@ import Navbar from '../../independentComponents/Navbar';
 import { FormLabel, InputBase, InputLabel } from '@mui/material';
 import { firestore } from '../../../backend/firebase/utils';
 import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import { maxPriceAbbOptions, minPriceAbbOptions } from '../addProperty/options';
+import { featureOptions, maxPriceAbbOptions, minPriceAbbOptions, typeOptions } from '../addProperty/options';
 
 const getDataFromLocalStorage = ()=>{
   const data = localStorage.getItem('draftProperties');
@@ -485,6 +485,52 @@ useEffect(()=>{
   }
 
 
+  const resetForm=()=>{
+    setPropertyName('')
+    setLocation('')
+    setPosition('')
+    setSpace('')
+    setType('')
+    setPrice1(0)
+    setPrice2(0)
+    setminPriceAbb('')
+    setmaxPriceAbb('')
+    setminPriceAmount(0)
+    setmaxPriceAmount(0)
+    setMainImageUrls([])  
+    
+
+    setSize('')
+    setAboutPrice('')
+    setTowerUnit('')
+    setConfiguration('')
+    setReraId('')
+    setStatus('')
+    setAboutProject('')
+    setSpecifications('')
+
+    setPropertiesPricingList([])
+    setLocationList([])
+
+    setBasicAmenities([])
+    setConvenienceAmenities([])
+    setenvironmentAmenities([])
+    setSecurityAmenities([])
+    setSportsAmenities([])  
+    
+    setBcpCategory('Builder')
+    setOrganisatioName('')
+    setOwnerName('')
+    setOwnerEmail('')
+    setOwnerWebsite('')
+    setOwnerContactNo('')
+    setOwnerAddress('')
+    setOwnerProject('')
+    setOwnerEstablishment('')
+    setSinceOpertaion('')
+    setOwnerPropertyList('')
+    setOwnerBio('')
+  }
 
 
   const handlePublishedPropertyEdit= async ()=>{
@@ -547,8 +593,9 @@ useEffect(()=>{
     
  
 
- firestore.collection('properties').doc(documentID).set(editedPublishedProperty)
+ firestore.collection('properties').doc(documentID).set(editedPublishedProperty);
   
+ resetForm();
 
   history.push("/")
   }
@@ -594,7 +641,7 @@ return (
   <>
   <Navbar />
   <div className="addPropBox">
-    <p className="text-center  fs-2 mb-3">Edit Property</p>
+    <p className="text-center  fs-2 mb-3">Add New Property</p>
   {/*------- basic Info Section ------------------------------------------------*/}
   <div>
     <div className="blockBox mb-1" onClick={()=>{
@@ -621,47 +668,56 @@ return (
       </div>
       <div className="col-4">
         <StyledInputLabel>Space </StyledInputLabel>
-        <StyledInputBase type = "text" value={space} onChange={e=>setSpace(e.target.value)}  />
+        <StyledInputBase type = "number" value={space} onChange={e=>setSpace(e.target.value)}  />
       </div>
       <div className="col-4">
         <StyledInputLabel>Type</StyledInputLabel>
-        <StyledInputBase type = "text" value={type} onChange={e=>setType(e.target.value)}  />
+        {/* <StyledInputBase type = "text" value={type} onChange={e=>setType(e.target.value)}  /> */}
+        <select value={type} onChange={e=>setType(e.target.value)} >
+        {typeOptions.map((option, index) => {
+        const { value, name } = option;
+
+        return (
+          <option key={index} value={value}>{name}</option>
+        );
+      })}
+        </select>
+       
       </div>
     </div>
     <div className='row gx-4'>
-    <div className='col-4'>
-            <StyledInputLabel>Min Price</StyledInputLabel>
-            <StyledInputBase type = "number" value={price1} onChange={handleMinPriceChange}  />
-            <select value={minPriceAbb} onChange={handleMinPriceAbbChange} >
-            {minPriceAbbOptions.map((option, index) => {
-            const { value, name } = option;
-  
-            return (
-              <option key={index} value={value}>{name}</option>
-            );
-          })}
-            </select>
-          
+      <div className='col-4'>
+        <StyledInputLabel>Min Price</StyledInputLabel>
+        <StyledInputBase type = "number" value={price1} onChange={handleMinPriceChange}  />
+        <select value={minPriceAbb} onChange={handleMinPriceAbbChange} >
+        {minPriceAbbOptions.map((option, index) => {
+        const { value, name } = option;
 
-          </div>   
-          <div className='col-4'>
-            <StyledInputLabel> Max Price</StyledInputLabel>
-            <StyledInputBase type = "number" value={price2} onChange={handleMaxPriceChange}  />
-            <select value={maxPriceAbb} onChange={handleMaxPriceAbbChange} >
-            {maxPriceAbbOptions.map((option, index) => {
-            const { value, name } = option;
-  
-            return (
-              <option key={index} value={value}>{name}</option>
-            );
-          })}
-            </select>
-        
-          </div>  
-            
+        return (
+          <option key={index} value={value}>{name}</option>
+        );
+      })}
+        </select>
+      
+
+      </div>   
+      <div className='col-4'>
+        <StyledInputLabel> Max Price</StyledInputLabel>
+        <StyledInputBase type = "number" value={price2} onChange={handleMaxPriceChange}  />
+        <select value={maxPriceAbb} onChange={handleMaxPriceAbbChange} >
+        {maxPriceAbbOptions.map((option, index) => {
+        const { value, name } = option;
+
+        return (
+          <option key={index} value={value}>{name}</option>
+        );
+      })}
+        </select>
+    
+      </div>      
       <div className='col-4'>
         <StyledInputLabel>Property Image</StyledInputLabel>
-        <StyledInputBase type = "file" multiple onChange={handleMainImagesChange} />
+        <StyledInputBase type = "file"  onChange={handleMainImagesChange} multiple/>
       </div>
       <div className="col-2">
         <StyledButton sx={{border: "1px solid #000",marginTop: "20px"}} onClick={handleMainImagesUpload}>Upload</StyledButton>
@@ -688,7 +744,7 @@ return (
     <div style={aboutProjectD ? {display: "block",padding: "14px"}: {display: "none"}}>
     <div>
       <StyledInputLabel>About Property:</StyledInputLabel>
-      <TextEditor initialValue={aboutProject} getValue={getPropertyInfo} />
+      <TextEditor initialValue={aboutProject} getValue={getPropertyInfo}/>
     </div>
     <div className='my-3'>
       <StyledInputLabel>Property Overview:</StyledInputLabel>
@@ -825,7 +881,17 @@ return (
         <form autoComplete="off" className='row gx-3' onSubmit={handleLocationSubmit}>
           <div className='col-4'>
             <StyledInputLabel>Feature</StyledInputLabel>
-            <StyledInputBase type = 'text' value={feature} onChange={e=>setFeature(e.target.value)}/>
+            {/* <StyledInputBase type = 'text' value={feature} onChange={e=>setFeature(e.target.value)}/> */}
+            <select value={feature} onChange={e=>setFeature(e.target.value)} >
+              {featureOptions.map((option, index) => {
+              const { value, name } = option;
+
+           return (
+          <option key={index} value={value}>{name}</option>
+        );
+      })}
+        </select>
+
           </div>
           <div className='col-4'>
             <StyledInputLabel>Name of Feature</StyledInputLabel>
@@ -889,26 +955,26 @@ return (
     <div style={aboutAmenitiesD ? {display: "block",padding: "14px"}: {display: "none"}}>
     <div >
       <StyledInputLabel>Basic Amenities</StyledInputLabel>
-      <Select  options={BasicAmenitiesData} displayValue="label" value={basicAmenities} onChange={handleBasicAmenitiesChange} isMulti/>
+      <Select  options={BasicAmenitiesData} displayValue="label" onChange={handleBasicAmenitiesChange} isMulti/>
     </div>
     <div className='my-3'>
       <StyledInputLabel>Convenience Amenities</StyledInputLabel>
-      <Select  options={ConvenienceAmenitiesData} displayValue="label" value={convenienceAmenities} onChange={handleConvenienceAmenitiesChange} isMulti/>
+      <Select  options={ConvenienceAmenitiesData} displayValue="label" onChange={handleConvenienceAmenitiesChange} isMulti/>
       {/* {console.log(convenienceAmenities)} */}
     </div>
     <div className='my-3'>
       <StyledInputLabel>Environment Amenities</StyledInputLabel>
-      <Select  options={EnvironmentAmenitiesData} displayValue="label" value={environmentAmenities} onChange={handleEnvironmentAmenitiesChange} isMulti/>
+      <Select  options={EnvironmentAmenitiesData} displayValue="label" onChange={handleEnvironmentAmenitiesChange} isMulti/>
       {/* {console.log(environmentAmenities)} */}
     </div>
     <div className='my-3'>
       <StyledInputLabel>Sports Amenities</StyledInputLabel>
-      <Select  options={SportsAmenitiesData} displayValue="label" value={sportsAmenities} onChange={handleSportsAmenitiesChange} isMulti/>
+      <Select  options={SportsAmenitiesData} displayValue="label" onChange={handleSportsAmenitiesChange} isMulti/>
       {/* {console.log(sportsAmenities)} */}
     </div>
     <div>
       <StyledInputLabel>Security Amenities</StyledInputLabel>
-      <Select  options={SecurityAmenitiesData} displayValue="label" value={securityAmenities} onChange={handleSecurityAmenitiesChange} isMulti/>
+      <Select  options={SecurityAmenitiesData} displayValue="label" onChange={handleSecurityAmenitiesChange} isMulti/>
       {/* {console.log(securityAmenities)} */}
     </div>
     </div>
@@ -1000,7 +1066,6 @@ return (
       </div>
    </div>
   </div>
-
   {/* ----------------------buttons--------------------------------------------- */}
   <div className="mt-4 d-flex justify-content-around">
     

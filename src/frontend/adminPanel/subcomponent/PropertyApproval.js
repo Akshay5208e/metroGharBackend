@@ -125,7 +125,7 @@ console.log("all",allProperties)
 
 const deleteProperty=(id)=>{
 firestore.collection('properties').doc(id).delete();
-window.location.reload();
+// window.location.reload('/')
 
 
 
@@ -136,13 +136,13 @@ const handleApprove=(documentID)=>{
  firestore.collection('properties').doc(documentID).update({
    propertyApproval: true
  })
-
+ 
 }
 const handleUnApprove=(documentID)=>{
  firestore.collection('properties').doc(documentID).update({
    propertyApproval: false
  })
-
+ 
 }
  
 

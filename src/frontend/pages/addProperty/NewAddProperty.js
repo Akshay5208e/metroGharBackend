@@ -18,7 +18,7 @@ import Navbar from '../../independentComponents/Navbar';
 import { FormLabel, InputBase, InputLabel } from '@mui/material';
 import { firestore } from '../../../backend/firebase/utils';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { maxPriceAbbOptions, minPriceAbbOptions, typeOptions } from './options';
+import { featureOptions, maxPriceAbbOptions, minPriceAbbOptions, typeOptions } from './options';
 const getDataFromLocalStorage = ()=>{
   const data = localStorage.getItem('draftProperties');
   if(data){
@@ -81,6 +81,7 @@ function AddProperty() {
   //-----------------------global States---------------------------------------------//
   
   const [propertyApproval, setPropertyApproval] = useState(false)
+  //  const [propertyApproval1, setPropertyApproval1] = useState("Pending")
   const [isSubmitted, setIsSubmitted] = useState(true)
   const [submitError, setsubmitError] = useState("")
   const [postedBy, setPostedBy] = useState("")
@@ -100,6 +101,7 @@ function AddProperty() {
 
 
   const resetForm=()=>{
+  
     setPropertyName('')
     setLocation('')
     setPosition('')
@@ -219,6 +221,10 @@ function AddProperty() {
   
   }
 
+
+  
+  
+  
   
   //--------------------submission for reveiew---------------------------------//
   const handlSubmission = (e)=>{
@@ -597,12 +603,16 @@ useEffect(() => {
       setBcpCategory(e.target.value)
     }
 
+ 
+
     const [basicInfo,setBasicInfo] = useState(false);
     const [aboutProjectD,setAboutProjectD] = useState(false);
     const [aboutPriceD,setAboutPriceD] = useState(false);
     const [aboutLocationD,setAboutLocationD] = useState(false);
     const [aboutAmenitiesD,setAboutAmenitiesD] = useState(false);
     const [aboutBCPD,setAboutBCPD] = useState(false);
+
+
     return (
       <>
       <Navbar />
@@ -847,7 +857,17 @@ useEffect(() => {
             <form autoComplete="off" className='row gx-3' onSubmit={handleLocationSubmit}>
               <div className='col-4'>
                 <StyledInputLabel>Feature</StyledInputLabel>
-                <StyledInputBase type = 'text' value={feature} onChange={e=>setFeature(e.target.value)}/>
+                {/* <StyledInputBase type = 'text' value={feature} onChange={e=>setFeature(e.target.value)}/> */}
+                <select value={feature} onChange={e=>setFeature(e.target.value)} >
+                  {featureOptions.map((option, index) => {
+                  const { value, name } = option;
+  
+               return (
+              <option key={index} value={value}>{name}</option>
+            );
+          })}
+            </select>
+
               </div>
               <div className='col-4'>
                 <StyledInputLabel>Name of Feature</StyledInputLabel>

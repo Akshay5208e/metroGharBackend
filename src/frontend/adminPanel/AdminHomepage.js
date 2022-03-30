@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { signOutUserStart } from '../../backend/redux/User/user.actions';
+import PropertyDrafts from './subcomponent/AdminDrafts';
 import PropertyApproval from './subcomponent/PropertyApproval';
 import UserInfo from './subcomponent/UserInfo';
 
@@ -60,12 +61,15 @@ function AdminHomepage() {
         <div>
           <button onClick={()=>setActive('first')}>PropertyApproval</button>
           <button onClick={()=>setActive('second')}>UserInfo</button>
+          <button onClick={()=>setActive('third')}>Drafts</button>
+        
         
         </div>
 
         <div>
           {active=='first' && <PropertyApproval/> }
           {active=='second' && <UserInfo/> }
+          {active=='third' && <PropertyDrafts/> }
           
         </div>
         

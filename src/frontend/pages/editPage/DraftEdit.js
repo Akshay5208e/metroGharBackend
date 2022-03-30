@@ -18,7 +18,7 @@ import Navbar from '../../independentComponents/Navbar';
 import { FormLabel, InputBase, InputLabel } from '@mui/material';
 import { firestore } from '../../../backend/firebase/utils';
 import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import { maxPriceAbbOptions, minPriceAbbOptions } from '../addProperty/options';
+import { featureOptions, maxPriceAbbOptions, minPriceAbbOptions, typeOptions } from '../addProperty/options';
 const getDataFromLocalStorage = ()=>{
   const data = localStorage.getItem('draftProperties');
   if(data){
@@ -787,15 +787,25 @@ function DraftEdit() {
           </div>
           <div className="col-4">
             <StyledInputLabel>Space </StyledInputLabel>
-            <StyledInputBase type = "text" value={space} onChange={e=>setSpace(e.target.value)}  />
+            <StyledInputBase type = "number" value={space} onChange={e=>setSpace(e.target.value)}  />
           </div>
           <div className="col-4">
             <StyledInputLabel>Type</StyledInputLabel>
-            <StyledInputBase type = "text" value={type} onChange={e=>setType(e.target.value)}  />
+            {/* <StyledInputBase type = "text" value={type} onChange={e=>setType(e.target.value)}  /> */}
+            <select value={type} onChange={e=>setType(e.target.value)} >
+            {typeOptions.map((option, index) => {
+            const { value, name } = option;
+  
+            return (
+              <option key={index} value={value}>{name}</option>
+            );
+          })}
+            </select>
+           
           </div>
         </div>
         <div className='row gx-4'>
-        <div className='col-4'>
+          <div className='col-4'>
             <StyledInputLabel>Min Price</StyledInputLabel>
             <StyledInputBase type = "number" value={price1} onChange={handleMinPriceChange}  />
             <select value={minPriceAbb} onChange={handleMinPriceAbbChange} >
@@ -826,7 +836,7 @@ function DraftEdit() {
           </div>      
           <div className='col-4'>
             <StyledInputLabel>Property Image</StyledInputLabel>
-            <StyledInputBase type = "file" multiple onChange={handleMainImagesChange} />
+            <StyledInputBase type = "file"  onChange={handleMainImagesChange} multiple/>
           </div>
           <div className="col-2">
             <StyledButton sx={{border: "1px solid #000",marginTop: "20px"}} onClick={handleMainImagesUpload}>Upload</StyledButton>
@@ -853,7 +863,7 @@ function DraftEdit() {
         <div style={aboutProjectD ? {display: "block",padding: "14px"}: {display: "none"}}>
         <div>
           <StyledInputLabel>About Property:</StyledInputLabel>
-          <TextEditor initialValue=" " getValue={getPropertyInfo}/>
+          <TextEditor initialValue={aboutProject} getValue={getPropertyInfo}/>
         </div>
         <div className='my-3'>
           <StyledInputLabel>Property Overview:</StyledInputLabel>
@@ -888,7 +898,7 @@ function DraftEdit() {
             </div>
             <div className='mt-3'>
               <StyledInputLabel>Specification:</StyledInputLabel>
-              <TextEditor initialValue="" getValue={getSpecification}/>
+              <TextEditor initialValue={specification} getValue={getSpecification}/>
             </div>
           </div>
         </div>
@@ -990,7 +1000,17 @@ function DraftEdit() {
             <form autoComplete="off" className='row gx-3' onSubmit={handleLocationSubmit}>
               <div className='col-4'>
                 <StyledInputLabel>Feature</StyledInputLabel>
-                <StyledInputBase type = 'text' value={feature} onChange={e=>setFeature(e.target.value)}/>
+                {/* <StyledInputBase type = 'text' value={feature} onChange={e=>setFeature(e.target.value)}/> */}
+                <select value={feature} onChange={e=>setFeature(e.target.value)} >
+                  {featureOptions.map((option, index) => {
+                  const { value, name } = option;
+  
+               return (
+              <option key={index} value={value}>{name}</option>
+            );
+          })}
+            </select>
+
               </div>
               <div className='col-4'>
                 <StyledInputLabel>Name of Feature</StyledInputLabel>
@@ -1063,7 +1083,7 @@ function DraftEdit() {
         </div>
         <div className='my-3'>
           <StyledInputLabel>Environment Amenities</StyledInputLabel>
-          <Select  options={EnvironmentAmenitiesData} displayValue="label" onChange={handleEnvironmentAmenitiesChange}/>
+          <Select  options={EnvironmentAmenitiesData} displayValue="label" onChange={handleEnvironmentAmenitiesChange} isMulti/>
           {/* {console.log(environmentAmenities)} */}
         </div>
         <div className='my-3'>
@@ -1161,7 +1181,7 @@ function DraftEdit() {
           </div>
           <div  className='row my-3'>
             <StyledInputLabel className='mx-3'>Bio</StyledInputLabel>
-            <TextEditor initialValue="" getValue={getBio}/>
+            <TextEditor initialValue={ownerBio} getValue={getBio}/>
           </div>
        </div>
       </div>

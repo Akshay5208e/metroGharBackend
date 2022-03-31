@@ -17,7 +17,7 @@ function AddingAmenities() {
       };
 
       const handleUpload = () => {
-        const uploadTask = storage.ref(`images/amenities/${image.name}`).put(image);
+        const uploadTask = storage.ref(`images/features/${image.name}`).put(image);
         uploadTask.on(
           "state_changed",
           snapshot => {
@@ -31,7 +31,7 @@ function AddingAmenities() {
           },
           () => {
             storage
-              .ref("images/amenities")
+              .ref("images/features")
               .child(image.name)
               .getDownloadURL()
               .then(url => {

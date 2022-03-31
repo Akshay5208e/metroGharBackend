@@ -36,12 +36,45 @@ export const PositionOptions=[
       name: "select"
     },
     {
-    value: "location1",
-    name: "location1"
+    value: "Mumbai",
+    name: "Mumbai"
   }, {
-    value: "2",
-    name: "2"
-  }]
+    value: "Bengaluru",
+    name: "Bengaluru"
+  },
+  {
+    value: "Hyderabad",
+    name: "Hyderabad"
+  },
+  {
+    value: "Pune",
+    name: "Pune"
+  },
+  {
+    value: "Chennai",
+    name: "Chennai"
+  },
+  {
+    value: "Delhi",
+    name: "Delhi"
+
+  },
+  {
+    value: "Noida",
+    name: "Noida"
+  },
+  {
+    value: "Kolkata",
+    name: "Kolkata"
+  },
+  {
+    value: "Ahemdabad",
+    name: "Ahemdabad"
+  },{
+    value: "Thane",
+    name: "Thane"
+  },
+]
 
   export const OwnerOptions=[
     {

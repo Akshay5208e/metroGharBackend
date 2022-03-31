@@ -236,6 +236,7 @@ function AddProperty() {
     let property={
       tempId: Math.floor(Math.random()* 1000000000000000+1),
       postedBy,
+      createdAt: new Date() ,
       propertyApproval,
       isSubmitted,
 

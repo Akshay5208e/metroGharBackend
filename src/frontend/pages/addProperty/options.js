@@ -194,35 +194,48 @@ export const featureOptions=[
   },
   {
   value:"Bank",
-  name: "Bank"
+  name: "Bank",
+  img:'https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FBank.jpg?alt=media&token=6b3e3a03-aaae-4b86-ae6b-25353ea8a70d'
 }, 
 {
   value:"Hospital",
-  name: "Hospital"
+  name: "Hospital",
+  img:'https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FHospital.jpg?alt=media&token=c0dc03d4-22a6-4592-b81f-f633292b4c85'
 },
 {
   value:"National Highway",
-  name: "National Highway"
+  name: "National Highway",
+  img:"https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FNaitional%20Highway.jpg?alt=media&token=7d5d39c7-81f9-4573-8b54-d13ca18d1012"
 },
 {
   value:"School",
-  name: "School"
+  name: "School",
+  img:'https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FSchool.jpg?alt=media&token=9af6b204-813f-4329-a9f2-058d590a4680'
 },
 {
   value:"College",
-  name: "College"
+  name: "College",
+  img:'https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FCollege.jpg?alt=media&token=b06020d2-12de-4839-8af9-10668f26453d'
 },
 {
   value:"Park",
-  name: "Park"
+  name: "Park",
+  img:'https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FPark.jpg?alt=media&token=3fa1c5f3-98c1-4435-b3c0-e5ba3110eb89'
 },
 {
   value:"Temple",
-  name: "Temple"
+  name: "Temple",
+  img:'https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FTemple.jpg?alt=media&token=fcfbe53f-a644-4f9c-a279-e9b0dc3d6fc3'
 },
 {
   value:"Metro Station",
-  name: "Metro Station"
+  name: "Metro Station",
+  img:'https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FMetro%20station.jpg?alt=media&token=e7a2961c-8744-472a-9d38-9bf1fe4abece'
+},
+{
+value:"Railway Station",
+name:"Railway Station",
+img:'https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FRailway%20Station.jpg?alt=media&token=9866356d-5819-4561-8485-bb64bd5fd0bd'
 },
 {
   value:"Ground",
@@ -234,7 +247,8 @@ export const featureOptions=[
 },
 {
   value:"Mall",
-  name: "Mall"
+  name: "Mall",
+  img:'https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FMart.jpg?alt=media&token=8c4b686b-a120-4611-a559-599fe4d7e27d'
 },
 
 {
@@ -255,7 +269,8 @@ export const featureOptions=[
 },
 {
   value:"ATM",
-  name: "ATM"
+  name: "ATM",
+  img:'https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FATM.jpg?alt=media&token=d2061643-0e4e-4416-ac74-6c4146715d6d'
 }
 
 

@@ -21,6 +21,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
+import {orderBy} from 'firebase/database'
 
 const AddPropButton = styled( Button )({
   border: "2px solid #E5E5E5",
@@ -104,7 +105,9 @@ function PropertyApproval() {
  async function getDataformDatabase(){
    
    try {
-       const properties = await firestore.collection('properties').get();
+       const propertiesref = await firestore.collection('properties').orderBy('createdAt','desc').get();
+
+       const properties= propertiesref
        const propertyArray =[];
        properties.forEach((doc)=>{
        const obj ={

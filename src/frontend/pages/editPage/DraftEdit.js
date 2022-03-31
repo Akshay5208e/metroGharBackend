@@ -374,6 +374,7 @@ function DraftEdit() {
       let property={
         tempId: tempId,
         postedBy,
+        createdAt: new Date() ,
         propertyApproval,
         isSubmitted,
   

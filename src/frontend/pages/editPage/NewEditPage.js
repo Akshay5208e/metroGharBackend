@@ -557,7 +557,7 @@ useEffect(()=>{
       postedBy,
       propertyApproval,
       isSubmitted,
-
+      createdAt: new Date() ,
       //basic info
       propertyName,
       location,

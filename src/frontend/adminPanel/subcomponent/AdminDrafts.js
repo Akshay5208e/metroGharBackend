@@ -2,7 +2,7 @@ import React,{useEffect, useState} from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import PropTable from '../../../independentComponents/DraftTable';
+import PropTable from '../../independentComponents/DraftTable';
 
 
 //--------get values form local storage--------------------//

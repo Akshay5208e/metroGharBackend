@@ -31,17 +31,17 @@ export const setProduct = product => ({
   payload: product
 });
 
-export const editProductStart = (productDetails)=>({
+export const editProductStart = productDetails=>({
   type:productsTypes.EDIT_PRODUCT_START,
   payload: productDetails
 })
-export const editProductSuccess = ()=>({
-  type:productsTypes.EDIT_PRODUCT_SUCCESS
-})
+// export const editProductSuccess = ()=>({
+//   type:productsTypes.EDIT_PRODUCT_SUCCESS
+// })
 
-export const editProductError = (error)=>({
-  type:productsTypes.EDIT_PRODUCT_ERROR,
-  payload: error
-})
+// export const editProductError = (error)=>({
+//   type:productsTypes.EDIT_PRODUCT_ERROR,
+//   payload: error
+// })
 
 

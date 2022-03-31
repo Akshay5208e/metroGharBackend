@@ -18,20 +18,20 @@ const productsReducer = (state=INITIAL_STATE, action) => {
         ...state,
         product: action.payload
       }
-    case productTypes.EDIT_PRODUCT_START:
-        return{
-      ...state,
+    // case productTypes.EDIT_PRODUCT_START:
+    //     return{
+    //   ...state,
 
-        }
-    case productTypes.EDIT_PRODUCT_SUCCESS:
-          return{
-            ...state
-          }
-     case productTypes.EDIT_PRODUCT_ERROR:
-            return{
-              ...state,
-              error:action.payload
-            }
+    //     }
+    // case productTypes.EDIT_PRODUCT_SUCCESS:
+    //       return{
+    //         ...state
+    //       }
+    //  case productTypes.EDIT_PRODUCT_ERROR:
+    //         return{
+    //           ...state,
+    //           error:action.payload
+    //         }
     default:
       return state;
   }

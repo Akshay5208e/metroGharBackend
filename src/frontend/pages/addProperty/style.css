@@ -20,3 +20,7 @@
     margin-bottom: 0;
     color: #58595B;
 }
+.selectBox{
+    width: 100%;
+    border: 1px solid #e5e5e5;
+}

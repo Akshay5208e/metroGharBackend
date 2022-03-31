@@ -17,6 +17,7 @@ const Navbar = () => {
 
     const signOut = () => {
         dispatch(signOutUserStart());
+        window.location.reload()
       };
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -34,7 +35,7 @@ const Navbar = () => {
             </div>
             <div className="d-md-flex d-none iconWrapper">
                 <div className=""><i className="bi bi-bell-fill" style={{fontSize: "24px"}} ></i></div>
-                <ExitToAppIcon className="mx-5" onClick={()=> signOut()} />
+                <ExitToAppIcon className="mx-5 pointer" onClick={()=> signOut()} />
             </div>
             <Button
                 id="basic-button"
@@ -56,7 +57,7 @@ const Navbar = () => {
                 'aria-labelledby': 'basic-button',
                 }}                
             >
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
                 <MenuItem onClick={()=>{
                         handleClose();
                         signOut();

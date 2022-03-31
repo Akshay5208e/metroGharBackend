@@ -296,10 +296,7 @@ export const maxPriceAmountAbbOptions=[
   }
 ]
 export const maxPriceAbbOptions=[
-  {
-    value:'',
-    name:"select"
-  },
+  
   {
     value:"L.",
     name:"L."
@@ -310,10 +307,6 @@ export const maxPriceAbbOptions=[
   }
 ]
 export const minPriceAbbOptions=[
-  {
-    value:'',
-    name:"select"
-  },
   {
     value:'L.',
     name:"L."

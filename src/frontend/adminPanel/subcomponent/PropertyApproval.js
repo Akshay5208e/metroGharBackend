@@ -186,7 +186,7 @@ const filteredProperties = allProperties .filter(result=>{return result.property
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={position}
-                label="Age"
+                label="Position"
                 onChange={e=>setPosition(e.target.value)}
                 sx={{height: "45px"}}
               >
@@ -205,7 +205,7 @@ const filteredProperties = allProperties .filter(result=>{return result.property
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={type}
-                label="Age"
+                label="Type"
                 onChange={e=>setType(e.target.value)}
                 sx={{height: "45px"}}
               >
@@ -226,7 +226,7 @@ const filteredProperties = allProperties .filter(result=>{return result.property
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={location}
-                label="Age"
+                label="Location"
                 onChange={e=>setLocation(e.target.value)}
                 sx={{height: "45px"}}
               >
@@ -246,7 +246,7 @@ const filteredProperties = allProperties .filter(result=>{return result.property
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={bcpCategory}
-                label="Age"
+                label="Owner"
                 onChange={e=>setBcpCategory(e.target.value)}
                 sx={{height: "45px"}}
               >
@@ -290,7 +290,7 @@ const filteredProperties = allProperties .filter(result=>{return result.property
                       <StyledTableCell align="center">{property.position}</StyledTableCell>
                       <StyledTableCell align="center">{property.type}</StyledTableCell>
                       <StyledTableCell align="center">{property.ownerName || property.organisatioName}</StyledTableCell>
-                      <StyledTableCell align="center">{property.propertyApproval===false ? <div>Pending</div> : <div>Approved</div>}</StyledTableCell>
+                      <StyledTableCell align="center">{property.propertyApproval===false ? <StyledBadge sx={{background: "#FFFF00"}}>Pending</StyledBadge> : <StyledBadge sx={{background: "#4BB543"}}>Approved</StyledBadge>}</StyledTableCell>
                    
                       <StyledTableCell align="center">
                         <StyledButton href={`/view/${property.id}`} >View</StyledButton>

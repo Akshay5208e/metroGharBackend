@@ -190,7 +190,9 @@ export const typeOfApartmentOptions=[
 export const featureOptions=[
   {
     value: "",
-    name: "select"
+    name: "select",
+    img:''
+
   },
   {
   value:"Bank",
@@ -237,40 +239,55 @@ value:"Railway Station",
 name:"Railway Station",
 img:'https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FRailway%20Station.jpg?alt=media&token=9866356d-5819-4561-8485-bb64bd5fd0bd'
 },
-{
-  value:"Ground",
-  name: "Ground"
-},
-{
-  value:"Company",
-  name: "Company"
-},
+
 {
   value:"Mall",
   name: "Mall",
   img:'https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FMart.jpg?alt=media&token=8c4b686b-a120-4611-a559-599fe4d7e27d'
 },
-
-{
-  value:"Airport",
-  name: "Airport"
-},
-{
-  value:"Lake",
-  name: "Lake"
-},
-{
-  value:"Bus Stand",
-  name: "Bus Stand"
-},
-{
-  value:"Petrol Pump",
-  name: "Petrol Pump"
-},
 {
   value:"ATM",
   name: "ATM",
   img:'https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FATM.jpg?alt=media&token=d2061643-0e4e-4416-ac74-6c4146715d6d'
+},
+
+
+
+// images to be added
+
+
+{
+  value:"Airport",
+  name: "Airport",
+  img:"https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FNaitional%20Highway.jpg?alt=media&token=7d5d39c7-81f9-4573-8b54-d13ca18d1012"
+},
+{
+  value:"Lake",
+  name: "Lake",
+  img:"https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FNaitional%20Highway.jpg?alt=media&token=7d5d39c7-81f9-4573-8b54-d13ca18d1012"
+},
+{
+  value:"Bus Stand",
+  name: "Bus Stand", 
+  img:"https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FNaitional%20Highway.jpg?alt=media&token=7d5d39c7-81f9-4573-8b54-d13ca18d1012"
+},
+{
+  value:"Petrol Pump",
+  name: "Petrol Pump",
+  img:"https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FNaitional%20Highway.jpg?alt=media&token=7d5d39c7-81f9-4573-8b54-d13ca18d1012"
+
+},
+{
+  value:"Ground",
+  name: "Ground",
+  img:"https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FNaitional%20Highway.jpg?alt=media&token=7d5d39c7-81f9-4573-8b54-d13ca18d1012"
+
+},
+{
+  value:"Company",
+  name: "Company",
+  img:"https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FNaitional%20Highway.jpg?alt=media&token=7d5d39c7-81f9-4573-8b54-d13ca18d1012"
+
 }
 
 
@@ -296,7 +313,10 @@ export const maxPriceAmountAbbOptions=[
   }
 ]
 export const maxPriceAbbOptions=[
-  
+  {
+    value:'',
+    name:"select"
+  },
   {
     value:"L.",
     name:"L."
@@ -307,6 +327,10 @@ export const maxPriceAbbOptions=[
   }
 ]
 export const minPriceAbbOptions=[
+  {
+    value:'',
+    name:"select"
+  },
   {
     value:'L.',
     name:"L."

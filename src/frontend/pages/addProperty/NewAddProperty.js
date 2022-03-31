@@ -33,9 +33,6 @@ const getDataFromLocalStorage = ()=>{
 const mapState = (state) => ({
   currentUser: state.user.currentUser
 });
-const productsMapState = ({ productsData }) => ({
-  products: productsData.products
-});
 
 
 const StyledButton = styled(Button)({
@@ -60,23 +57,26 @@ const StyledInputBase = styled(InputBase)({
   height: "25px"
 })
  
+
 function AddProperty() {
 
-  const {currentUser} = useSelector(mapState)
-  const { products } = useSelector(productsMapState);
-  const dispatch = useDispatch();
-  const { data, queryDoc, isLastPage } = products;
+  const {currentUser} = useSelector(mapState);
   const history = useHistory();
   
 
 
 
+   
   const getPostedBy = ()=>{
     if(currentUser){
       return currentUser.displayName;
     }
      return 'no user'
   }
+
+
+
+
 
   //-----------------------global States---------------------------------------------//
   
@@ -87,6 +87,9 @@ function AddProperty() {
   const [postedBy, setPostedBy] = useState("")
   const [pId, setPId] = useState()
   
+  
+
+
   useEffect(() => {
     if(currentUser)
     setPostedBy(currentUser.displayName)
@@ -102,7 +105,8 @@ function AddProperty() {
     setPropertyName('')
     setLocation('')
     setPosition('')
-    setSpace('')
+    setminSpace(0)
+    setmaxSpace(0)
     setType('')
     setPrice1(0)
     setPrice2(0)
@@ -147,7 +151,8 @@ function AddProperty() {
 
   const handleDraftsProperties = (e)=>{
     e.preventDefault();
- 
+
+    
     //creating object
 
     let draftProperty={
@@ -161,7 +166,8 @@ function AddProperty() {
       propertyName,
       location,
       position,
-      space,
+      minspace,
+      maxspace,
       type,
       minPriceAmount,
       maxPriceAmount,
@@ -240,7 +246,8 @@ function AddProperty() {
       propertyName,
       location,
       position,
-      space,
+      minspace,
+      maxspace,
       type,
       minPriceAmount,
       maxPriceAmount,
@@ -296,19 +303,33 @@ function AddProperty() {
     history.push('/')
    }
 
+  
   //saving Data to local Storage
   useEffect(()=>{
 
     localStorage.setItem('draftProperties',JSON.stringify(draftProperties));
 
   },[draftProperties])
+
+
+
   
   //-----------------------basic info states and functions------------------------------------------------------//
   const [propertyName, setPropertyName] = useState("");
   const [location, setLocation] = useState("");
   const [position, setPosition] = useState("")
-  const [space, setSpace] = useState(0)
+  const [minspace, setminSpace] = useState(0)
+  const [maxspace, setmaxSpace] = useState(0)
   const [type, setType] = useState("")
+
+  const handleminSpace=(e)=>{
+    const mis= parseFloat(e.target.value);
+    setminSpace(mis)
+  }
+  const handlemaxSpace=(e)=>{
+    const mas=parseFloat(e.target.value)
+    setmaxSpace(mas)
+  }
 
   const [price1, setPrice1] = useState(0)
   const [price2, setPrice2] = useState(0)
@@ -432,6 +453,9 @@ useEffect(() => {
     const [pricingImageUrl, setPricingImageUrl] = useState("");
     const [pricingImageProgress, setPricingImageProgress] = useState(0);
 
+  
+    
+
   const handlePricingSubmit=(e)=>{
 
     e.preventDefault();
@@ -504,6 +528,9 @@ useEffect(() => {
   const [featureName, setFeatureName] = useState("")
   const [featureDistance, setFeatureDistance]= useState("")
 
+
+  
+
   const handleLocationSubmit=(e)=>{
    
       e.preventDefault();
@@ -523,12 +550,15 @@ useEffect(() => {
 
   }
 
+
   const deletefeatureLocation=(featureName)=>{
     const filteredFeatureLocations=locationList.filter((element,index)=>{
       return element.featureName !== featureName
     })
     setLocationList(filteredFeatureLocations);
   }
+
+
     
   //----------------------about amenities state and functions----------------------------------------------------//
   const [basicAmenities, setBasicAmenities] = useState([])
@@ -536,6 +566,7 @@ useEffect(() => {
   const [environmentAmenities, setenvironmentAmenities] = useState([])
   const [sportsAmenities, setSportsAmenities] = useState([])
   const [securityAmenities, setSecurityAmenities] = useState([])
+
 
   const handleBasicAmenitiesChange=(val)=>{
     setBasicAmenities(val)
@@ -557,6 +588,7 @@ useEffect(() => {
     setSecurityAmenities(val)
   }
 
+
   //----------------------about bcp state and functions---------------------------------------------------------//
     const [bcpCategory, setBcpCategory] = useState('Builder')
     const [organisatioName, setOrganisatioName] = useState("")
@@ -574,7 +606,9 @@ useEffect(() => {
     const getBio = (value)=>{
       setOwnerBio(value)
     }
- 
+
+
+    
     const [active, setActive] = useState('first');
     
     const options=[{
@@ -584,6 +618,7 @@ useEffect(() => {
       value: "Agent",
       name: "Agent(CP)"
     }]
+  
   
     const handleOwnerChange=(e)=>{
       if((e.target.value)==='Agent')
@@ -605,6 +640,7 @@ useEffect(() => {
     const [aboutLocationD,setAboutLocationD] = useState(false);
     const [aboutAmenitiesD,setAboutAmenitiesD] = useState(false);
     const [aboutBCPD,setAboutBCPD] = useState(false);
+
 
     const customStyles = {
       control: ()=>({
@@ -643,12 +679,25 @@ useEffect(() => {
         <div className="row gx-4 my-3">
           <div className="col-4">
             <StyledInputLabel>Position</StyledInputLabel>
-            <StyledInputBase type = "text" value={position} onChange={e=>setPosition(e.target.value)}  />
+            
+            <select value={position} onChange={e=>setPosition(e.target.value)} >
+            {positionOptions.map((option, index) => {
+            const { value, name } = option;
+  
+            return (
+              <option key={index} value={value}>{name}</option>
+            );
+          })}
+            </select>
           
           </div>
           <div className="col-4">
-            <StyledInputLabel>Space (sqft)</StyledInputLabel>
-            <StyledInputBase type="number" placeholder='in sq. ft' value={space} onChange={e=>setSpace(e.target.value)} />
+            <StyledInputLabel>Minimum Space </StyledInputLabel>
+            <StyledInputBase type = "number"  value={minspace} onChange={handleminSpace}  style={{width:"80px"}} /> Sq.Ft
+          </div>
+          <div className="col-4">
+            <StyledInputLabel>Maximum Space </StyledInputLabel>
+            <StyledInputBase type = "number"  value={maxspace} onChange={handlemaxSpace}  style={{width:"80px"}} /> Sq.Ft
           </div>
           <div className="col-4">
             <StyledInputLabel>Type</StyledInputLabel>

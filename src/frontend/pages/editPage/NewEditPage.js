@@ -140,8 +140,17 @@ useEffect(()=>{
   const [propertyName, setPropertyName] = useState();
   const [location, setLocation] = useState("");
   const [position, setPosition] = useState("");
-  const [space, setSpace] = useState("")
+  const [minspace, setminSpace] = useState(0)
+  const [maxspace, setmaxSpace] = useState(0)
   const [type, setType] = useState("")
+  const handleminSpace=(e)=>{
+    const mis= parseFloat(e.target.value);
+    setminSpace(mis)
+  }
+  const handlemaxSpace=(e)=>{
+    const mas=parseFloat(e.target.value)
+    setmaxSpace(mas)
+  }
 
   const [price1, setPrice1] = useState(0)
   const [price2, setPrice2] = useState(0)
@@ -451,7 +460,8 @@ useEffect(()=>{
   setPropertyName(newEditProperty.propertyName)
   setLocation(newEditProperty.location)
   setPosition(newEditProperty.position)
-  setSpace(newEditProperty.space)
+  setminSpace(newEditProperty.minspace)
+  setmaxSpace(newEditProperty.maxspace)
   setType(newEditProperty.type)
  
   setPrice1(newEditProperty.price1)
@@ -505,8 +515,9 @@ useEffect(()=>{
   const resetForm=()=>{
     setPropertyName('')
     setLocation('')
-    setPosition('')
-    setSpace('')
+    setPosition(0)
+    setmaxSpace(0)
+    setminSpace('')
     setType('')
     setPrice1(0)
     setPrice2(0)
@@ -562,7 +573,8 @@ useEffect(()=>{
       propertyName,
       location,
       position,
-      space,
+      minspace,
+      maxspace,
       type,
       minPriceAmount,
       maxPriceAmount,
@@ -693,11 +705,26 @@ return (
             );
           })}
             </select> */}
-      </div>
-      <div className="col-4">
-        <StyledInputLabel>Space </StyledInputLabel>
-        <StyledInputBase type = "number" value={space} onChange={e=>setSpace(e.target.value)} style={{width:"80px"}} /> Sq.Ft
-      </div>
+      
+      <select value={position} onChange={e=>setPosition(e.target.value)} >
+            {positionOptions.map((option, index) => {
+            const { value, name } = option;
+  
+            return (
+              <option key={index} value={value}>{name}</option>
+            );
+          })}
+            </select>
+          
+          </div>
+          <div className="col-4">
+            <StyledInputLabel>Minimum Space </StyledInputLabel>
+            <StyledInputBase type = "number"  value={minspace} onChange={handleminSpace}  style={{width:"80px"}} /> Sq.Ft
+          </div>
+          <div className="col-4">
+            <StyledInputLabel>Maximum Space </StyledInputLabel>
+            <StyledInputBase type = "number"  value={maxspace} onChange={handlemaxSpace}  style={{width:"80px"}} /> Sq.Ft
+          </div>
       <div className="col-4">
         <StyledInputLabel>Type</StyledInputLabel>
         {/* <StyledInputBase type = "text" value={type} onChange={e=>setType(e.target.value)}  /> */}

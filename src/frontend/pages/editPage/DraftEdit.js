@@ -112,7 +112,8 @@ function DraftEdit() {
     setPropertyName('')
     setLocation('')
     setPosition('')
-    setSpace('')
+    setminSpace(0)
+    setmaxSpace(0)
     setType('')
     setPrice1(0)
     setPrice2(0)
@@ -235,7 +236,8 @@ function DraftEdit() {
               propertyName,
               location,
               position,
-              space,
+              minspace,
+              maxspace,
               type,
               minPriceAmount,
       maxPriceAmount,
@@ -301,7 +303,8 @@ function DraftEdit() {
      setPropertyName(newEditProperty.propertyName)
      setLocation(newEditProperty.location)
      setPosition(newEditProperty.position)
-     setSpace(newEditProperty.space)
+     setminSpace(newEditProperty.minspace)
+     setmaxSpace(newEditProperty.maxspace)
      setType(newEditProperty.type)
      setPrice1(newEditProperty.price1)
     setPrice2(newEditProperty.price2)
@@ -382,7 +385,8 @@ function DraftEdit() {
         propertyName,
         location,
         position,
-        space,
+        minspace,
+        maxspace,
         type,
         minPriceAmount,
       maxPriceAmount,
@@ -456,7 +460,18 @@ function DraftEdit() {
   const [propertyName, setPropertyName] = useState(tempId.propertyName);
   const [location, setLocation] = useState("");
   const [position, setPosition] = useState("");
-  const [space, setSpace] = useState("")
+  const [minspace, setminSpace] = useState(0);
+  const [maxspace, setmaxSpace] = useState(0);
+
+  const handleminSpace=(e)=>{
+    const mis= parseFloat(e.target.value);
+    setminSpace(mis)
+  }
+  const handlemaxSpace=(e)=>{
+    const mas=parseFloat(e.target.value)
+    setmaxSpace(mas)
+  }
+  
   const [type, setType] = useState("")
   const [price1, setPrice1] = useState(0)
   const [price2, setPrice2] = useState(0)
@@ -814,10 +829,25 @@ function DraftEdit() {
             );
           })}
             </select> */}
+          
+          <select value={position} onChange={e=>setPosition(e.target.value)} >
+            {positionOptions.map((option, index) => {
+            const { value, name } = option;
+  
+            return (
+              <option key={index} value={value}>{name}</option>
+            );
+          })}
+            </select>
+          
           </div>
           <div className="col-4">
-            <StyledInputLabel>Space </StyledInputLabel>
-            <StyledInputBase type = "number" value={space} onChange={e=>setSpace(e.target.value)} style={{width:"80px"}} /> Sq.Ft
+            <StyledInputLabel>Minimum Space </StyledInputLabel>
+            <StyledInputBase type = "number"  value={minspace} onChange={handleminSpace}  style={{width:"80px"}} /> Sq.Ft
+          </div>
+          <div className="col-4">
+            <StyledInputLabel>Maximum Space </StyledInputLabel>
+            <StyledInputBase type = "number"  value={maxspace} onChange={handlemaxSpace}  style={{width:"80px"}} /> Sq.Ft
           </div>
           <div className="col-4">
             <StyledInputLabel>Type</StyledInputLabel>

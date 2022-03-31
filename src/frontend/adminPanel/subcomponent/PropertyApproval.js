@@ -267,7 +267,7 @@ const filteredProperties = allProperties .filter(result=>{return result.property
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell align="left">Id</StyledTableCell>
+                    <StyledTableCell align="left">S no.</StyledTableCell>
                     <StyledTableCell align="center">Property Name</StyledTableCell>
                     <StyledTableCell align="center">Position</StyledTableCell>
                     <StyledTableCell align="center">Type</StyledTableCell>
@@ -284,7 +284,7 @@ const filteredProperties = allProperties .filter(result=>{return result.property
                       key={index}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                      <StyledTableCell component="th" scope="row" align="left">{property.id}
+                      <StyledTableCell component="th" scope="row" align="left">{index+1}
                       </StyledTableCell>
                       <StyledTableCell align="center">{property.propertyName}</StyledTableCell>
                       <StyledTableCell align="center">{property.position}</StyledTableCell>

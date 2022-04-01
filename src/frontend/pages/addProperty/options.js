@@ -205,7 +205,7 @@ export const featureOptions=[
   img:'https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FHospital.jpg?alt=media&token=c0dc03d4-22a6-4592-b81f-f633292b4c85'
 },
 {
-  value:"National Highway",
+  value:"National_Highway",
   name: "National Highway",
   img:"https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FNaitional%20Highway.jpg?alt=media&token=7d5d39c7-81f9-4573-8b54-d13ca18d1012"
 },
@@ -230,12 +230,12 @@ export const featureOptions=[
   img:'https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FTemple.jpg?alt=media&token=fcfbe53f-a644-4f9c-a279-e9b0dc3d6fc3'
 },
 {
-  value:"Metro Station",
+  value:"Metro_Station",
   name: "Metro Station",
   img:'https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FMetro%20station.jpg?alt=media&token=e7a2961c-8744-472a-9d38-9bf1fe4abece'
 },
 {
-value:"Railway Station",
+value:"Railway_Station",
 name:"Railway Station",
 img:'https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FRailway%20Station.jpg?alt=media&token=9866356d-5819-4561-8485-bb64bd5fd0bd'
 },
@@ -267,12 +267,12 @@ img:'https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.co
   img:"https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FNaitional%20Highway.jpg?alt=media&token=7d5d39c7-81f9-4573-8b54-d13ca18d1012"
 },
 {
-  value:"Bus Stand",
+  value:"Bus_Stand",
   name: "Bus Stand", 
   img:"https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FNaitional%20Highway.jpg?alt=media&token=7d5d39c7-81f9-4573-8b54-d13ca18d1012"
 },
 {
-  value:"Petrol Pump",
+  value:"Petrol_Pump",
   name: "Petrol Pump",
   img:"https://firebasestorage.googleapis.com/v0/b/metroghar-5208e-test.appspot.com/o/images%2Ffeatures%2FNaitional%20Highway.jpg?alt=media&token=7d5d39c7-81f9-4573-8b54-d13ca18d1012"
 

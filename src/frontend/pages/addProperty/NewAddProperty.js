@@ -677,10 +677,10 @@ useEffect(() => {
           </div>
         </div>
         <div className="row gx-4 my-3">
-          <div className="col-4">
+          <div className="col-6">
             <StyledInputLabel>Position</StyledInputLabel>
             
-            <select value={position} onChange={e=>setPosition(e.target.value)} >
+            <select className='selectBox' value={position} onChange={e=>setPosition(e.target.value)} >
             {positionOptions.map((option, index) => {
             const { value, name } = option;
   
@@ -691,15 +691,7 @@ useEffect(() => {
             </select>
           
           </div>
-          <div className="col-4">
-            <StyledInputLabel>Minimum Space </StyledInputLabel>
-            <StyledInputBase type = "number"  value={minspace} onChange={handleminSpace}  style={{width:"80px"}} /> Sq.Ft
-          </div>
-          <div className="col-4">
-            <StyledInputLabel>Maximum Space </StyledInputLabel>
-            <StyledInputBase type = "number"  value={maxspace} onChange={handlemaxSpace}  style={{width:"80px"}} /> Sq.Ft
-          </div>
-          <div className="col-4">
+          <div className="col-6">
             <StyledInputLabel>Type</StyledInputLabel>
             {/* <StyledInputBase type = "text" value={type} onChange={e=>setType(e.target.value)}  /> */}
             <select value={type} onChange={e=>setType(e.target.value)} className="selectBox" >
@@ -713,6 +705,15 @@ useEffect(() => {
             </select>
            
           </div>
+          <div className="col-6 mt-3">
+            <StyledInputLabel>Min Space (sqft) </StyledInputLabel>
+            <StyledInputBase type = "number"  value={minspace} onChange={handleminSpace}  style={{width:"80px"}} />
+          </div>
+          <div className="col-6 mt-3">
+            <StyledInputLabel>Max Space (sqft)</StyledInputLabel>
+            <StyledInputBase type = "number"  value={maxspace} onChange={handlemaxSpace}  style={{width:"80px"}} />
+          </div>
+          
         </div>
         <div className='row gx-4'>
           <div className='col-6 mb-3'>
@@ -766,7 +767,7 @@ useEffect(() => {
           </a>
         </div>
       ))} */}
-      <div className='d-flex'>
+      <div className='w-100 d-flex' style={{overflowX: 'scroll'}}>
       {mainImageUrls.length>0 && mainImageUrls.map((url,i)=>(
         <div className='position-relative mx-1'>
           <img src={url} style={{height:"50px", width:"auto"}}/>

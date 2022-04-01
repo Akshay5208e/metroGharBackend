@@ -1,5 +1,5 @@
 import React from "react";
-import './Sidebar.css'
+import './SideBar.css'
 import { styled } from '@mui/material/styles';
 import { useDispatch } from 'react-redux';
 import Button from '@mui/material/Button';
